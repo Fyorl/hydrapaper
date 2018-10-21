@@ -32,6 +32,7 @@ from . import wallpapers_folder_listbox_row as WallpapersFolderListBoxRow
 
 import hashlib # for pseudo-random wallpaper name generation
 
+from gmconfig import GMConfig
 
 HOME = os.environ.get('HOME')
 G_CONFIG_FILE_PATH = '{0}/.config/hydrapaper.json'.format(HOME)
@@ -51,6 +52,22 @@ IMAGE_EXTENSIONS = [
     '.svg'
 ]
 
+GMCONFIG_DEFAULT_SCHEMA = {
+    'wallpapers_paths': [
+        {
+            'path': '{0}/Pictures'.format(HOME),
+            'active': True
+        }
+    ],
+    'selection_mode': 'single',
+    'monitors': {},
+    'favorites': [],
+    'favorites_in_mainview': False,
+    'windowsize': {
+        'width': 600,
+        'height': 400
+    }
+}
 
 class Application(Gtk.Application):
     def __init__(self, **kwargs):
@@ -66,7 +83,10 @@ class Application(Gtk.Application):
 
         self.CONFIG_FILE_PATH = G_CONFIG_FILE_PATH  # G stands for Global (variable)
 
-        self.configuration = self.get_config_file()
+        self.gmconfig_man = GMConfig(
+            G_CONFIG_FILE_PATH,
+            GMCONFIG_DEFAULT_SCHEMA
+        )
 
         self.builder.connect_signals(self)
 
@@ -78,8 +98,8 @@ class Application(Gtk.Application):
         self.window.set_icon_name('org.gabmus.hydrapaper')
 
         self.window.resize(
-            self.configuration['windowsize']['width'],
-            self.configuration['windowsize']['height']
+            self.gmconfig_man.get('windowsize')['width'],
+            self.gmconfig_man.get('windowsize')['height']
         )
 
         self.builder.get_object('wallpapersFoldersActionbar').pack_start(
@@ -100,23 +120,23 @@ class Application(Gtk.Application):
         self.keep_favorites_in_mainview_toggle = self.builder.get_object('keepFavoritesInMainviewToggle')
 
         self.keep_favorites_in_mainview_toggle.set_active(
-            self.configuration['favorites_in_mainview']
+            self.gmconfig_man.get('favorites_in_mainview')
         )
 
         self.wallpaper_selection_mode_toggle = self.builder.get_object('wallpaperSelectionModeToggle')
 
         self.wallpaper_selection_mode_toggle.set_active(
-            not self.configuration['selection_mode'] == 'single'
+            not self.gmconfig_man.get('selection_mode') == 'single'
         )
 
         self.add_to_favorites_toggle = self.builder.get_object('addToFavoritesButton')
         self.favorites_button_clicked = False
 
         self.wallpapers_flowbox_favorites.set_activate_on_single_click(
-            self.configuration['selection_mode'] == 'single'
+            self.gmconfig_man.get('selection_mode') == 'single'
         )
         self.wallpapers_flowbox.set_activate_on_single_click(
-            self.configuration['selection_mode'] == 'single'
+            self.gmconfig_man.get('selection_mode') == 'single'
         )
 
         self.selected_wallpaper_path_entry = self.builder.get_object('selectedWallpaperPathEntry')
@@ -168,104 +188,35 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
 
     def on_window_size_allocate(self, *args):
         alloc = self.window.get_allocation()
-        self.configuration['windowsize']['width'] = alloc.width
-        self.configuration['windowsize']['height'] = alloc.height
+        
+        self.gmconfig_man.set(
+            'windowsize',
+            {
+                'width': alloc.width,
+                'height': alloc.height
+            }
+        )
 
     def do_before_quit(self):
         self.unminimize_all_other_windows()
-        self.save_config_file()
 
     def sync_monitors_from_config(self):
         for m in self.monitors:
-            if m.name in self.configuration['monitors'].keys():
-                m.wallpaper = self.configuration['monitors'][m.name]
+            c_monitors = self.gmconfig_man.get('monitors')
+            if m.name in c_monitors.keys():
+                m.wallpaper = c_monitors[m.name]
             else:
-                self.configuration['monitors'][m.name] = m.wallpaper
-        self.save_config_file(self.configuration)
+                n_monitors = c_monitors
+                n_monitors[m.name] = m.wallpaper
+                self.gmconfig_man.set('monitors', n_monitors)
 
     def dump_monitors_to_config(self):
         for m in self.monitors:
-            if m.name in self.configuration['monitors'].keys():
-                self.configuration['monitors'][m.name] = m.wallpaper
-        self.save_config_file(self.configuration)
-
-    def save_config_file(self, n_config=None):
-        if not n_config:
-            n_config = self.configuration
-        with open(self.CONFIG_FILE_PATH, 'w') as fd:
-            fd.write(json.dumps(n_config))
-            fd.close()
-
-    def get_config_file(self):
-        if not os.path.isfile(self.CONFIG_FILE_PATH):
-            n_config = {
-                'wallpapers_paths': [
-                    {
-                        'path': '{0}/Pictures'.format(HOME),
-                        'active': True
-                    },
-                    {
-                        'path': '/usr/share/backgrounds/gnome/',
-                        'active': True
-                    }
-                ],
-                'selection_mode': 'single',
-                'monitors': {},
-                'favorites': [],
-                'favorites_in_mainview': False,
-                'windowsize': {
-                    'width': 600,
-                    'height': 400
-                },
-            }
-            self.save_config_file(n_config)
-            return n_config
-        else:
-            do_save = False
-            with open(self.CONFIG_FILE_PATH, 'r') as fd:
-                config = json.loads(fd.read())
-                fd.close()
-                if not 'wallpapers_paths' in config.keys():
-                    config['wallpapers_paths'] = [
-                    {
-                        'path': '{0}/Pictures'.format(HOME),
-                        'active': True
-                    },
-                    {
-                        'path': '/usr/share/backgrounds/gnome/',
-                        'active': True
-                    }
-                ]
-                    do_save = True
-                if len(config['wallpapers_paths']) > 0:
-                    for index, path in enumerate(config['wallpapers_paths']):
-                        if type(path) == str:
-                            config['wallpapers_paths'][index] = {
-                                'path': path,
-                                'active': True
-                            }
-                    do_save = True
-                if not 'selection_mode' in config.keys():
-                    config['selection_mode'] = 'single'
-                    do_save = True
-                if not 'monitors' in config.keys():
-                    config['monitors'] = {}
-                    do_save = True
-                if not 'favorites' in config.keys():
-                    config['favorites'] = []
-                    do_save = True
-                if not 'favorites_in_mainview' in config.keys():
-                    config['favorites_in_mainview'] = False
-                    do_save = True
-                if not 'windowsize' in config.keys():
-                    config['windowsize'] = {
-                        'width': 600,
-                        'height': 400
-                    }
-                    do_save = True
-                if do_save:
-                    self.save_config_file(config)
-                return config
+            c_monitors = self.gmconfig_man.get('monitors')
+            if m.name in c_monitors:
+                n_monitors = c_monitors
+                n_monitors[m.name] = m.wallpaper
+                self.gmconfig_man.set('monitors', n_monitors)
 
     def remove_wallpaper_folder(self, btn):
         row=self.wallpapers_folders_popover_listbox.get_selected_row()
@@ -273,11 +224,12 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
             return
         if not row.value:
             return
-        for index, path in enumerate(self.configuration['wallpapers_paths']):
+        c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
+        for index, path in enumerate(c_wallpapers_paths):
             if path['path'] == row.value:
-                self.configuration['wallpapers_paths'].pop(index)
+                c_wallpapers_paths.pop(index)
+                self.gmconfig_man.set('wallpapers_paths', c_wallpapers_paths)
                 break
-        self.save_config_file()
         self.fill_wallpapers_folders_popover_listbox()
         self.refresh_wallpapers_flowbox()
 
@@ -303,17 +255,19 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
     def on_wallpaper_folder_switch_toggled(self, check, state):
         if not check.value:
             return
-        for index, folder in enumerate(self.configuration['wallpapers_paths']):
+        c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
+        for index, folder in enumerate(c_wallpapers_paths):
             if folder['path'] == check.value:
-                self.configuration['wallpapers_paths'][index]['active'] = check.get_active()
+                c_wallpapers_paths[index]['active'] = check.get_active()
+                self.gmconfig_man.set('wallpapers_paths', c_wallpapers_paths)
                 break
-        self.save_config_file()
         #self.refresh_wallpapers_flowbox()
         self.show_hide_wallpapers()
 
     def fill_wallpapers_folders_popover_listbox(self):
         ListboxHelper.empty_listbox(self.wallpapers_folders_popover_listbox)
-        for folder in self.configuration['wallpapers_paths']:
+        c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
+        for folder in c_wallpapers_paths:
             self.wallpapers_folders_popover_listbox.add(
                 WallpapersFolderListBoxRow.WallpapersFolderListBoxRow(
                     folder['path'],
@@ -363,7 +317,8 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
     def evaluate_wallpaper_visibility(self, wp_widget, flowbox):
         visibility = False
         exists_in_folder = False
-        for folder in self.configuration['wallpapers_paths']:
+        c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
+        for folder in c_wallpapers_paths:
             if folder['path'] in wp_widget.wallpaper_path:
                 exists_in_folder = True
                 if folder['active']:
@@ -376,15 +331,15 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         else:
             return False
         if flowbox == self.wallpapers_flowbox:
-            if wp_widget.wallpaper_path in self.configuration['favorites']:
-                if self.configuration['favorites_in_mainview']:
+            if wp_widget.wallpaper_path in self.gmconfig_man.get('favorites'):
+                if self.gmconfig_man.get('favorites_in_mainview'):
                     visibility = True
                 else:
                     return False
             else:
                 visibility = True
         else:
-            if wp_widget.wallpaper_path in self.configuration['favorites']:
+            if wp_widget.wallpaper_path in self.gmconfig_man.get('favorites'):
                 visibility = True
             else:
                 return False
@@ -406,12 +361,12 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         for w in self.wallpapers_list:
             if self.check_if_image(w):
                 widget = self.make_wallpapers_flowbox_item(w)
-                if w in self.configuration['favorites']:
+                if w in self.gmconfig_man.get('favorites'):
                     widget.set_fav(True)
                 else:
                     widget.set_fav(False)
                 self.wallpapers_flowbox.insert(widget, -1) # -1 appends to the end
-                if w in self.configuration['favorites']:
+                if w in self.gmconfig_man.get('favorites'):
                     widget_c = self.make_wallpapers_flowbox_item(w)
                     widget_c.set_fav(True)
                     self.wallpapers_flowbox_favorites.insert(widget_c, -1)
@@ -433,7 +388,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         )
 
     def get_wallpapers_list(self, *args):
-        for path_dict in self.configuration['wallpapers_paths']:
+        for path_dict in self.gmconfig_man.get('wallpapers_paths'):
             folder = path_dict['path']
             if os.path.isdir(folder): # trying to just hide wallpapers in non active paths # and path_dict['active']:
                 pictures = os.listdir(folder)
@@ -466,10 +421,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         self.wallpapers_refreshing_locked = True
         self.all_wallpaper_folder_interactives_set_sensitive(False)
         self.empty_wallpapers_flowbox()
-        # if len(self.configuration['favorites']) == 0:
-        #     self.favorites_box.hide()
-        # else:
-        #     self.favorites_box.show_all()
+        
         get_wallpapers_thread = ThreadingHelper.do_async(self.get_wallpapers_list, (0,))
         ThreadingHelper.wait_for_thread(get_wallpapers_thread)
         self.fill_wallpapers_flowbox()
@@ -639,11 +591,12 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
             if not self.child_at_pos:
                 return
             wp_path = self.child_at_pos.get_child().wallpaper_path
+            c_favorites = self.gmconfig_man.get('favorites')
             if 'add' in button.get_label().lower():
-                self.configuration['favorites'].append(wp_path)
+                c_favorites.append(wp_path)
             else:
-                self.configuration['favorites'].pop(self.configuration['favorites'].index(wp_path))
-            self.save_config_file()
+                c_favorites.pop(c_favorites.index(wp_path))
+            self.gmconfig_man.set('favorites', c_favorites)
             self.wallpapers_flowbox_itemoptions_popover.set_relative_to(self.wallpapers_flowbox)
             self.set_favorite_state(wp_path, self.child_at_pos, 'add' in button.get_label().lower())
             self.favorites_button_clicked = False
@@ -689,34 +642,32 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         self.wallpapers_folders_toggle.set_active(False)
 
     def add_new_wallpapers_path(self, new_path):
-        self.configuration['wallpapers_paths'].append(
+        c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
+        c_wallpapers_paths.append(
             {
                 'path': new_path,
                 'active': True
             }
         )
-        self.save_config_file()
+        self.gmconfig_man.set('wallpapers_paths', c_wallpapers_paths)
         self.fill_wallpapers_folders_popover_listbox()
         self.refresh_wallpapers_flowbox()
 
     def on_wallpaperSelectionModeToggle_state_set(self, switch, doubleclick_activate):
         if doubleclick_activate:
-            self.configuration['selection_mode'] = 'double'
+            self.gmconfig_man.set('selection_mode', 'double')
         else:
-            self.configuration['selection_mode'] = 'single'
+            self.gmconfig_man.set('selection_mode', 'single')
         self.wallpapers_flowbox.set_activate_on_single_click(not doubleclick_activate)
         self.wallpapers_flowbox_favorites.set_activate_on_single_click(not doubleclick_activate)
-        self.save_config_file(self.configuration)
 
     def on_keepFavoritesInMainviewToggle_state_set(self, switch, favs_in_mainview):
-        if self.configuration['favorites_in_mainview'] != favs_in_mainview:
-            self.configuration['favorites_in_mainview'] = favs_in_mainview
-            self.save_config_file(self.configuration)
+        if self.gmconfig_man.get('favorites_in_mainview') != favs_in_mainview:
+            self.gmconfig_man.set('favorites_in_mainview', favs_in_mainview)
             self.show_hide_wallpapers()
 
     def on_resetFavoritesButton_clicked(self, button):
-        self.configuration['favorites'] = []
-        self.save_config_file()
+        self.gmconfig_man.set('favorites', [])
         self.refresh_wallpapers_flowbox()
 
     def unminimize_all_other_windows(self):
@@ -754,7 +705,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         self.builder.get_object('pathAlreadyAddedInfobarLikeRevealer').set_reveal_child(False)
 
     def wallpaper_path_exists(self, folder):
-        for wp in self.configuration['wallpapers_paths']:
+        for wp in self.gmconfig_man.get('wallpapers_paths'):
             if folder == wp['path']:
                 return True
         return False

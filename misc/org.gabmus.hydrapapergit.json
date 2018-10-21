@@ -9,6 +9,7 @@
         "--socket=x11",
         "--socket=wayland",
         "--talk-name=org.gnome.SettingsDaemon",
+        "--talk-name=org.mate.SettingsDaemon",
         "--filesystem=home:ro",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
