@@ -33,6 +33,7 @@ from . import wallpapers_folder_listbox_row as WallpapersFolderListBoxRow
 import hashlib # for pseudo-random wallpaper name generation
 
 from gmconfig import GMConfig
+from gmgtk import GMApp
 
 HOME = os.environ.get('HOME')
 G_CONFIG_FILE_PATH = '{0}/.config/hydrapaper.json'.format(HOME)
@@ -69,33 +70,22 @@ GMCONFIG_DEFAULT_SCHEMA = {
     }
 }
 
-class Application(Gtk.Application):
+class Application(GMApp):
     def __init__(self, **kwargs):
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/ui.glade'
-        )
         super().__init__(
+            builder_resource='/org/gabmus/hydrapaper/ui/ui.glade',
+            icon_name='org.gabmus.hydrapaper',
+            resource_path='/org/gabmus/hydrapaper/',
+            app_name='HydraPaper',
             application_id='org.gabmus.hydrapaper',
-            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            # flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             **kwargs
         )
-        self.RESOURCE_PATH = '/org/gabmus/hydrapaper/'
-
-        self.CONFIG_FILE_PATH = G_CONFIG_FILE_PATH  # G stands for Global (variable)
 
         self.gmconfig_man = GMConfig(
             G_CONFIG_FILE_PATH,
             GMCONFIG_DEFAULT_SCHEMA
         )
-
-        self.builder.connect_signals(self)
-
-        settings = Gtk.Settings.get_default()
-        # settings.set_property("gtk-application-prefer-dark-theme", True)
-
-        self.window = self.builder.get_object('window')
-
-        self.window.set_icon_name('org.gabmus.hydrapaper')
 
         self.window.resize(
             self.gmconfig_man.get('windowsize')['width'],
@@ -174,7 +164,7 @@ class Application(Gtk.Application):
 There was an error parsing your monitors!
 Make sure that you're running HydraPaper using the flatpak version, or otherwise that you have Gtk and Gdk version >=3.22 installed in your system.
 
-If you\'re still experiencing problems, considering filling an issue <a href="https://github.com/gabmus/hydrapaper/issues">on HydraPaper\'s bugtracker</a>, running HydraPaper from your terminal and including the output log.
+If you\'re still experiencing problems, considering filling an issue <a href="https://gitlab.com/gabmus/hydrapaper/issues">on HydraPaper\'s bugtracker</a>, running HydraPaper from your terminal and including the output log, your monitors layout and information about your desktop environment.
                 '''
             )
             self.errorDialog.run()
@@ -429,42 +419,12 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         self.wallpapers_refreshing_locked = False
         self.all_wallpaper_folder_interactives_set_sensitive(True)
 
-    def do_activate(self):
-        self.add_window(self.window)
-        self.window.set_wmclass('HydraPaper', 'HydraPaper')
-        # self.window.set_title('HydraPaper')
-
-        appMenu = Gio.Menu()
-        appMenu.append("About", "app.about")
-        appMenu.append("Settings", "app.settings")
-        appMenu.append("Quit", "app.quit")
-
-        about_action = Gio.SimpleAction.new("about", None)
-        about_action.connect("activate", self.on_about_activate)
-        self.builder.get_object("aboutdialog").connect(
-            "delete-event", lambda *_:
-                self.builder.get_object("aboutdialog").hide() or True
-        )
-        self.add_action(about_action)
-
-        settings_action = Gio.SimpleAction.new("settings", None)
-        settings_action.connect("activate", self.on_settings_activate)
-        self.builder.get_object("settingsWindow").connect(
-            "delete-event", lambda *_:
-                self.builder.get_object("settingsWindow").hide() or True
-        )
-        self.add_action(settings_action)
-
-        quit_action = Gio.SimpleAction.new("quit", None)
-        quit_action.connect("activate", self.on_quit_activate)
-        self.add_action(quit_action)
-        self.set_app_menu(appMenu)
-
+    def do_before_activate(self):
         self.fill_monitors_flowbox()
         self.fill_wallpapers_folders_popover_listbox()
 
-        self.window.show_all()
-
+    def do_activate(self):
+        super().do_activate()
         self.refresh_wallpapers_flowbox()
 
     def do_command_line(self, args):
@@ -483,20 +443,6 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         # call the main program do_activate() to start up the app
         self.do_activate()
         return 0
-
-    def on_about_activate(self, *args):
-        self.builder.get_object("aboutdialog").show()
-
-    def on_settings_activate(self, *args):
-        self.builder.get_object("settingsWindow").show()
-
-    def on_quit_activate(self, *args):
-        self.do_before_quit()
-        self.quit()
-
-    def onDeleteWindow(self, *args):
-        self.do_before_quit()
-        self.quit()
 
     # Handler functions START
 
@@ -524,9 +470,6 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
                 event.y,
                 flowbox
             )
-
-    def on_aboutdialog_close(self, *args):
-        self.builder.get_object("aboutdialog").hide()
 
     def on_wallpapersFlowbox_child_activated(self, flowbox, selected_item):
         self.set_monitor_wallpaper_preview(
