@@ -442,9 +442,9 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         self.apply_button_async_handler(self.monitors)
 
     def do_activate(self):
-        if self.args and self.args.apply_from_cli:
+        if self.args and self.args.wallpaper_path:
             print(self.monitors)
-            self.apply_from_cli(self.args.apply_from_cli[0])
+            self.apply_from_cli(self.args.wallpaper_path[0])
             self.quit()
             exit(0)
         super().do_activate()
@@ -458,9 +458,9 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         """
         Gtk.Application.do_command_line(self, args)  # call the default commandline handler
         # make a command line parser
-        parser = argparse.ArgumentParser(prog='gui')
+        parser = argparse.ArgumentParser()
         # add a -c/--color option
-        parser.add_argument('-c', '--cli', dest='apply_from_cli', nargs='+', action='append', help='initialize application (e.g. for macros initialization on system startup) and quit')
+        parser.add_argument('-c', '--cli', dest='wallpaper_path', nargs='+', action='append', help='set wallpapers from command line')
         # parse the command line stored in args, but skip the first element (the filename)
         self.args = parser.parse_args(args.get_arguments()[1:])
         # call the main program do_activate() to start up the app

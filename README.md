@@ -4,6 +4,14 @@ A Gtk utility to set two different backgrounds for each monitor on GNOME (which 
 
 ![screenshot](screenshot.png)
 
+### Using from the command line
+
+HydraPaper can be used to set wallpapers from the command line:
+
+```bash
+hydrapaper -c path_to_wallpaper1 path_to_wallpaper2 ...
+```
+
 ## Installing
 
 ### Requirements
