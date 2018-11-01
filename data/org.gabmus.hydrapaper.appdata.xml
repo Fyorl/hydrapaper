@@ -13,13 +13,24 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>https://raw.githubusercontent.com/GabMus/hydrapaper/master/screenshot.png</image>
+            <image>https://gitlab.com/gabmus/HydraPaper/raw/master/screenshot.png</image>
         </screenshot>
     </screenshots>
-    <url type="homepage">https://github.com/GabMus/hydrapaper</url>
-    <url type="bugtracker">https://github.com/GabMus/hydrapaper/issues</url>
+    <url type="homepage">https://gitlab.com/GabMus/hydrapaper</url>
+    <url type="bugtracker">https://gitlab.com/GabMus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.4" timestamp="1541067375">
+            <description>
+                <ul>
+                    <li>Updated dependencies</li>
+                    <li>Added support for command line usage</li>
+                    <li>Implemented boilerplate for gtk via gmgtk (gitlab.com/gabmus/gmgtk)</li>
+                    <li>Migrated configuration management to gmconfig (gitlab.com/gabmus/gmconfig)</li>
+                    <li>Migrated to GitLab</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.3" timestamp="1519850213">
             <description>
                 <ul>

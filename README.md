@@ -26,7 +26,7 @@ It requires the following dependencies:
 #### Prerequisites
 
 - Make sure you have flatpak installed in your system ([here is a tutorial on how to install it](https://flatpak.org/getting.html)), and make sure that the version is >= 0.10 (check it using this command: `flatpak --version`)
-- Add the [flathub](https://flathub.org) repository using the following command: `flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`. This is needed for flatpak to download the GNOME 3.26 Runtime
+- Add the [flathub](https://flathub.org) repository using the following command: `flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`. This is needed for flatpak to download the GNOME 3.28 Runtime
 - Proceed with one of the following options:
   - [Install from Flathub (recommended)](#from-flathub-recommended)
   - [Install from GitHub release](#from-github-release)
@@ -35,7 +35,7 @@ It requires the following dependencies:
 
 Click the following button install HydraPaper from the Flathub store.
 
-[![Get it on Flathub](https://raw.githubusercontent.com/flatpak-design-team/flathub-mockups/master/assets/download-button/download.svg?sanitize=true)](https://beta.flathub.org/apps/details/org.gabmus.hydrapaper)
+[![Get it on Flathub](https://raw.githubusercontent.com/flatpak-design-team/flathub-mockups/master/assets/download-button/download.svg?sanitize=true)](https://flathub.org/apps/details/org.gabmus.hydrapaper)
 
 #### From GitHub release
 
@@ -69,6 +69,11 @@ Alternatively ou can either run HydraPaper without installing it (refer to the [
 
 ## Building
 
+To build HydraPaper, first you need to install two libraries I made:
+
+- [`gmconfig`](https://gitlab.com/gabmus/gmconfig)
+- [`gmgtk`](https://gitlab.com/gabmus/gmconfig)
+
 ### Building for testing
 
 This is the best practice to test HydraPaper without installing using meson and ninja.
@@ -76,7 +81,7 @@ This is the best practice to test HydraPaper without installing using meson and 
 #### First time
 
 ```bash
-git clone https://github.com/gabmus/hydrapaper
+git clone https://gitlab.com/gabmus/hydrapaper
 cd hydrapaper
 mkdir builddir
 cd builddir
@@ -100,7 +105,7 @@ First install `flatpak` and `flatpak-builder` from your distro repository. Altho
 
 Create a directory somewhere in your home, I suggest something like `~/hydrapaperflatpak`.
 
-Either clone the whole HydraPaper repo (`git clone https://github.com/gabmus/hydrapaper`) or just download the flatpak manifest file from this repo in `dist/flatpak/org.gabmus.hydrapaper.json`. In either case, put the files inside the directory you created before.
+Either clone the whole HydraPaper repo (`git clone https://gitlab.com/gabmus/hydrapaper`) or just download the flatpak manifest file from this repo in `dist/flatpak/org.gabmus.hydrapaper.json`. In either case, put the files inside the directory you created before.
 
 Run the following: `flatpak-builder --repo=repo hydrapaper $PATH_TO_MANIFEST` where `$PATH_TO_MANIFEST` is the path to the `org.gabmus.hydrapaper.json` flatpak manifest. If everything works correctly, this command should create two directories `repo` and `hydrapaper` with flatpak stuff inside of your present working directory (again, I suggest to run everything inside a specifically designated directory).
 
@@ -115,7 +120,7 @@ Now you'll be creating a flatpak bundle, so that you can install it and distribu
 But if you know what you're doing, here you go:
 
 ```bash
-git clone https://github.com/gabmus/hydrapaper
+git clone https://gitlab.com/gabmus/hydrapaper
 cd hydrapaper
 mkdir builddir
 cd builddir
