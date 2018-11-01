@@ -78,7 +78,7 @@ class Application(GMApp):
             resource_path='/org/gabmus/hydrapaper/',
             app_name='HydraPaper',
             application_id='org.gabmus.hydrapaper',
-            # flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             **kwargs
         )
 
@@ -423,7 +423,30 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         self.fill_monitors_flowbox()
         self.fill_wallpapers_folders_popover_listbox()
 
+    def apply_from_cli(self, wlist_cli):
+        # check all the passed wallpapers to be correct
+        if len(wlist_cli) < len(self.monitors):
+            print(
+                'Error: you passed {0} wallpapers for {1} monitors'.format(
+                    len(wlist_cli), len(self.monitors)
+                )
+            )
+            exit(1)
+        for wpath in wlist_cli:
+            if not self.check_if_image(wpath):
+                print('Error: {0} is not a valid image path'.format(wpath))
+                exit(1)
+        for monitor, n_wp in zip(self.monitors, wlist_cli):
+            monitor.wallpaper = n_wp
+        self.dump_monitors_to_config()
+        self.apply_button_async_handler(self.monitors)
+
     def do_activate(self):
+        if self.args and self.args.apply_from_cli:
+            print(self.monitors)
+            self.apply_from_cli(self.args.apply_from_cli[0])
+            self.quit()
+            exit(0)
         super().do_activate()
         self.refresh_wallpapers_flowbox()
 
@@ -437,7 +460,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         # make a command line parser
         parser = argparse.ArgumentParser(prog='gui')
         # add a -c/--color option
-        parser.add_argument('-q', '--quit-after-init', dest='quit_after_init', action='store_true', help='initialize application (e.g. for macros initialization on system startup) and quit')
+        parser.add_argument('-c', '--cli', dest='apply_from_cli', nargs='+', action='append', help='initialize application (e.g. for macros initialization on system startup) and quit')
         # parse the command line stored in args, but skip the first element (the filename)
         self.args = parser.parse_args(args.get_arguments()[1:])
         # call the main program do_activate() to start up the app
@@ -485,9 +508,6 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         if len(monitors) == 1:
             wp_setter_func(monitors[0].wallpaper, 'zoom')
             return
-        #if len(self.monitors) != 2:
-        #    print('Configurations different from 2 monitors are not supported for now :(')
-        #    exit(1)
         if not os.path.isdir(HYDRAPAPER_CACHE_PATH):
             os.mkdir(HYDRAPAPER_CACHE_PATH)
         new_wp_filename = '_'.join(([m.__repr__() for m in monitors]))
