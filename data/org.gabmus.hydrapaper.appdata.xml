@@ -20,7 +20,7 @@
     <url type="bugtracker">https://gitlab.com/GabMus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
-        <release version="1.4" timestamp="1541067375">
+        <release version="1.4" timestamp="1541070602">
             <description>
                 <ul>
                     <li>Updated dependencies</li>
