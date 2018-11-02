@@ -1,13 +1,16 @@
 project('hydrapaper',
-  version: '1.1',
+  version: '1.4',
   meson_version: '>= 0.40.0'
 )
 
 # i18n = import('i18n')
 python3 = import('python3')
+python = import('python3')
 prefix = get_option('prefix')
 pkgdatadir = join_paths(prefix, get_option('datadir'), meson.project_name())
-pythondir = python3.sysconfig_path('purelib')
+DATA_DIR = pkgdatadir
+pythondir = join_paths(prefix, python3.sysconfig_path('purelib'))
+python_dir = pythondir
 
 install_subdir('hydrapaper', install_dir: pythondir)
 subdir('data')

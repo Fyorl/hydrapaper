@@ -187,6 +187,18 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
             }
         )
 
+    def on_about_activate(self, *args):
+        about_builder = Gtk.Builder()
+        about_builder.add_from_resource(
+            '{0}aboutdialog.glade'.format(self.resource_path)
+        )
+        dialog = about_builder.get_object('aboutdialog')
+        dialog.set_modal(True)
+        if self.window:
+            dialog.set_transient_for(self.window)
+        dialog.present()
+        pass
+
     def do_before_quit(self):
         self.unminimize_all_other_windows()
 

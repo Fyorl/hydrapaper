@@ -1,4 +1,5 @@
 gnome = import('gnome')
+
 app_id = 'org.gabmus.hydrapaper'
 
 desktop_conf = configuration_data()
@@ -12,6 +13,18 @@ desktop_file = configure_file(
   install_dir: join_paths(get_option('datadir'), 'applications'),
   configuration: desktop_conf
 )
+
+message('Looking for dependencies')
+python_bin = python.find_python()
+if not python_bin.found()
+    error('No valid python3 binary found')
+else
+    message('Found python3 binary')
+endif
+dependency('glib-2.0')
+dependency('gobject-introspection-1.0', version: '>=1.35.9')
+dependency('gtk+-3.0', version :'>=3.20')
+
 
 # TODO: Requires GLib 2.52 because of Meson issue
 #desktop_service = configure_file(
@@ -61,7 +74,7 @@ if false
   foreach size: sizes
     icon_targets += custom_target('symbolic-icon-' + size,
       input: 'icons/org.gabmus.hydrapaper-symbolic.svg',
-      output: 'org.gabmus.hydrapaper-symbolic.png',
+      output: 'icons/org.gabmus.hydrapaper-symbolic.png',
       command: [gtk_encode_symbolic, '--output=' + meson.current_build_dir(), '@INPUT@', size]
     )
   endforeach
@@ -75,10 +88,37 @@ install_data('icons/org.gabmus.hydrapaper-symbolic.svg',
   install_dir: join_paths(icondir, 'symbolic/apps')
 )
 
+contributors = '\n'.join([
+  'Gabriele Musco (GabMus) &lt;emaildigabry@gmail.com&gt;',
+  'Alex Hunt (huntie) &lt;hello@alexhunt.io&gt;'
+])
+
+LIBEXEC_DIR = join_paths(get_option('prefix'), get_option('libexecdir'))
+EXTENSION_DIR = join_paths(get_option('prefix'), get_option('libdir'), meson.project_name())
+bindir = join_paths(get_option('prefix'), get_option('bindir'))
+
+glade_conf = configuration_data()
+glade_conf.set('PACKAGE_URL', 'https://gitlab.com/gabmus/hydrapaper')
+glade_conf.set('DATA_DIR', DATA_DIR)
+glade_conf.set('EXTENSION_DIR', EXTENSION_DIR)
+glade_conf.set('LOCALE_DIR', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))
+glade_conf.set('PYTHON_DIR', python_dir)
+glade_conf.set('PYTHON_EXEC_DIR', join_paths(get_option('prefix'), python.sysconfig_path('stdlib')))
+glade_conf.set('PYTHON', python_bin.path())
+glade_conf.set('APPID', app_id)
+glade_conf.set('libexecdir', LIBEXEC_DIR)
+# this is for development version # glade_conf.set('VERSION', ''.join([run_command(['git', 'describe', '--long', '--tags']).stdout(), get_option('profile')]))
+glade_conf.set('VERSION', meson.project_version())
+glade_conf.set('CONTRIBUTORS', contributors)
+
 hydrapaper_resources = gnome.compile_resources(app_id,
   app_id + '.gresource.xml',
   gresource_bundle: true,
-  # dependencies: desktop_service,
+  dependencies: configure_file (
+    input: 'ui/aboutdialog.glade.in',
+    output: 'aboutdialog.glade',
+    configuration: glade_conf
+  ),
   install: true,
   install_dir: pkgdatadir
 )
