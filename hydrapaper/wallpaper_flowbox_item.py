@@ -60,11 +60,12 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.add(self.container_box)
 
     def set_wallpaper_thumb(self):
-        mkthumb_thread = ThreadingHelper.do_async(
-            self.make_wallpaper_thumb,
-            (self.wallpaper_path,)
-        )
-        ThreadingHelper.wait_for_thread(mkthumb_thread)
+        if not os.path.isfile(self.cache_path):
+            mkthumb_thread = ThreadingHelper.do_async(
+                self.make_wallpaper_thumb,
+                (self.wallpaper_path,)
+            )
+            ThreadingHelper.wait_for_thread(mkthumb_thread)
         self.wp_image.set_from_file(self.cache_path)
         self.wp_image.show()
 
@@ -76,11 +77,10 @@ class WallpaperBox(Gtk.FlowBoxChild):
             self.heart_icon.hide()
 
     def make_wallpaper_thumb(self, wp_path):
-        if not os.path.isfile(self.cache_path):
-            try:
-                thumb = Image.open(self.wallpaper_path)
-                thumb.thumbnail((250, 250), Image.ANTIALIAS)
-                thumb.save(self.cache_path, 'JPEG')
-            except IOError:
-                print('ERROR: cannot create thumbnail for file', self.wallpaper_path)
+        try:
+            thumb = Image.open(self.wallpaper_path)
+            thumb.thumbnail((250, 250), Image.ANTIALIAS)
+            thumb.save(self.cache_path, 'JPEG')
+        except IOError:
+            print('ERROR: cannot create thumbnail for file', self.wallpaper_path)
         return self.cache_path
