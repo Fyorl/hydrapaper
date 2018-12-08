@@ -20,6 +20,13 @@
     <url type="bugtracker">https://gitlab.com/GabMus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.4.1" timestamp="1544269577">
+            <description>
+                <ul>
+                    <li>Improved thumbnail generation and caching for better performance</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.4" timestamp="1541070602">
             <description>
                 <ul>
