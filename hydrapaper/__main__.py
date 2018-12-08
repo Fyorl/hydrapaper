@@ -45,6 +45,14 @@ if 'XDG_RUNTIME_DIR' in os.environ.keys():
         G_CONFIG_FILE_PATH = '{0}/hydrapaper.json'.format(os.environ.get('XDG_CONFIG_HOME'))
         HYDRAPAPER_CACHE_PATH = '{0}/hydrapaper'.format(os.environ.get('XDG_CACHE_HOME'))
 
+THUMBS_CACHE_PATH = '{0}/thumbnails/'.format(HYDRAPAPER_CACHE_PATH)
+
+if not os.path.isdir(HYDRAPAPER_CACHE_PATH):
+    os.mkdir(HYDRAPAPER_CACHE_PATH)
+
+if not os.path.isdir(THUMBS_CACHE_PATH):
+    os.mkdir(THUMBS_CACHE_PATH)
+
 IMAGE_EXTENSIONS = [
     '.jpg',
     '.jpeg',
@@ -308,7 +316,8 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         return box
 
     def make_wallpapers_flowbox_item(self, wp_path):
-        return WallpaperFlowboxItem.WallpaperBox(wp_path)
+        # pass the cache path to generate thumbnails
+        return WallpaperFlowboxItem.WallpaperBox(wp_path, THUMBS_CACHE_PATH)
 
     def fill_monitors_flowbox(self):
         for m in self.monitors:

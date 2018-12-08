@@ -18,17 +18,26 @@
 import gi
 gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk, Gio, GdkPixbuf
+import os
 from . import threading_helper as ThreadingHelper
+from PIL import Image
+import hashlib
 
 class WallpaperBox(Gtk.FlowBoxChild):
 
-    def __init__(self, wp_path, *args, **kwds):
+    def __init__(self, wp_path, cache_path, *args, **kwds):
         super().__init__(*args, **kwds)
 
         self.set_halign(Gtk.Align.CENTER)
         self.set_valign(Gtk.Align.CENTER)
 
         self.wallpaper_path = wp_path
+        self.cache_path = '{0}/{1}.jpg'.format(
+            cache_path,
+            hashlib.sha256(
+                'HydraPaperThumb{0}'.format(self.wallpaper_path).encode()
+            ).hexdigest()
+        )
         self.is_fav = False
         self.container_box = Gtk.Overlay()
         self.container_box.set_halign(Gtk.Align.CENTER)
@@ -51,13 +60,12 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.add(self.container_box)
 
     def set_wallpaper_thumb(self):
-        pixbuf_fake_list=[]
-        pixbuf_thread = ThreadingHelper.do_async(
-            self.make_wallpaper_pixbuf,
-            (self.wallpaper_path, pixbuf_fake_list)
+        mkthumb_thread = ThreadingHelper.do_async(
+            self.make_wallpaper_thumb,
+            (self.wallpaper_path,)
         )
-        ThreadingHelper.wait_for_thread(pixbuf_thread)
-        self.wp_image.set_from_pixbuf(pixbuf_fake_list[0])
+        ThreadingHelper.wait_for_thread(mkthumb_thread)
+        self.wp_image.set_from_file(self.cache_path)
         self.wp_image.show()
 
     def set_fav(self, fav):
@@ -67,8 +75,12 @@ class WallpaperBox(Gtk.FlowBoxChild):
         else:
             self.heart_icon.hide()
 
-    def make_wallpaper_pixbuf(self, wp_path, return_pixbuf_pointer=-1):
-        wp_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(wp_path, 250, 250, True)
-        if type(return_pixbuf_pointer) == list:
-            return_pixbuf_pointer.append(wp_pixbuf)
-        return wp_pixbuf
+    def make_wallpaper_thumb(self, wp_path):
+        if not os.path.isfile(self.cache_path):
+            try:
+                thumb = Image.open(self.wallpaper_path)
+                thumb.thumbnail((250, 250), Image.ANTIALIAS)
+                thumb.save(self.cache_path, 'JPEG')
+            except IOError:
+                print('ERROR: cannot create thumbnail for file', self.wallpaper_path)
+        return self.cache_path
