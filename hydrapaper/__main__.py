@@ -662,17 +662,28 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         self.gmconfig_man.set('favorites', [])
         self.refresh_wallpapers_flowbox()
 
+    def on_clearCachesButton_clicked(self, button):
+        for i in os.listdir(HYDRAPAPER_CACHE_PATH):
+            if os.path.isfile(i):
+                os.remove(i)
+        for i in os.listdir(THUMBS_CACHE_PATH):
+            if os.path.isfile(i):
+                os.remove(i)
+        self.refresh_wallpapers_flowbox()
+
     def unminimize_all_other_windows(self):
         from time import time as timestamp
         screen = Wnck.Screen.get_default()
-        screen.force_update()  # recommended per Wnck documentation
+        if screen:
+            screen.force_update()  # recommended per Wnck documentation
         for window in self.windows_to_restore:
             if window.is_minimized():
                 window.activate(timestamp())
-        for window in screen.get_windows():
-            if window.get_application().get_name() == 'hydrapaper':
-                window.activate(timestamp())
-                break
+        if screen:
+            for window in screen.get_windows():
+                if window.get_application().get_name() == 'hydrapaper':
+                    window.activate(timestamp())
+                    break
 
     def on_lowerAllOtherWindowsToggle_toggled(self, toggle):
         if toggle.get_active():
