@@ -291,7 +291,15 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         monitor_widgets = self.monitors_flowbox.get_selected_children()[0].get_children()[0].get_children()
         for w in monitor_widgets:
             if type(w) == Gtk.Image:
-                m_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(wp_path, 64, 64, True)
+                thumbnail_path = '{0}/{1}.jpg'.format(
+                    THUMBS_CACHE_PATH,
+                    hashlib.sha256(
+                        'HydraPaperThumb{0}'.format(wp_path).encode()
+                    ).hexdigest()
+                )
+                if not os.path.isfile(thumbnail_path):
+                    thumbnail_path = wp_path
+                m_pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(thumbnail_path, 64, 64, True)
                 w.set_from_pixbuf(m_pixbuf)
             elif type(w) == Gtk.Label:
                 current_m_name = w.get_text()

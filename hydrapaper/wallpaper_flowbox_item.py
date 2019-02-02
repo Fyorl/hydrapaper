@@ -80,7 +80,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
         try:
             thumb = Image.open(self.wallpaper_path)
             thumb.thumbnail((250, 250), Image.ANTIALIAS)
-            thumb.save(self.cache_path, 'JPEG')
+            thumb.save(self.cache_path, 'PNG')
         except IOError:
             print('ERROR: cannot create thumbnail for file', self.wallpaper_path)
         return self.cache_path
