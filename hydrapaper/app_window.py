@@ -1,9 +1,16 @@
 from gi.repository import Gtk
+from .confManager import ConfManager
 from .wnck_win_controller import change_minimize_state
+from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
 
 class HydraPaperAppWindow(Gtk.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.confman = ConfManager()
+        self.resize(
+            self.confman.conf['windowsize']['width'],
+            self.confman.conf['windowsize']['height']
+        )
 
         self.set_title('HydraPaper')
 
@@ -15,6 +22,8 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.wallpapers_folders_popover = self.headerbar_builder.get_object(
             'wallpapersFoldersPopover'
         )
+        self.folders_view = HydraPaperWallpapersFoldersView()
+        self.wallpapers_folders_popover.add(self.folders_view)
         self.stack_switcher = self.headerbar_builder.get_object(
             'mainStackSwitcher'
         )
@@ -31,4 +40,8 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.wallpapers_folders_popover.popup()
 
     def on_lowerAllOtherWindowsToggle_toggled(self, toggle):
-        change_minimize_state(toggle)
+        change_minimize_state(toggle = toggle)
+
+    def destroy(self, *args):
+        change_minimize_state(state = False)
+        self.emit('destroy')

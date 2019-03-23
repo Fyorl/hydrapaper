@@ -1,9 +1,14 @@
-import gi
-gi.require_version("Gtk", "3.0")
-from gi.repository import Gtk
+from gi.repository import Gtk, GObject
 
 class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
-    def __init__(self, folder_path, folder_active, on_switch_state_set):
+    __gsignals__ = {
+        'row_switch_state_set': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (bool, str)
+        )
+    }
+    def __init__(self, folder_path, folder_active):
         super().__init__()
 
         self.folder_path = folder_path
@@ -17,12 +22,9 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
         self.label.set_margin_right(6)
         self.label.set_halign(Gtk.Align.START)
 
-        self.switch.value = folder_path
         self.switch.set_active(folder_active)
         self.switch.set_margin_left(6)
         self.switch.set_margin_right(12)
-
-        self.switch.connect('state-set', on_switch_state_set)
 
         self.box.pack_start(self.label, True, True, 0)
         self.box.pack_start(self.switch, False, False, 0)
@@ -32,3 +34,6 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
         self.value = folder_path
 
         self.add(self.box)
+
+    def on_switch_state_set(self, switch, state):
+        self.emit('row_switch_state_set', state, self.value)

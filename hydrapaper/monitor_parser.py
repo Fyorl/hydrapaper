@@ -16,14 +16,12 @@ class Monitor:
         self.wallpaper = None
 
     def __repr__(self):
-        return '''
-HydraPaper Monitor Object
-- Name: {};
-- Resolution: {} x {};
-- Scaling: {}
-- Offset: {} x {};
-- Wallpaper path: {};
-'''.format(self.name, self.width, self.height, self.scaling, self.offset_x, self.offset_y, self.wallpaper)
+        return f'''HydraPaper Monitor Object
+- Name: {self.name};
+- Resolution: {self.width} x {self.height};
+- Scaling: {self.scaling}
+- Offset: {self.offset_x} x {self.offset_y};
+- Wallpaper path: {self.wallpaper};'''
 
 def build_monitors_from_gdk():
     monitors = []
@@ -40,14 +38,11 @@ def build_monitors_from_gdk():
                 monitor_rect.x,
                 monitor_rect.y,
                 i,
-                'Monitor {0} ({1})'.format(
-                    i,
-                    monitor.get_model()
-                ),
+                f'Monitor {i} ({monitor.get_model()})',
                 monitor.is_primary()
             ))
     except Exception as e:
-        print('Error: error parsing monitors (Gdk)')
+        print('Error parsing monitors (Gdk)')
         import traceback
         traceback.print_exc()
         monitors = None

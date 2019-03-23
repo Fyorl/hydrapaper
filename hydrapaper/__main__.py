@@ -205,7 +205,6 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         if self.window:
             dialog.set_transient_for(self.window)
         dialog.present()
-        pass
 
     def do_before_quit(self):
         self.unminimize_all_other_windows()
@@ -274,7 +273,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         #self.refresh_wallpapers_flowbox()
         self.show_hide_wallpapers()
 
-    def fill_wallpapers_folders_popover_listbox(self):
+    def fill_wallpapers_folders_popover_listbox(self): # MIGRATED
         ListboxHelper.empty_listbox(self.wallpapers_folders_popover_listbox)
         c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
         for folder in c_wallpapers_paths:

@@ -25,6 +25,13 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         self.builder.connect_signals(self)
         self.child_at_pos = None
 
+        self.longpress = Gtk.GestureLongPress.new(self.flowbox)
+        self.longpress.set_touch_only(False)
+        self.longpress.connect(
+            'pressed',
+            self.on_wallpapersFlowbox_rightclick_or_longpress
+        )
+
     def on_wallpapersFlowbox_child_activated(self, flowbox, child):
         pass
 
