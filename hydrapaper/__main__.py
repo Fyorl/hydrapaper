@@ -209,7 +209,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
     def do_before_quit(self):
         self.unminimize_all_other_windows()
 
-    def sync_monitors_from_config(self):
+    def sync_monitors_from_config(self): # MIGRATED
         for m in self.monitors:
             c_monitors = self.gmconfig_man.get('monitors')
             if m.name in c_monitors.keys():
@@ -219,7 +219,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
                 n_monitors[m.name] = m.wallpaper
                 self.gmconfig_man.set('monitors', n_monitors)
 
-    def dump_monitors_to_config(self):
+    def dump_monitors_to_config(self): # MIGRATED
         for m in self.monitors:
             c_monitors = self.gmconfig_man.get('monitors')
             if m.name in c_monitors:
@@ -286,7 +286,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
             )
         self.wallpapers_folders_popover_listbox.show_all()
 
-    def set_monitor_wallpaper_preview(self, wp_path):
+    def set_monitor_wallpaper_preview(self, wp_path): # MIGRATED
         monitor_widgets = self.monitors_flowbox.get_selected_children()[0].get_children()[0].get_children()
         for w in monitor_widgets:
             if type(w) == Gtk.Image:
@@ -306,7 +306,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
                     if m.name == current_m_name:
                         m.wallpaper = wp_path
 
-    def make_monitors_flowbox_item(self, monitor):
+    def make_monitors_flowbox_item(self, monitor): # MIGRATED
         box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         label = Gtk.Label()
         label.set_text(monitor.name)
@@ -322,11 +322,10 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         box.set_margin_right(24)
         return box
 
-    def make_wallpapers_flowbox_item(self, wp_path):
-        # pass the cache path to generate thumbnails
-        return WallpaperFlowboxItem.WallpaperBox(wp_path, THUMBS_CACHE_PATH)
+    def make_wallpapers_flowbox_item(self, wp_path): # MIGRATED
+        return WallpaperFlowboxItem.WallpaperBox(wp_path)
 
-    def fill_monitors_flowbox(self):
+    def fill_monitors_flowbox(self): # MIGRATED
         for m in self.monitors:
             self.monitors_flowbox.insert(
                 self.make_monitors_flowbox_item(m),

@@ -1,41 +1,24 @@
-# def make_wallpapers_flowbox_item(self, wp_path):
-#         pixbuf_fake_list=[]
-#         pixbuf_thread = ThreadingHelper.do_async(
-#             self.make_wallpaper_pixbuf,
-#             (wp_path, pixbuf_fake_list)
-#         )
-#         ThreadingHelper.wait_for_thread(pixbuf_thread)
-#         if len(pixbuf_fake_list) == 1:
-#             wp_pixbuf = pixbuf_fake_list[0]
-#             box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-#             image = Gtk.Image.new_from_pixbuf(wp_pixbuf)
-#             box.pack_start(image, False, False, 0)
-#             box.set_margin_left(12)
-#             box.set_margin_right(12)
-#             box.wallpaper_path = wp_path
-#             return box
-
-import gi
-gi.require_version('Gtk', '3.0')
 from gi.repository import Gtk, Gdk, Gio, GdkPixbuf
 import os
 from . import threading_helper as ThreadingHelper
 from PIL import Image
-import hashlib
+from hashlib import sha256
+from .confManager import ConfManager
 
 class WallpaperBox(Gtk.FlowBoxChild):
 
-    def __init__(self, wp_path, cache_path, *args, **kwds):
+    def __init__(self, wp_path, args, **kwds):
         super().__init__(*args, **kwds)
+        self.confman = ConfManager()
 
         self.set_halign(Gtk.Align.CENTER)
         self.set_valign(Gtk.Align.CENTER)
 
         self.wallpaper_path = wp_path
-        self.cache_path = '{0}/{1}.jpg'.format(
-            cache_path,
-            hashlib.sha256(
-                'HydraPaperThumb{0}'.format(self.wallpaper_path).encode()
+        self.cache_path = '{0}/{1}.png'.format(
+            self.confman.thumbs_cache_path,
+            sha256(
+                f'HydraPaperThumb{self.wallpaper_path}'.encode()
             ).hexdigest()
         )
         self.is_fav = False

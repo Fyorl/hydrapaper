@@ -45,8 +45,11 @@ class ConfManager(metaclass=Singleton):
 
         if self.is_flatpak:
             self.path = Path(f'{Env.get("XDG_CONFIG_HOME")}/org.gabmus.hydrapaper.json')
+            self.cache_path = f'{Env.get("XDG_CACHE_HOME")}/hydrapaper'
         else:
-            self.path = Path(f'{Env.get("HOME")}/.config/org.gabmus.hydrapaper.json')
+            self.path = Path(f'{Env.get("HOME")}/.config/hydrapaper.json')
+            self.cache_path = f'{Env.get("HOME")}/.cache/hydrapaper'
+        self.thumbs_cache_path = f'{self.cache_path}/thumbnails/'
 
         self.conf = None
         if isfile(self.path):

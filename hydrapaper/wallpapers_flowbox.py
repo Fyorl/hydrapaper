@@ -32,6 +32,9 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             self.on_wallpapersFlowbox_rightclick_or_longpress
         )
 
+    def populate(self):
+        pass
+
     def on_wallpapersFlowbox_child_activated(self, flowbox, child):
         pass
 
