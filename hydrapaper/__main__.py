@@ -331,7 +331,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
                 self.make_monitors_flowbox_item(m),
             -1) # -1 appends to the end
 
-    def evaluate_wallpaper_visibility(self, wp_widget, flowbox):
+    def evaluate_wallpaper_visibility(self, wp_widget, flowbox): # MIGRATED
         visibility = False
         exists_in_folder = False
         c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
@@ -362,7 +362,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
                 return False
         return visibility
 
-    def show_hide_wallpapers(self):
+    def show_hide_wallpapers(self): # MIGRATED
         for wp_widget in self.wallpapers_flowbox.get_children():
             if self.evaluate_wallpaper_visibility(wp_widget, self.wallpapers_flowbox):
                 wp_widget.show_all()
@@ -374,7 +374,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
             else:
                 wp_widget.hide()
 
-    def fill_wallpapers_flowbox(self): # called by self.refresh_wallpapers_flowbox
+    def fill_wallpapers_flowbox(self): # MIGRATED # called by self.refresh_wallpapers_flowbox
         for w in self.wallpapers_list:
             if self.check_if_image(w):
                 widget = self.make_wallpapers_flowbox_item(w)
@@ -396,7 +396,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
         for wb in self.wallpapers_flowbox.get_children():
             wb.set_wallpaper_thumb()
 
-    def check_if_image(self, pic):
+    def check_if_image(self, pic): # MIGRATED
         im_path = pathlib.Path(pic)
         return (
             im_path.suffix.lower() in IMAGE_EXTENSIONS and
@@ -404,7 +404,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
             not im_path.is_dir()
         )
 
-    def get_wallpapers_list(self, *args):
+    def get_wallpapers_list(self, *args): # MIGRATED
         for path_dict in self.gmconfig_man.get('wallpapers_paths'):
             folder = path_dict['path']
             if os.path.isdir(folder): # trying to just hide wallpapers in non active paths # and path_dict['active']:
@@ -415,7 +415,7 @@ If you\'re still experiencing problems, considering filling an issue <a href="ht
                         pictures.pop(pictures.index(pic))
                 self.wallpapers_list.extend(['{0}/'.format(folder) + pic for pic in pictures])
 
-    def empty_wallpapers_flowbox(self):
+    def empty_wallpapers_flowbox(self): # MIGRATED
         self.wallpapers_list = []
         while True:
             item = self.wallpapers_flowbox.get_child_at_index(0)

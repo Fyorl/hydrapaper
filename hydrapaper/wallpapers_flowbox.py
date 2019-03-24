@@ -1,9 +1,12 @@
 from gi.repository import Gtk
+from .confManager import ConfManager
+from .wallpaper_flowbox_item import WallpaperBox
 import pathlib
 
 class HydraPaperWallpapersFlowbox(Gtk.Bin):
     def __init__(self, is_favorites=False, **kwargs):
         super().__init__(**kwargs)
+        self.confman = ConfManager()
         self.is_favorites = is_favorites
         self.builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/wallpapers_flowbox.glade'
@@ -33,7 +36,37 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         )
 
     def populate(self):
-        pass
+        # this while empties self before filling
+        while True:
+            c = self.get_child_at_index(0)
+            if c:
+                self.remove(c)
+                c.destroy()
+            else:
+                break
+        if self.is_favorites:
+            for wp in self.confman.wallpapers:
+                if wp in self.confman.conf['favorites']:
+                    self.add(WallpaperBox(wp))
+        else:
+            for wp in self.confman.wallpapers:
+                if wp in self.confman.conf['favorites']:
+                    if self.confman.conf['favorites_in_mainview']:
+                        self.add(WallpaperBox(wp))
+                else:
+                    self.add(WallpaperBox(wp))
+        self.show_all()
+        self.show_hide_wallpapers()
+
+    def show_hide_wallpapers(self):
+        if self.is_favorites:
+            return
+        self.show_all()
+        for p in self.confman.conf['wallpapers_paths']:
+            if not p['active']:
+                for c in self.get_children():
+                    if p['path'] in c.wallpaper_path:
+                        c.hide()
 
     def on_wallpapersFlowbox_child_activated(self, flowbox, child):
         pass

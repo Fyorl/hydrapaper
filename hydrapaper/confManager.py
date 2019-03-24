@@ -1,7 +1,8 @@
 from .singleton import Singleton
 from gi.repository import GObject
 from pathlib import Path
-from os.path import isfile, isdir
+from os.path import isfile, isdir, listdir
+from .is_image import is_image
 from os import makedirs
 from os import environ as Env
 import json
@@ -66,7 +67,23 @@ class ConfManager(metaclass=Singleton):
         else:
             self.conf = self.BASE_SCHEMA.copy()
 
+        for p in [self.cache_path, self.thumbs_cache_path]:
+            if not isdir(p):
+                makedirs(p)
+
+        self.wallpapers = []
+        self.populate_wallpapers()
+
     def save_conf(self):
         with open(self.path, 'w') as fd:
             fd.write(json.dumps(self.conf))
             fd.close()
+
+    def populate_wallpapers(self):
+        self.wallpapers = []
+        for folder in self.conf['wallpapers_paths']:
+            for f in listdir(folder):
+                f_path = f'{folder}/{f}'
+                if is_image(f_path):
+                    self.wallpapers.append(f_path)
+                    

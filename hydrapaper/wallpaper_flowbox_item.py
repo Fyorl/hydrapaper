@@ -7,8 +7,8 @@ from .confManager import ConfManager
 
 class WallpaperBox(Gtk.FlowBoxChild):
 
-    def __init__(self, wp_path, args, **kwds):
-        super().__init__(*args, **kwds)
+    def __init__(self, wp_path, **kwargs):
+        super().__init__(**kwargs)
         self.confman = ConfManager()
 
         self.set_halign(Gtk.Align.CENTER)
