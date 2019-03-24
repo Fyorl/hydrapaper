@@ -13,6 +13,7 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         )
 
         self.set_title('HydraPaper')
+        self.set_icon_name('org.gabmus.hydrapaper')
 
         self.headerbar_builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/headerbar.glade'
