@@ -58,6 +58,10 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
         self.set_activate_on_single_click(
             self.confman.conf['selection_mode']
         )
+        self.confman.connect(
+            'hydrapaper_flowbox_wallpaper_selected',
+            self.change_selected_wp
+        )
 
     def populate(self):
         self.load_from_config()
@@ -78,7 +82,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
         self.confman.conf['monitors'] = n_monitors
         self.confman.save_conf()
 
-    def change_selected_wp(self, n_wp):
+    def change_selected_wp(self, n_wp, *args):
         selected_monitor_widget = self.get_selected_children()[0]
         if not selected_monitor_widget:
             return

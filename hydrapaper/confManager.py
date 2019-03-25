@@ -13,7 +13,23 @@ class ConfManagerSignaler(GObject.Object):
             GObject.SIGNAL_RUN_FIRST,
             None,
             (str,)
-        )
+        ),
+        'hydrapaper_flowbox_favorites_in_mainview_changed': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str,)
+        ),
+        'hydrapaper_flowbox_wallpaper_selected': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str,)
+        ),
+        'hydrapaper_populate_wallpapers': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str,)
+        ),
+
     }
 
 class ConfManager(metaclass=Singleton):
@@ -86,4 +102,7 @@ class ConfManager(metaclass=Singleton):
                 f_path = f'{folder}/{f}'
                 if is_image(f_path):
                     self.wallpapers.append(f_path)
-                    
+        self.emit(
+            'hydrapaper_populate_wallpapers',
+            'notimportant'
+        )

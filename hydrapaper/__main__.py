@@ -81,42 +81,6 @@ class Application(Gtk.Application):
         #self.refresh_wallpapers_flowbox()
         self.show_hide_wallpapers()
 
-    def check_if_image(self, pic): # MIGRATED
-        im_path = pathlib.Path(pic)
-        return (
-            im_path.suffix.lower() in IMAGE_EXTENSIONS and
-            im_path.exists() and
-            not im_path.is_dir()
-        )
-
-    def get_wallpapers_list(self, *args): # MIGRATED
-        for path_dict in self.gmconfig_man.get('wallpapers_paths'):
-            folder = path_dict['path']
-            if os.path.isdir(folder): # trying to just hide wallpapers in non active paths # and path_dict['active']:
-                pictures = os.listdir(folder)
-                for pic in pictures:
-                    picpath = '{0}/{1}'.format(folder, pic)
-                    if not self.check_if_image(picpath):
-                        pictures.pop(pictures.index(pic))
-                self.wallpapers_list.extend(['{0}/'.format(folder) + pic for pic in pictures])
-
-    def empty_wallpapers_flowbox(self): # MIGRATED
-        self.wallpapers_list = []
-        while True:
-            item = self.wallpapers_flowbox.get_child_at_index(0)
-            if item:
-                self.wallpapers_flowbox.remove(item)
-                item.destroy()
-            else:
-                break
-        while True:
-            item = self.wallpapers_flowbox_favorites.get_child_at_index(0)
-            if item:
-                self.wallpapers_flowbox_favorites.remove(item)
-                item.destroy()
-            else:
-                break
-
     def refresh_wallpapers_flowbox(self):
         if self.wallpapers_refreshing_locked:
             return
@@ -160,56 +124,23 @@ class Application(Gtk.Application):
             self.quit()
             exit(0)
         super().do_activate()
-        self.refresh_wallpapers_flowbox()
+        self.window.show_all()
 
-    def do_command_line(self, args):
+    def do_command_line(self, *args):
         """
         GTK.Application command line handler
         called if Gio.ApplicationFlags.HANDLES_COMMAND_LINE is set.
         must call the self.do_activate() to get the application up and running.
         """
-        Gtk.Application.do_command_line(self, args)  # call the default commandline handler
+        Gtk.Application.do_command_line(self, *args)  # call the default commandline handler
         # make a command line parser
         parser = argparse.ArgumentParser()
-        # add a -c/--color option
         parser.add_argument('-c', '--cli', dest='wallpaper_path', nargs='+', action='append', help='set wallpapers from command line')
         # parse the command line stored in args, but skip the first element (the filename)
         self.args = parser.parse_args(args.get_arguments()[1:])
         # call the main program do_activate() to start up the app
         self.do_activate()
         return 0
-
-    # Handler functions START
-
-    def on_wallpapersFlowbox_rightclick_or_longpress(self, gesture_or_event, x, y, flowbox):
-        self.child_at_pos = flowbox.get_child_at_pos(x,y)
-        if not self.child_at_pos:
-            return
-        self.wallpapers_flowbox_itemoptions_popover.set_relative_to(self.child_at_pos)
-        flowbox.select_child(self.child_at_pos)
-        if flowbox == self.wallpapers_flowbox_favorites or self.child_at_pos.is_fav:
-            self.add_to_favorites_toggle.set_label('💔 Remove from favorites')
-        else:
-            self.add_to_favorites_toggle.set_label('❤️ Add to favorites')
-        wp_path = self.child_at_pos.get_child().wallpaper_path
-        self.selected_wallpaper_path_entry.set_text(wp_path)
-        self.builder.get_object('selectedWallpaperName').set_text(pathlib.Path(wp_path).name)
-        self.on_wallpapersFlowbox_child_activated(flowbox, self.child_at_pos)
-        self.wallpapers_flowbox_itemoptions_popover.popup()
-
-    def on_wallpapersFlowbox_button_release_event(self, flowbox, event):
-        if event.button == 3: # 3 is the right mouse button
-            self.on_wallpapersFlowbox_rightclick_or_longpress(
-                event,
-                event.x,
-                event.y,
-                flowbox
-            )
-
-    def on_wallpapersFlowbox_child_activated(self, flowbox, selected_item):
-        self.set_monitor_wallpaper_preview(
-            selected_item.get_child().wallpaper_path
-        )
 
     def apply_button_async_handler(self, monitors):
         desktop_environment = os.environ.get('XDG_CURRENT_DESKTOP')
@@ -238,47 +169,6 @@ class Application(Gtk.Application):
                 )
             )
         wp_setter_func(saved_wp_path)
-
-    def set_favorite_state(self, wp_path, wp_widget, isfavorite):
-        if isfavorite:
-            widget_c = self.make_wallpapers_flowbox_item(wp_path)
-            widget_c.set_fav(True)
-            wp_widget.set_fav(True)
-            self.wallpapers_flowbox_favorites.insert(widget_c, -1)
-            widget_c.show_all()
-            self.wallpapers_flowbox_favorites.show_all()
-            widget_c.set_wallpaper_thumb()
-        else:
-            for wb in self.wallpapers_flowbox_favorites.get_children():
-                if wb.wallpaper_path == wp_path:
-                    self.wallpapers_flowbox_favorites.remove(wb)
-                    wb.destroy()
-                    break
-            for wb in self.wallpapers_flowbox.get_children():
-                if wb.wallpaper_path == wp_path:
-                    wb.set_fav(False)
-                    break
-        self.show_hide_wallpapers()
-
-    def on_wallpapersFlowboxItemoptionsPopover_notify_visible(self, *args):
-        if self.favorites_button_clicked:
-            button = self.add_to_favorites_toggle
-            if not self.child_at_pos:
-                return
-            wp_path = self.child_at_pos.get_child().wallpaper_path
-            c_favorites = self.gmconfig_man.get('favorites')
-            if 'add' in button.get_label().lower():
-                c_favorites.append(wp_path)
-            else:
-                c_favorites.pop(c_favorites.index(wp_path))
-            self.gmconfig_man.set('favorites', c_favorites)
-            self.wallpapers_flowbox_itemoptions_popover.set_relative_to(self.wallpapers_flowbox)
-            self.set_favorite_state(wp_path, self.child_at_pos, 'add' in button.get_label().lower())
-            self.favorites_button_clicked = False
-
-    def on_addToFavoritesToggle_clicked(self, button):
-        self.favorites_button_clicked = True
-        self.wallpapers_flowbox_itemoptions_popover.popdown()
 
     def on_applyButton_clicked(self, btn):
         for m in self.monitors:
@@ -313,9 +203,6 @@ class Application(Gtk.Application):
         else:
             self.wallpapers_folders_popover.popdown()
 
-    def on_wallpapersFoldersPopover_closed(self, popover):
-        self.wallpapers_folders_toggle.set_active(False)
-
     def add_new_wallpapers_path(self, new_path):
         c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
         c_wallpapers_paths.append(
@@ -340,47 +227,6 @@ class Application(Gtk.Application):
         if self.gmconfig_man.get('favorites_in_mainview') != favs_in_mainview:
             self.gmconfig_man.set('favorites_in_mainview', favs_in_mainview)
             self.show_hide_wallpapers()
-
-    def on_resetFavoritesButton_clicked(self, button):
-        self.gmconfig_man.set('favorites', [])
-        self.refresh_wallpapers_flowbox()
-
-    def on_clearCachesButton_clicked(self, button):
-        for i in os.listdir(HYDRAPAPER_CACHE_PATH):
-            if os.path.isfile(i):
-                os.remove(i)
-        for i in os.listdir(THUMBS_CACHE_PATH):
-            if os.path.isfile(i):
-                os.remove(i)
-        self.refresh_wallpapers_flowbox()
-
-    def unminimize_all_other_windows(self):
-        from time import time as timestamp
-        screen = Wnck.Screen.get_default()
-        if screen:
-            screen.force_update()  # recommended per Wnck documentation
-        for window in self.windows_to_restore:
-            if window.is_minimized():
-                window.activate(timestamp())
-        if screen:
-            for window in screen.get_windows():
-                if window.get_application().get_name() == 'hydrapaper':
-                    window.activate(timestamp())
-                    break
-
-    def on_lowerAllOtherWindowsToggle_toggled(self, toggle):
-        if toggle.get_active():
-            self.builder.get_object('lowerAllOtherWindowsToggle').get_child().set_from_icon_name('go-top-symbolic', Gtk.IconSize.BUTTON)
-            screen = Wnck.Screen.get_default()
-            screen.force_update()  # recommended per Wnck documentation
-            self.windows_to_restore = []
-            for window in screen.get_windows():
-                if not window.is_minimized() and not 'desktop' in window.get_application().get_name().lower() and window.get_application().get_name() != 'hydrapaper':
-                    self.windows_to_restore.append(window)
-                    window.minimize()
-        else:
-            self.builder.get_object('lowerAllOtherWindowsToggle').get_child().set_from_icon_name('go-bottom-symbolic', Gtk.IconSize.BUTTON)
-            self.unminimize_all_other_windows()
 
     def on_addWallpapersPath_clicked(self, button):
         self.builder.get_object('pathAlreadyAddedInfobarLikeRevealer').set_reveal_child(False)
