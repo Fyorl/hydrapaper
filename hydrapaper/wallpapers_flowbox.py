@@ -29,11 +29,17 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         self.child_at_pos = None
 
         self.longpress = Gtk.GestureLongPress.new(self.flowbox)
+        self.longpress.set_propagation_phase(Gtk.PropagationPhase.TARGET)
         self.longpress.set_touch_only(False)
         self.longpress.connect(
             'pressed',
-            self.on_wallpapersFlowbox_rightclick_or_longpress
+            self.on_wallpapersFlowbox_rightclick_or_longpress,
+            self.flowbox
         )
+        self.set_activate_on_single_click(
+            self.confman.conf['selection_mode'] == 'single'
+        )
+        self.populate()
 
     def populate(self):
         # this while empties self before filling
@@ -50,11 +56,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
                     self.add(WallpaperBox(wp))
         else:
             for wp in self.confman.wallpapers:
-                if wp in self.confman.conf['favorites']:
-                    if self.confman.conf['favorites_in_mainview']:
-                        self.add(WallpaperBox(wp))
-                else:
-                    self.add(WallpaperBox(wp))
+                self.add(WallpaperBox(wp))
         self.show_all()
         self.show_hide_wallpapers()
 
@@ -67,6 +69,10 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
                 for c in self.get_children():
                     if p['path'] in c.wallpaper_path:
                         c.hide()
+        if not self.confman.conf['favorites_in_mainview']:
+            for c in self.get_children():
+                if c.wallpaper_path in self.confman.conf['favorites']:
+                    c.hide()
 
     def on_wallpapersFlowbox_child_activated(self, flowbox, child):
         pass

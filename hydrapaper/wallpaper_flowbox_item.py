@@ -41,6 +41,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.heart_icon.hide()
 
         self.add(self.container_box)
+        self.set_wallpaper_thumb()
 
     def set_wallpaper_thumb(self):
         if not os.path.isfile(self.cache_path):
