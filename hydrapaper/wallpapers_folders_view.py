@@ -12,13 +12,13 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
             '/org/gabmus/hydrapaper/ui/wallpapers_folders_view.glade'
         )
 
-        self.container = self.builder.get_object('wallpapersFoldersContainer')
+        self.container_box = self.builder.get_object('wallpapersFoldersContainer')
         self.listbox = self.builder.get_object('wallpapersFoldersListbox')
 
         self.add_btn = self.builder.get_object('addWallpapersPath')
         self.del_btn = self.builder.get_object('removeWallpapersPath')
 
-        self.add(self.container)
+        self.add(self.container_box)
 
         self.builder.connect_signals(self)
         self.populate()
@@ -33,6 +33,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
             'infoRevealer'
         )
         self.dialog_builder.connect_signals(self)
+        self.show_all()
 
     def populate(self):
         while True:
@@ -55,7 +56,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
             not not row and self.add_btn.get_sensitive()
         )
 
-    def on_row_switch_state_set(self, state, folder_path):
+    def on_row_switch_state_set(self, widget, state, folder_path):
         for i, p in enumerate(self.confman.conf['wallpapers_paths']):
             if p['path'] == folder_path:
                 self.confman.conf['wallpapers_paths'][i]['active'] = state
@@ -88,6 +89,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         })
         self.confman.save_conf()
         self.populate()
+        self.confman.populate_wallpapers()
         self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
 
     def on_removeWallpapersPath_clicked(self, btn):

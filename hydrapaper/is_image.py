@@ -5,7 +5,7 @@ IMAGE_EXTENSIONS = [
     '.jpeg',
     '.png',
     '.tiff',
-    '.svg'
+    #'.svg'
 ]
 
 def is_image(p):

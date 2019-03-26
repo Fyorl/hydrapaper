@@ -23,6 +23,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
         self.box.set_margin_right(24)
         self.add(self.box)
         self.set_picture()
+        self.show_all()
 
     def set_picture(self, n_wp=None):
         if n_wp and is_image(n_wp):
@@ -41,7 +42,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
             )
             self.image.set_from_pixbuf(pixbuf)
         else:
-            image.set_from_icon_name(
+            self.image.set_from_icon_name(
                 'image-x-generic-symbolic',
                 Gtk.IconSize.DIALOG
             )
@@ -62,6 +63,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
             'hydrapaper_flowbox_wallpaper_selected',
             self.change_selected_wp
         )
+        self.populate()
 
     def populate(self):
         self.load_from_config()
@@ -69,6 +71,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
             self.add(
                 HydraPaperMonitorsFlowboxItem(m)
             )
+        self.select_child(self.get_children()[0])
 
     def load_from_config(self):
         for m in self.monitors:
@@ -82,7 +85,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
         self.confman.conf['monitors'] = n_monitors
         self.confman.save_conf()
 
-    def change_selected_wp(self, n_wp, *args):
+    def change_selected_wp(self, signaler, n_wp, *args):
         selected_monitor_widget = self.get_selected_children()[0]
         if not selected_monitor_widget:
             return

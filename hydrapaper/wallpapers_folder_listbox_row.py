@@ -34,6 +34,7 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
         self.value = folder_path
 
         self.add(self.box)
+        self.switch.connect('state-set', self.on_switch_state_set)
 
     def on_switch_state_set(self, switch, state):
         self.emit('row_switch_state_set', state, self.value)

@@ -58,12 +58,14 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.is_fav = fav
         if self.is_fav:
             self.heart_icon.show()
-            self.confman.conf['favorites'].append(self.wallpaper_path)
+            if not self.wallpaper_path in self.confman.conf['favorites']:
+                self.confman.conf['favorites'].append(self.wallpaper_path)
         else:
             self.heart_icon.hide()
-            self.confman.conf['favorites'].pop(
-                self.confman.conf['favorites'].index(self.wallpaper_path)
-            )
+            if self.wallpaper_path in self.confman.conf['favorites']:
+                self.confman.conf['favorites'].pop(
+                    self.confman.conf['favorites'].index(self.wallpaper_path)
+                )
         self.confman.save_conf()
 
     def make_wallpaper_thumb(self, wp_path):

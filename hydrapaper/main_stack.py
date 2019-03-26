@@ -8,5 +8,5 @@ class HydraPapaerMainStack(Gtk.Stack):
         self.main_flowbox = HydraPaperWallpapersFlowbox()
         self.favs_flowbox = HydraPaperWallpapersFlowbox(is_favorites = True)
 
-        self.add_named(self.main_flowbox, 'Wallpapers')
-        self.add_named(self.favs_flowbox, 'Favorites')
+        self.add_titled(self.main_flowbox, 'Wallpapers', 'Wallpapers')
+        self.add_titled(self.favs_flowbox, 'Favorites', 'Favorites')

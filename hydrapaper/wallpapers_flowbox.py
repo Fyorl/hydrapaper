@@ -36,7 +36,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             self.on_wallpapersFlowbox_rightclick_or_longpress,
             self.flowbox
         )
-        self.set_activate_on_single_click(
+        self.flowbox.set_activate_on_single_click(
             self.confman.conf['selection_mode'] == 'single'
         )
         self.confman.connect(
@@ -54,26 +54,26 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         self.populate()
 
     def change_selection_mode(self, n_mode, *args):
-        self.set_activate_on_single_click(
+        self.flowbox.set_activate_on_single_click(
             n_mode == 'single'
         )
 
     def populate(self, *args):
         # this while empties self before filling
         while True:
-            c = self.get_child_at_index(0)
+            c = self.flowbox.get_child_at_index(0)
             if c:
-                self.remove(c)
+                self.flowbox.remove(c)
                 c.destroy()
             else:
                 break
         if self.is_favorites:
             for wp in self.confman.wallpapers:
                 if wp in self.confman.conf['favorites']:
-                    self.add(WallpaperBox(wp))
+                    self.flowbox.add(WallpaperBox(wp))
         else:
             for wp in self.confman.wallpapers:
-                self.add(WallpaperBox(wp))
+                self.flowbox.add(WallpaperBox(wp))
         self.show_all()
         self.show_hide_wallpapers()
 
@@ -83,11 +83,11 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         self.show_all()
         for p in self.confman.conf['wallpapers_paths']:
             if not p['active']:
-                for c in self.get_children():
+                for c in self.flowbox.get_children():
                     if p['path'] in c.wallpaper_path:
                         c.hide()
         if not self.confman.conf['favorites_in_mainview']:
-            for c in self.get_children():
+            for c in self.flowbox.get_children():
                 if c.wallpaper_path in self.confman.conf['favorites']:
                     c.hide()
 
@@ -97,7 +97,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             child.wallpaper_path
         )
 
-    def on_wallpapersFlowbox_rightclick_or_longpress(self, gesture_or_event, x, y):
+    def on_wallpapersFlowbox_rightclick_or_longpress(self, gesture_or_event, x, y, *args):
         self.child_at_pos = self.flowbox.get_child_at_pos(x,y)
         if not self.child_at_pos:
             return
@@ -126,4 +126,5 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         if not child:
             return
         child.set_fav(not child.is_fav)
+        self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
         self.popover.popdown()
