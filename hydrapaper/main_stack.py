@@ -10,3 +10,4 @@ class HydraPapaerMainStack(Gtk.Stack):
 
         self.add_titled(self.main_flowbox, 'Wallpapers', 'Wallpapers')
         self.add_titled(self.favs_flowbox, 'Favorites', 'Favorites')
+        self.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)

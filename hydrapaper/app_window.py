@@ -36,7 +36,7 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.monitors_flowbox.set_hexpand(False)
         self.monitors_flowbox.set_halign(Gtk.Align.CENTER)
         self.container_box.pack_start(self.monitors_flowbox, False, False, 6)
-        self.container_box.pack_start(self.main_stack, True, True, 6)
+        self.container_box.pack_start(self.main_stack, True, True, 0)
         self.add(self.container_box)
         self.set_titlebar(self.headerbar)
         self.headerbar_builder.connect_signals(self)
@@ -45,15 +45,20 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
             self.confman.conf['windowsize']['width'],
             self.confman.conf['windowsize']['height']
         )
+        self.size_allocation = self.get_allocation()
+        self.connect('size-allocate', self.update_size_allocation)
+
+    def update_size_allocation(self, *args):
+        self.size_allocation = self.get_allocation()
 
     def on_applyButton_clicked(self, btn):
         apply_wallpapers(
-            self.monitors_flowbox.monitors,
-            [
+            monitors = self.monitors_flowbox.monitors,
+            widgets_to_freeze = [
                 btn,
                 self.folders_view
             ],
-            self.apply_spinner
+            spinner = self.apply_spinner
         )
         self.monitors_flowbox.dump_to_config()
 
@@ -68,9 +73,8 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
 
     def destroy(self, *args):
         change_minimize_state(state = False)
-        allocation = self.get_allocation()
         self.confman.conf['windowsize'] = {
-            'width': allocation.width,
-            'height': allocation.height
+            'width': self.size_allocation.width,
+            'height': self.size_allocation.height
         }
         self.confman.save_conf()
