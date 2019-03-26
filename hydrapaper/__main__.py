@@ -16,15 +16,8 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import sys
-import os
-import pathlib
-import json
-
 import argparse
-from gi.repository import Gtk, Wnck, Gdk, Gio, GdkPixbuf
-
-from . import wallpaper_merger as WallpaperMerger
-from . import threading_helper as ThreadingHelper
+from gi.repository import Gtk, Gio
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
 from .is_image import is_image
@@ -51,24 +44,6 @@ class Application(Gtk.Application):
         dialog.set_modal(True)
         dialog.set_transient_for(self.window)
         dialog.present()
-
-    def all_wallpaper_folder_interactives_set_sensitive(self, sensitive):
-        # listbox
-        # --> listboxrow []
-        #     --> box
-        #         --> checkbutton
-        #         --> label
-        #         --> button
-        for child in self.wallpapers_folders_popover_listbox.get_children():
-            for subchild in child.get_child().get_children():
-                if type(subchild) in [Gtk.CheckButton, Gtk.Button]:
-                    subchild.set_sensitive(sensitive)
-        self.add_to_favorites_toggle.set_sensitive(sensitive)
-        self.builder.get_object('addWallpapersPath').set_sensitive(sensitive)
-        self.on_wallpapersFoldersPopoverListbox_row_selected(
-            self.wallpapers_folders_popover_listbox,
-            self.wallpapers_folders_popover_listbox.get_selected_row()
-        )
 
     def apply_from_cli(self, wlist_cli):
         # check all the passed wallpapers to be correct
@@ -117,69 +92,6 @@ class Application(Gtk.Application):
         # call the main program do_activate() to start up the app
         self.do_activate()
         return 0
-
-    def apply_button_async_handler(self, monitors):
-        desktop_environment = os.environ.get('XDG_CURRENT_DESKTOP')
-        if desktop_environment == 'MATE':
-            wp_setter_func = WallpaperMerger.set_wallpaper_mate
-        else:
-            wp_setter_func = WallpaperMerger.set_wallpaper_gnome
-        if len(monitors) == 1:
-            wp_setter_func(monitors[0].wallpaper, 'zoom')
-            return
-        if not os.path.isdir(HYDRAPAPER_CACHE_PATH):
-            os.mkdir(HYDRAPAPER_CACHE_PATH)
-        new_wp_filename = '_'.join(([m.__repr__() for m in monitors]))
-        saved_wp_path = '{0}/{1}.png'.format(HYDRAPAPER_CACHE_PATH, hashlib.sha256(
-            'HydraPaper{0}'.format(new_wp_filename).encode()
-        ).hexdigest())
-        if not os.path.isfile(saved_wp_path):
-            WallpaperMerger.multi_setup_pillow(
-                monitors,
-                saved_wp_path
-            )
-        else:
-            print(
-                'Hit cache for wallpaper {0}. Skipping merge operation.'.format(
-                    saved_wp_path
-                )
-            )
-        wp_setter_func(saved_wp_path)
-
-    def on_applyButton_clicked(self, btn):
-        for m in self.monitors:
-            if not m.wallpaper:
-                print('Set all of the wallpapers before applying')
-                self.errorDialog.set_markup('Set all of the wallpapers before applying')
-                self.errorDialog.run()
-                self.errorDialog.hide()
-                return
-        # disable interaction
-        self.apply_button.set_sensitive(False)
-        self.monitors_flowbox.set_sensitive(False)
-        self.wallpapers_flowbox.set_sensitive(False)
-        # activate spinner
-        self.apply_spinner.show()
-        self.apply_spinner.start()
-        # run thread
-        thread = ThreadingHelper.do_async(self.apply_button_async_handler, (self.monitors[:],))
-        # wait for thread to finish
-        ThreadingHelper.wait_for_thread(thread)
-        # restore interaction and deactivate spinner
-        self.apply_button.set_sensitive(True)
-        self.monitors_flowbox.set_sensitive(True)
-        self.wallpapers_flowbox.set_sensitive(True)
-        self.apply_spinner.stop()
-        self.apply_spinner.hide()
-        self.dump_monitors_to_config()
-
-    def on_wallpapersFoldersToggle_toggled(self, toggle):
-        if toggle.get_active():
-            self.wallpapers_folders_popover.popup()
-        else:
-            self.wallpapers_folders_popover.popdown()
-
-    # Handler functions END
 
 def main():
     application = Application()

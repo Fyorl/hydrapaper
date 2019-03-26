@@ -3,7 +3,6 @@
   <gresource prefix="/org/gabmus/hydrapaper">
     <file compressed="true">org.gabmus.hydrapaper.service.desktop</file>
 
-    <file preprocess="xml-stripblanks">ui/ui.glade</file>
     <file preprocess="xml-stripblanks">aboutdialog.glade</file>
     <file preprocess="xml-stripblanks">ui/headerbar.glade</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_flowbox.glade</file>

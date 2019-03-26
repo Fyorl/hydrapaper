@@ -4,6 +4,7 @@ from .wnck_win_controller import change_minimize_state
 from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
 from .main_stack import HydraPapaerMainStack
 from .monitors_flowbox import HydraPaperMonitorsFlowbox
+from .apply_wallpapers import apply_wallpapers
 
 class HydraPaperAppWindow(Gtk.ApplicationWindow):
     def __init__(self, **kwargs):
@@ -42,7 +43,15 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.headerbar_builder.connect_signals(self)
 
     def on_applyButton_clicked(self, btn):
-        pass
+        apply_wallpapers(
+            self.monitors_flowbox.monitors,
+            [
+                btn,
+                self.folders_view
+            ],
+            self.apply_spinner
+        )
+        self.monitors_flowbox.dump_to_config()
 
     def on_menuBtn_clicked(self, btn):
         self.menu_popover.popup()
