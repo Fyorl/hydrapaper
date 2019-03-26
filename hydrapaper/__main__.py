@@ -203,61 +203,6 @@ class Application(Gtk.Application):
         else:
             self.wallpapers_folders_popover.popdown()
 
-    def add_new_wallpapers_path(self, new_path):
-        c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
-        c_wallpapers_paths.append(
-            {
-                'path': new_path,
-                'active': True
-            }
-        )
-        self.gmconfig_man.set('wallpapers_paths', c_wallpapers_paths)
-        self.fill_wallpapers_folders_popover_listbox()
-        self.refresh_wallpapers_flowbox()
-
-    def on_wallpaperSelectionModeToggle_state_set(self, switch, doubleclick_activate):
-        if doubleclick_activate:
-            self.gmconfig_man.set('selection_mode', 'double')
-        else:
-            self.gmconfig_man.set('selection_mode', 'single')
-        self.wallpapers_flowbox.set_activate_on_single_click(not doubleclick_activate)
-        self.wallpapers_flowbox_favorites.set_activate_on_single_click(not doubleclick_activate)
-
-    def on_keepFavoritesInMainviewToggle_state_set(self, switch, favs_in_mainview):
-        if self.gmconfig_man.get('favorites_in_mainview') != favs_in_mainview:
-            self.gmconfig_man.set('favorites_in_mainview', favs_in_mainview)
-            self.show_hide_wallpapers()
-
-    def on_addWallpapersPath_clicked(self, button):
-        self.builder.get_object('pathAlreadyAddedInfobarLikeRevealer').set_reveal_child(False)
-        self.builder.get_object('addFolderFileChooserDialog').run()
-
-    def on_addFolderFileChooserDialogCancelButton_clicked(self, button):
-        self.builder.get_object('addFolderFileChooserDialog').hide()
-        self.builder.get_object('pathAlreadyAddedInfobarLikeRevealer').set_reveal_child(False)
-
-    def wallpaper_path_exists(self, folder):
-        for wp in self.gmconfig_man.get('wallpapers_paths'):
-            if folder == wp['path']:
-                return True
-        return False
-
-    def on_addFolderFileChooserDialogOpenButton_clicked(self, button):
-        new_path = self.builder.get_object('addFolderFileChooserDialog').get_filename()
-        if os.path.isdir(new_path):
-            if not self.wallpaper_path_exists(new_path):
-                self.builder.get_object('addFolderFileChooserDialog').hide()
-                self.builder.get_object('pathAlreadyAddedInfobarLikeRevealer').set_reveal_child(False)
-                self.add_new_wallpapers_path(new_path)
-            else:
-                self.builder.get_object('pathAlreadyAddedInfobarLikeRevealer').set_reveal_child(True)
-
-    def on_pathAlreadyAddedInfobarLikeRevealerCloseButton_clicked(self, button):
-        self.builder.get_object('pathAlreadyAddedInfobarLikeRevealer').set_reveal_child(False)
-
-    def on_wallpapersFoldersPopoverListbox_row_selected(self, listbox, row):
-        self.builder.get_object('removeWallpapersPath').set_sensitive(not not row and self.builder.get_object('addWallpapersPath').get_sensitive())
-
     # Handler functions END
 
 def main():

@@ -81,6 +81,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
             'path': fpath,
             'active': True
         })
+        self.confman.save_conf()
         self.populate()
         self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
 
