@@ -27,6 +27,8 @@ from . import wallpaper_merger as WallpaperMerger
 from . import threading_helper as ThreadingHelper
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
+from .is_image import is_image
+from .monitor_parser import build_monitors_from_gdk
 
 class Application(Gtk.Application):
     def __init__(self, **kwargs):
@@ -68,40 +70,28 @@ class Application(Gtk.Application):
             self.wallpapers_folders_popover_listbox.get_selected_row()
         )
 
-
-    def on_wallpaper_folder_switch_toggled(self, check, state):
-        if not check.value:
-            return
-        c_wallpapers_paths = self.gmconfig_man.get('wallpapers_paths')
-        for index, folder in enumerate(c_wallpapers_paths):
-            if folder['path'] == check.value:
-                c_wallpapers_paths[index]['active'] = check.get_active()
-                self.gmconfig_man.set('wallpapers_paths', c_wallpapers_paths)
-                break
-        #self.refresh_wallpapers_flowbox()
-        self.show_hide_wallpapers()
-
-    def do_before_activate(self):
-        self.fill_monitors_flowbox()
-        self.fill_wallpapers_folders_popover_listbox()
-
     def apply_from_cli(self, wlist_cli):
         # check all the passed wallpapers to be correct
-        if len(wlist_cli) < len(self.monitors):
+        monitors = build_monitors_from_gdk()
+        if len(wlist_cli) < len(monitors):
             print(
                 'Error: you passed {0} wallpapers for {1} monitors'.format(
-                    len(wlist_cli), len(self.monitors)
+                    len(wlist_cli), len(monitors)
                 )
             )
             exit(1)
         for wpath in wlist_cli:
-            if not self.check_if_image(wpath):
+            if not is_image(wpath):
                 print('Error: {0} is not a valid image path'.format(wpath))
                 exit(1)
-        for monitor, n_wp in zip(self.monitors, wlist_cli):
+        for monitor, n_wp in zip(monitors, wlist_cli):
             monitor.wallpaper = n_wp
-        self.dump_monitors_to_config()
-        self.apply_button_async_handler(self.monitors)
+        n_monitors = {}
+        for m in monitors:
+            n_monitors[m.name] = m.wallpaper
+        self.confman.conf['monitors'] = n_monitors
+        self.confman.save_conf()
+        self.apply_button_async_handler(monitors)
 
     def do_activate(self):
         if self.args and self.args.wallpaper_path:
