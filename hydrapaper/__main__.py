@@ -81,20 +81,6 @@ class Application(Gtk.Application):
         #self.refresh_wallpapers_flowbox()
         self.show_hide_wallpapers()
 
-    def refresh_wallpapers_flowbox(self):
-        if self.wallpapers_refreshing_locked:
-            return
-        self.wallpapers_refreshing_locked = True
-        self.all_wallpaper_folder_interactives_set_sensitive(False)
-        self.empty_wallpapers_flowbox()
-        
-        get_wallpapers_thread = ThreadingHelper.do_async(self.get_wallpapers_list, (0,))
-        ThreadingHelper.wait_for_thread(get_wallpapers_thread)
-        self.fill_wallpapers_flowbox()
-        self.show_hide_wallpapers()
-        self.wallpapers_refreshing_locked = False
-        self.all_wallpaper_folder_interactives_set_sensitive(True)
-
     def do_before_activate(self):
         self.fill_monitors_flowbox()
         self.fill_wallpapers_folders_popover_listbox()

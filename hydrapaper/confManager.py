@@ -14,17 +14,17 @@ class ConfManagerSignaler(GObject.Object):
             None,
             (str,)
         ),
-        'hydrapaper_flowbox_favorites_in_mainview_changed': (
-            GObject.SIGNAL_RUN_FIRST,
-            None,
-            (str,)
-        ),
         'hydrapaper_flowbox_wallpaper_selected': (
             GObject.SIGNAL_RUN_FIRST,
             None,
             (str,)
         ),
         'hydrapaper_populate_wallpapers': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str,)
+        ),
+        'hydrapaper_show_hide_wallpapers': (
             GObject.SIGNAL_RUN_FIRST,
             None,
             (str,)

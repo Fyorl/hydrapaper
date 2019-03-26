@@ -37,7 +37,7 @@ class HydraPaperSettingsWindow(Gtk.Window):
         self.confman.conf['favorites_in_mainview'] = state
         self.confman.save_conf()
         self.confman.emit(
-            'hydrapaper_flowbox_favorites_in_mainview_changed',
+            'hydrapaper_show_hide_wallpapers',
             'notimportant'
         )
 

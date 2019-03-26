@@ -44,12 +44,12 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             self.change_selection_mode
         )
         self.confman.connect(
-            'hydrapaper_flowbox_favorites_in_mainview_changed',
-            self.show_hide_wallpapers
-        )
-        self.confman.connect(
             'hydrapaper_populate_wallpapers',
             self.populate
+        )
+        self.confman.connect(
+            'hydrapaper_show_hide_wallpapers',
+            self.show_hide_wallpapers
         )
         self.populate()
 

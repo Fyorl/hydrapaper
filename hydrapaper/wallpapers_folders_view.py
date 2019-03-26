@@ -56,7 +56,12 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         )
 
     def on_row_switch_state_set(self, state, folder_path):
-        pass
+        for i, p in enumerate(self.confman.conf['wallpapers_paths']):
+            if p['path'] == folder_path:
+                self.confman.conf['wallpapers_paths'][i]['active'] = state
+                self.confman.emit('hydrapaper_show_hide_wallpapers', 'notimportant')
+                self.confman.save_conf()
+                break
 
     def on_addWallpapersPath_clicked(self, btn):
         self.file_chooser_dialog.present()
