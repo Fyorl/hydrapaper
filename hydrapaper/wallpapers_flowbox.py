@@ -53,9 +53,9 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         )
         self.populate()
 
-    def change_selection_mode(self, n_mode, *args):
+    def change_selection_mode(self, *args):
         self.flowbox.set_activate_on_single_click(
-            n_mode == 'single'
+            self.confman.conf['selection_mode'] == 'single'
         )
 
     def populate(self, *args):

@@ -11,10 +11,10 @@
   <object class="GtkBox" id="settingsBox">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-    <property name="margin_left">6</property>
-    <property name="margin_right">6</property>
-    <property name="margin_top">6</property>
-    <property name="margin_bottom">6</property>
+    <property name="margin_left">12</property>
+    <property name="margin_right">12</property>
+    <property name="margin_top">12</property>
+    <property name="margin_bottom">12</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkBox">
@@ -39,6 +39,7 @@
           <object class="GtkSwitch" id="wallpaperSelectionModeToggle">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="margin_left">12</property>
             <signal name="state-set" handler="on_wallpaperSelectionModeToggle_state_set" swapped="no"/>
           </object>
           <packing>
@@ -88,6 +89,7 @@
           <object class="GtkSwitch" id="keepFavoritesInMainviewToggle">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
+            <property name="margin_left">12</property>
             <signal name="state-set" handler="on_keepFavoritesInMainviewToggle_state_set" swapped="no"/>
           </object>
           <packing>
@@ -139,6 +141,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="margin_left">12</property>
             <signal name="clicked" handler="on_resetFavoritesButton_clicked" swapped="no"/>
             <style>
               <class name="destructive-action"/>
@@ -192,6 +195,7 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
+            <property name="margin_left">12</property>
             <signal name="clicked" handler="on_clearCachesButton_clicked" swapped="no"/>
             <style>
               <class name="destructive-action"/>

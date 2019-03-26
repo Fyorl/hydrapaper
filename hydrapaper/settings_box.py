@@ -1,4 +1,4 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from .confManager import ConfManager
 from os.path import isfile
 from os import remove, listdir
@@ -7,6 +7,11 @@ class HydraPaperSettingsWindow(Gtk.Window):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
+
+        self.set_skip_taskbar_hint(True)
+        self.set_skip_pager_hint(True)
+        self.set_type_hint(Gdk.WindowTypeHint.DIALOG)
+
         self.builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/settings_window.glade'
         )

@@ -19,11 +19,10 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
             '/org/gabmus/hydrapaper/ui/headerbar.glade'
         )
         self.headerbar = self.headerbar_builder.get_object('headerbar')
-        self.menu_popover = self.headerbar_builder.get_object('menuPopover')
         self.wallpapers_folders_popover = self.headerbar_builder.get_object(
             'wallpapersFoldersPopover'
         )
-        self.folders_view = HydraPaperWallpapersFoldersView()
+        self.folders_view = HydraPaperWallpapersFoldersView(self)
         self.wallpapers_folders_popover.add(self.folders_view)
         self.apply_spinner = self.headerbar_builder.get_object('applySpinner')
         self.stack_switcher = self.headerbar_builder.get_object(
@@ -40,13 +39,40 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.add(self.container_box)
         self.set_titlebar(self.headerbar)
         self.headerbar_builder.connect_signals(self)
-        self.connect('destroy', self.destroy)
+        # self.connect('destroy', self.destroy)
         self.resize(
             self.confman.conf['windowsize']['width'],
             self.confman.conf['windowsize']['height']
         )
         self.size_allocation = self.get_allocation()
         self.connect('size-allocate', self.update_size_allocation)
+
+        self.menu_popover = self.headerbar_builder.get_object('menuPopover')
+        self.menu_builder = Gtk.Builder.new_from_resource(
+            '/org/gabmus/hydrapaper/ui/menu.xml'
+        )
+        self.menu = self.menu_builder.get_object('generalMenu')
+        self.menu_popover.bind_model(self.menu)
+
+        # accel_group is for keyboard shortcuts
+        self.accel_group = Gtk.AccelGroup()
+        self.add_accel_group(self.accel_group)
+        shortcuts_l = [
+            {
+                'combo': '<Control>q',
+                'cb': self.emit_destroy
+            }
+        ]
+        for s in shortcuts_l:
+            self.add_accelerator(s['combo'], s['cb'])
+
+    def add_accelerator(self, shortcut, callback):
+        if shortcut:
+            key, mod = Gtk.accelerator_parse(shortcut)
+            self.accel_group.connect(key, mod, Gtk.AccelFlags.VISIBLE, callback)
+
+    def emit_destroy(self, *args):
+        self.emit('destroy')
 
     def update_size_allocation(self, *args):
         self.size_allocation = self.get_allocation()
@@ -71,7 +97,7 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
     def on_lowerAllOtherWindowsToggle_toggled(self, toggle):
         change_minimize_state(toggle = toggle)
 
-    def destroy(self, *args):
+    def on_destroy(self, *args):
         change_minimize_state(state = False)
         self.confman.conf['windowsize'] = {
             'width': self.size_allocation.width,

@@ -1,10 +1,10 @@
-from gi.repository import Gtk
+from gi.repository import Gtk, Gdk
 from .confManager import ConfManager
 from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
 from os.path import isdir
 
 class HydraPaperWallpapersFoldersView(Gtk.Bin):
-    def __init__(self, **kwargs):
+    def __init__(self, window, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
 
@@ -29,6 +29,12 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         self.file_chooser_dialog = self.dialog_builder.get_object(
             'addFolderFileChooserDialog'
         )
+        self.file_chooser_dialog.set_skip_taskbar_hint(True)
+        self.file_chooser_dialog.set_skip_pager_hint(True)
+        self.file_chooser_dialog.set_type_hint(Gdk.WindowTypeHint.DIALOG)
+        self.file_chooser_dialog.set_modal(True)
+        self.file_chooser_dialog.set_transient_for(window)
+        self.file_chooser_dialog.set_attached_to(window)
         self.file_chooser_dialog_revealer = self.dialog_builder.get_object(
             'infoRevealer'
         )
