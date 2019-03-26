@@ -1,6 +1,6 @@
 /build
 __pycache__
-ui.glade\~
+*.glade\~
 *.o
 .deps
 /**/*.swp

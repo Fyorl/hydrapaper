@@ -1,6 +1,7 @@
 from gi.repository import Gtk
 from .confManager import ConfManager
 from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
+from os.path import isdir
 
 class HydraPaperWallpapersFoldersView(Gtk.Bin):
     def __init__(self, **kwargs):
@@ -21,6 +22,17 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
 
         self.builder.connect_signals(self)
         self.populate()
+
+        self.dialog_builder = Gtk.Builder.new_from_resource(
+            '/org/gabmus/hydrapaper/ui/choose_folder_dialog.glade'
+        )
+        self.file_chooser_dialog = self.dialog_builder.get_object(
+            'addFolderFileChooserDialog'
+        )
+        self.file_chooser_dialog_revealer = self.dialog_builder.get_object(
+            'infoRevealer'
+        )
+        self.dialog_builder.connect_signals(self)
 
     def populate(self):
         while True:
@@ -47,7 +59,30 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         pass
 
     def on_addWallpapersPath_clicked(self, btn):
-        pass
+        self.file_chooser_dialog.present()
+
+    def on_addFolderFileChooserDialogCancelButton_clicked(self, btn):
+        self.file_chooser_dialog.hide()
+        self.file_chooser_dialog_revealer.set_reveal_child(False)
+
+    def on_infoRevealerCloseBtn_clicked(self, btn):
+        self.file_chooser_dialog_revealer.set_reveal_child(False)
+
+    def on_addFolderFileChooserDialogOpenButton_clicked(self, btn):
+        fpath = self.file_chooser_dialog.get_filename()
+        if not isdir(fpath):
+            return
+        if fpath in [wp['path'] for wp in self.confman.conf['wallpapers_paths']]:
+            self.file_chooser_dialog_revealer.set_reveal_child(True)
+            return
+        self.file_chooser_dialog.hide()
+        self.file_chooser_dialog_revealer.set_reveal_child(False)
+        self.confman.conf['wallpapers_paths'].append({
+            'path': fpath,
+            'active': True
+        })
+        self.populate()
+        self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
 
     def on_removeWallpapersPath_clicked(self, btn):
         row = self.listbox.get_selected_row()
