@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=HydraPaper
-Comment=Wallpaper manager with multimonitor support for GNOME
-Exec=@bindir@/hydrapaper %U
-Icon=org.gabmus.hydrapaper
+Name=@prettyname@
+Comment=@description@
+Exec=@bindir@/@projectname@ %U
+Icon=@appid@
 Terminal=false
 Type=Application
 StartupNotify=true

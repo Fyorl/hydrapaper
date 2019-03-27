@@ -23,6 +23,7 @@ from .app_window import HydraPaperAppWindow
 from .settings_box import HydraPaperSettingsWindow
 from .is_image import is_image
 from .monitor_parser import build_monitors_from_gdk
+from .apply_wallpapers import apply_wallpapers
 
 class HydraPaperApplication(Gtk.Application):
     def __init__(self, **kwargs):
@@ -114,11 +115,11 @@ class HydraPaperApplication(Gtk.Application):
             n_monitors[m.name] = m.wallpaper
         self.confman.conf['monitors'] = n_monitors
         self.confman.save_conf()
-        self.apply_button_async_handler(monitors)
+        apply_wallpapers(monitors)
 
     def do_activate(self):
         self.add_window(self.window)
-        if False and self.args and self.args.wallpaper_path:
+        if self.args and self.args.wallpaper_path:
             self.apply_from_cli(self.args.wallpaper_path[0])
             self.quit()
             exit(0)

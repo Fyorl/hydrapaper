@@ -1,8 +1,8 @@
 #!@PYTHON@
 
-# hydrapaper
+# @projectname@
 #
-# Copyright (C) 2016 Gabriele Musco <emaildigabry@gmail.com>
+# Copyright (C) 2019 @authorfullname@ <@authoremail@>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -47,8 +47,8 @@ if __name__ == '__main__':
 
 
     from gi.repository import Gio
-    resource = Gio.Resource.load(os.path.join(pkgdatadir, 'org.gabmus.hydrapaper.gresource'))
+    resource = Gio.Resource.load(os.path.join(pkgdatadir, '@appid@.gresource'))
     resource._register()
 
-    from hydrapaper import __main__
+    from @projectname@ import __main__
     __main__.main()

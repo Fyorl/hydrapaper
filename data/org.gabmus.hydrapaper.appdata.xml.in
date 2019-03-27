@@ -1,25 +1,35 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-    <id>org.gabmus.hydrapaper.desktop</id>
+    <id>@appid@.desktop</id>
     <!-- <translation type="gettext">trg</translation> -->
-    <name>HydraPaper</name>
-    <developer_name>Gabriele Musco</developer_name>
-    <summary>Wallpaper manager with multimonitor support for GNOME</summary>
+    <name>@prettyname@</name>
+    <developer_name>@authorfullname@</developer_name>
+    <summary>@description@</summary>
     <metadata_license>CC0-1.0</metadata_license>
-    <project_license>GPL-3.0+</project_license>
+    <project_license>@prettylicense@</project_license>
     <description>
         <p>Hydrapaper lets you set different wallpapers for each of your monitors in the GNOME desktop.</p>
         <p>It uses Pillow to create a single image merging all of your chosen wallpapers and setting it as your wallpaper with the "Spanned" option.</p>
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>https://gitlab.com/gabmus/HydraPaper/raw/master/screenshot.png</image>
+            <image>@gitrepo@/raw/master/screenshot.png</image>
         </screenshot>
     </screenshots>
-    <url type="homepage">https://gitlab.com/GabMus/hydrapaper</url>
-    <url type="bugtracker">https://gitlab.com/GabMus/hydrapaper/issues</url>
-    <update_contact>emaildigabry@gmail.com</update_contact>
+    <url type="homepage">@gitrepo@</url>
+    <url type="bugtracker">@gitrepo@/issues</url>
+    <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.5" timestamp="1553675339">
+            <description>
+                <ul>
+                    <li>Complete code refactoring</li>
+                    <li>Made the whole build system more modular</li>
+                    <li>Moved app menu to the headerbar</li>
+                    <li>Initial support for keyboard shortcuts</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.4.2" timestamp="1549205990">
             <description>
                 <ul>

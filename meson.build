@@ -1,40 +1,35 @@
 project('hydrapaper',
-  version: '1.4.2',
-  meson_version: '>= 0.40.0'
+    version: '1.5',
+    meson_version: '>= 0.40.0',
+    license: 'GPL3'
 )
 
-# i18n = import('i18n')
-python3 = import('python3')
-python = import('python3')
-prefix = get_option('prefix')
-pkgdatadir = join_paths(prefix, get_option('datadir'), meson.project_name())
-DATA_DIR = pkgdatadir
-pythondir = join_paths(prefix, python3.sysconfig_path('purelib'))
-python_dir = pythondir
+description = 'Wallpaper manager with multimonitor support for GNOME'
+prettyname = 'HydraPaper'
+prettylicense = 'GPL-3.0+'
 
-install_subdir('hydrapaper', install_dir: pythondir)
+author = 'gabmus'
+authorfullname = 'Gabriele Musco'
+authoremail = 'emaildigabry@gmail'
+domain = 'org'
+# app_id built as: domain.author.project_name
+gitrepo = 'https://gitlab.com/'+author+'/'+meson.project_name()
+
+# NOTE: if you contributed, feel free to add your name and email address here
+contributors = '\n'.join([
+    'Gabriele Musco (GabMus) &lt;emaildigabry@gmail.com&gt;',
+    'Alex Hunt (huntie) &lt;hello@alexhunt.io&gt;'
+])
+
+# i18n = import('i18n')
+python = import('python3')
+gnome = import('gnome')
+prefix = get_option('prefix') # should be /usr
+bindir = get_option('bindir') # should be bin
+datadir = get_option('datadir') # should be /usr/share
+pkgdatadir = join_paths(prefix, datadir, meson.project_name())
+pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
+
+install_subdir(meson.project_name(), install_dir: pythondir)
 subdir('data')
 subdir('bin')
-
-meson.add_install_script('scripts/meson_post_install.py')
-
-if get_option('with-flatpak')
-  # We keep a generic manifest in the repo you can use but
-  # we want builds to use the local files so simply rewrite it
-  make_local_manifest = find_program('scripts/make_local_manifest.py')
-  local_manifest = custom_target('manifest',
-    input: 'dist/flatpak/org.gabmus.hydrapaper.json',
-    output: 'org.gabmus.hydrapaper.json',
-    command: [make_local_manifest, '@INPUT@', '@OUTPUT@']
-  )
-
-  # Build a bundle for both testing and releases
-  build_flatpak = find_program('scripts/build_flatpak.py')
-  custom_target('flatpak',
-    input: local_manifest,
-    output: 'org.gabmus.hydrapaper.flatpak',
-    command: [build_flatpak, '@INPUT@', '@OUTPUT@'],
-    build_always: true
-    # TODO: This shouldn't build unless explicit
-  )
-endif
