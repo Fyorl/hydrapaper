@@ -20,6 +20,13 @@
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.5.1" timestamp="1553698201">
+            <description>
+                <ul>
+                    <li>Fixed wallpapers not hiding on startup</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.5" timestamp="1553675339">
             <description>
                 <ul>

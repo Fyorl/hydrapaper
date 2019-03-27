@@ -77,6 +77,10 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
     def update_size_allocation(self, *args):
         self.size_allocation = self.get_allocation()
 
+    def show_all(self, **kwargs):
+        super().show_all(**kwargs)
+        self.main_stack.main_flowbox.show_hide_wallpapers()
+
     def on_applyButton_clicked(self, btn):
         apply_wallpapers(
             monitors = self.monitors_flowbox.monitors,
