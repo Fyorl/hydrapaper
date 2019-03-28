@@ -1,11 +1,18 @@
 from .singleton import Singleton
-from gi.repository import GObject
+from gi.repository import GObject, GLib
 from pathlib import Path
 from os.path import isfile, isdir
 from .is_image import is_image
-from os import makedirs, listdir
+from os import makedirs, listdir, system
 from os import environ as Env
 import json
+
+pictures_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
+if not pictures_dir:
+    system('xdg-user-dirs-update')
+    pictures_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
+    if not pictures_dir:
+        pictures_dir = f'{Env.get("HOME")}/Pictures'
 
 class ConfManagerSignaler(GObject.Object):
     __gsignals__ = {
@@ -36,7 +43,7 @@ class ConfManager(metaclass=Singleton):
     BASE_SCHEMA = {
         'wallpapers_paths': [
             {
-                'path': f'{Env.get("HOME")}/Pictures',
+                'path': pictures_dir,
                 'active': True
             }
         ],
@@ -105,11 +112,14 @@ class ConfManager(metaclass=Singleton):
 
     def populate_wallpapers(self):
         self.wallpapers = []
-        for folder in self.conf['wallpapers_paths']:
-            for f in listdir(folder['path']):
-                f_path = f'{folder["path"]}/{f}'
-                if is_image(f_path):
-                    self.wallpapers.append(f_path)
+        for index, folder in enumerate(self.conf['wallpapers_paths']):
+            if isdir(folder['path']):
+                for f in listdir(folder['path']):
+                    f_path = f'{folder["path"]}/{f}'
+                    if is_image(f_path):
+                        self.wallpapers.append(f_path)
+            else:
+                self.conf['wallpaper_paths'].pop(index)
         self.emit(
             'hydrapaper_populate_wallpapers',
             'notimportant'

@@ -20,6 +20,14 @@
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.5.2" timestamp="1553762223">
+            <description>
+                <ul>
+                    <li>Get correct localized Pictures folder on first startup</li>
+                    <li>App doesn't crash anymore if a folder doesn't exist</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.5.1" timestamp="1553698201">
             <description>
                 <ul>
