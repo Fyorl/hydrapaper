@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <schemalist>
-    <schema path="@apppath@/" id="@appid@" gettext-domain="@projectname@">
+    <schema path="/@apppath@/" id="@appid@" gettext-domain="@projectname@">
 
     <!-- <key type="s" name="username">
       <default>""</default>
