@@ -119,7 +119,7 @@ class ConfManager(metaclass=Singleton):
                     if is_image(f_path):
                         self.wallpapers.append(f_path)
             else:
-                self.conf['wallpaper_paths'].pop(index)
+                self.conf['wallpapers_paths'].pop(index)
         self.emit(
             'hydrapaper_populate_wallpapers',
             'notimportant'
