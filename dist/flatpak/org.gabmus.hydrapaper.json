@@ -23,8 +23,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://download.gnome.org/sources/libwnck/3.30/libwnck-3.30.0.tar.xz",
-                    "sha256": "ac6d0d2646aa80676d3066651e73abb7bff7ed79be238c9b21a0083e2adc3439"
+                    "url": "https://download.gnome.org/sources/libwnck/3.32/libwnck-3.32.0.tar.xz",
+                    "sha256": "9595835cf28d0fc6af5526a18f77f2fcf3ca8c09e36741bb33915b6e69b8e3ca"
                 }
             ]
         },
@@ -57,8 +57,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/python-pillow/Pillow/archive/5.4.1.tar.gz",
-                    "sha256": "d233c2e63414535281c572d2b4debd7de8a205b341ffc7db0f48f3f4d199fbc0"
+                    "url": "https://github.com/python-pillow/Pillow/archive/6.0.0.tar.gz",
+                    "sha256": "f0babf5d7072ea9923a3950cd7ea41b0008429b16584de7d95cc5550a2806cda"
                 },
                 {
                     "type": "shell",
@@ -75,8 +75,8 @@
             "config-opts": ["--buildtype=release"],
             "sources": [{
                 "type": "archive",
-                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.5.2/HydraPaper-1.5.2.tar.gz",
-                "sha256": "092b7360cbf8cf0a0fe90455d60771133a45679baf423de3c4d1952001321837"
+                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.5.3/HydraPaper-1.5.3.tar.gz",
+                "sha256": ""
             }]
         }
     ]

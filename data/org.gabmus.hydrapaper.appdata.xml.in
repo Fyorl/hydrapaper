@@ -20,6 +20,13 @@
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.5.3" timestamp="1559461094">
+            <description>
+                <ul>
+                    <li>Fixing startup error when added folders get deleted</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.5.2" timestamp="1553762223">
             <description>
                 <ul>
