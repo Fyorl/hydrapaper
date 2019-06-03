@@ -75,8 +75,8 @@
             "config-opts": ["--buildtype=release"],
             "sources": [{
                 "type": "archive",
-                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.5.3/HydraPaper-1.5.3.tar.gz",
-                "sha256": "a75ddc5d7c132acc163a07ef2345057f585b92877cd3ddeed391840a22a5f403"
+                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.6/HydraPaper-1.6.tar.gz",
+                "sha256": ""
             }]
         }
     ]

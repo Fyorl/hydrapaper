@@ -20,6 +20,13 @@
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.6" timestamp="1559574845">
+            <description>
+                <ul>
+                    <li>Added random wallpaper functionality from command line with -r option</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.5.3" timestamp="1559461094">
             <description>
                 <ul>
