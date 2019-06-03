@@ -94,6 +94,20 @@ class HydraPaperApplication(Gtk.Application):
         settings_win.set_modal(True)
         settings_win.present()
 
+    def apply_random(self):
+        from random import randint
+        monitors = build_monitors_from_gdk()
+        all_wallpapers = self.confman.wallpapers
+        wallpapers = []
+        for i in range(len(monitors)):
+            n_wp = -1
+            while n_wp == -1 or n_wp in wallpapers:
+                n_wp = all_wallpapers[
+                    randint(0,len(all_wallpapers)-1)
+                ]
+            wallpapers.append(n_wp)
+        self.apply_from_cli(wallpapers)
+
     def apply_from_cli(self, wlist_cli):
         # check all the passed wallpapers to be correct
         monitors = build_monitors_from_gdk()
@@ -119,10 +133,15 @@ class HydraPaperApplication(Gtk.Application):
 
     def do_activate(self):
         self.add_window(self.window)
-        if self.args and self.args.wallpaper_path:
-            self.apply_from_cli(self.args.wallpaper_path[0])
-            self.quit()
-            exit(0)
+        if self.args:
+            if self.args.wallpaper_path:
+                self.apply_from_cli(self.args.wallpaper_path[0])
+                self.quit()
+                exit(0)
+            if self.args.set_random:
+                self.apply_random()
+                self.quit()
+                exit(0)
         self.window.present()
         self.window.show_all()
 
@@ -136,6 +155,7 @@ class HydraPaperApplication(Gtk.Application):
         # make a command line parser
         parser = argparse.ArgumentParser()
         parser.add_argument('-c', '--cli', dest='wallpaper_path', nargs='+', action='append', help='set wallpapers from command line')
+        parser.add_argument('-r', '--random', dest='set_random', action='store_true', help='set wallpapers randomly')
         # parse the command line stored in args, but skip the first element (the filename)
         self.args = parser.parse_args(args.get_arguments()[1:])
         # call the main program do_activate() to start up the app
