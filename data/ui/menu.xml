@@ -3,6 +3,12 @@
     <menu id="generalMenu">
         <section>
             <item>
+                <attribute name="label">Set random wallpapers</attribute>
+                <attribute name="action">app.set_random_wallpaper</attribute>
+            </item>
+        </section>
+        <section>
+            <item>
                 <attribute name="label">Settings</attribute>
                 <attribute name="action">app.settings</attribute>
             </item>

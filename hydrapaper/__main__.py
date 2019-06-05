@@ -41,6 +41,10 @@ class HydraPaperApplication(Gtk.Application):
 
         actions = [
             {
+                'name': 'set_random_wallpaper',
+                'func': self.apply_random
+            },
+            {
                 'name': 'settings',
                 'func': self.show_settings_window
             },
@@ -94,7 +98,7 @@ class HydraPaperApplication(Gtk.Application):
         settings_win.set_modal(True)
         settings_win.present()
 
-    def apply_random(self):
+    def apply_random(self, *args):
         from random import randint
         monitors = build_monitors_from_gdk()
         all_wallpapers = self.confman.wallpapers
