@@ -9,3 +9,7 @@ StartupNotify=true
 MimeType=
 Categories=Utility;GTK;GNOME;
 Keywords=wallpaper;background;monitor;
+
+[Desktop Action set-random-wallpapers]
+Name=Set random wallpapers
+Exec=@bindir@/@projectname@ --random
