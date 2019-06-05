@@ -20,6 +20,14 @@
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.7" timestamp="1559744416">
+            <description>
+                <ul>
+                    <li>New icon! Should be closer to GNOME HIG.</li>
+                    <li>Exposed random wallpaper functionality from the in-app menu and desktop file</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.6" timestamp="1559574845">
             <description>
                 <ul>
