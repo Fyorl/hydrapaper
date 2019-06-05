@@ -76,7 +76,7 @@
             "sources": [{
                 "type": "archive",
                 "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.7/HydraPaper-1.7.tar.gz",
-                "sha256": ""
+                "sha256": "f97039bdc206efd1f49497ca396042e22d75c8b6947535d1abb6d0f9502e167b"
             }]
         }
     ]
