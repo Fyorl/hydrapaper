@@ -20,6 +20,14 @@
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.7.3" timestamp="1561993358">
+            <description>
+                <ul>
+                    <li>Properly implemented MATE support</li>
+                    <li>Added post-installation commands</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.7.2" timestamp="1561968407">
             <description>
                 <ul>

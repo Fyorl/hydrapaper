@@ -1,7 +1,6 @@
 from gi.repository import Gio
 from PIL import Image
 from PIL.ImageOps import fit
-from subprocess import Popen
 from .confManager import ConfManager
 
 TMP_DIR='/tmp/HydraPaper/'
@@ -37,24 +36,8 @@ def set_wallpaper_gnome(path, wp_mode='spanned'):
     gsettings.set_string(mode_key, wp_mode)
 
 def set_wallpaper_mate(path, wp_mode='spanned'):
-    # TODO make this work with plain Gio.Settings
-    # As of now I can't seem to be able to set mate gsettings
-    # If running under flatpak, for now getting out of the sandbox with
-    # flatpak-spawn --host is the only way to properly support MATE
-    confman = ConfManager()
-    if confman.is_flatpak:
-        cmds = [
-            f'gsettings set org.mate.background picture-filename {path}',
-            f'gsettings set org.mate.background picture-options {wp_mode}'
-        ]
-        for cmd in cmds:
-            Popen(
-                f'flatpak-spawn --host {cmd}',
-                shell=True
-            )
-    else:
-        gsettings = Gio.Settings.new('org.mate.background')
-        wp_key = 'picture-filename'
-        mode_key = 'picture-options'
-        gsettings.set_string(wp_key, path)
-        gsettings.set_string(mode_key, wp_mode)
+    gsettings = Gio.Settings.new('org.mate.background')
+    wp_key = 'picture-filename'
+    mode_key = 'picture-options'
+    gsettings.set_string(wp_key, path)
+    gsettings.set_string(mode_key, wp_mode)

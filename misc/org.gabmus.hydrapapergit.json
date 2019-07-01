@@ -9,7 +9,6 @@
         "--socket=x11",
         "--socket=wayland",
         "--talk-name=org.gnome.SettingsDaemon",
-        "--talk-name=org.mate.SettingsDaemon",
         "--filesystem=home:ro",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
@@ -65,6 +64,23 @@
                     "commands": [
                         "sed -i 's/if not platform_/if not dirs/' setup.py"
                     ]
+                }
+            ]
+        },
+        {
+            "name": "mate-desktop-background-gschema",
+            "buildsystem": "simple",
+            "build-commands": [
+            	"mkdir -p /app/share/glib-2.0/schemas/",
+            	"sed 's#@datadir@#\\/usr\\/share#g' schemas/org.mate.background.gschema.xml.in > schemas/org.mate.background.gschema.xml",
+                "install schemas/org.mate.background.gschema.xml /app/share/glib-2.0/schemas/",
+                "glib-compile-schemas /app/share/glib-2.0/schemas"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/mate-desktop/mate-desktop/archive/v1.23.1.tar.gz",
+                    "sha256": "4bfc81aaaba468b4e39d6aec7fe772d3405f3766058c49168f65cfe4a14e0b47"
                 }
             ]
         },

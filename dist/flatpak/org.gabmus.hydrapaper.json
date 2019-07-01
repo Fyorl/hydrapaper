@@ -9,8 +9,6 @@
         "--socket=x11",
         "--socket=wayland",
         "--talk-name=org.gnome.SettingsDaemon",
-        "--talk-name=org.mate.SettingsDaemon",
-        "--talk-name=org.freedesktop.Flatpak",
         "--filesystem=home:ro",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
@@ -70,14 +68,31 @@
             ]
         },
         {
+            "name": "mate-desktop-background-gschema",
+            "buildsystem": "simple",
+            "build-commands": [
+            	"mkdir -p /app/share/glib-2.0/schemas/",
+            	"sed 's#@datadir@#\\/usr\\/share#g' schemas/org.mate.background.gschema.xml.in > schemas/org.mate.background.gschema.xml",
+                "install schemas/org.mate.background.gschema.xml /app/share/glib-2.0/schemas/",
+                "glib-compile-schemas /app/share/glib-2.0/schemas"
+            ],
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://github.com/mate-desktop/mate-desktop/archive/v1.23.1.tar.gz",
+                    "sha256": "4bfc81aaaba468b4e39d6aec7fe772d3405f3766058c49168f65cfe4a14e0b47"
+                }
+            ]
+        },
+        {
             "name": "hydrapaper",
             "buildsystem": "meson",
             "builddir": true,
             "config-opts": ["--buildtype=release"],
             "sources": [{
                 "type": "archive",
-                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.7.2/HydraPaper-1.7.2.tar.gz",
-                "sha256": "afdfd5a22b9706933b2abde331fd922bf76b279f9a8a332373aac86079330ee6"
+                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.7.3/HydraPaper-1.7.3.tar.gz",
+                "sha256": ""
             }]
         }
     ]

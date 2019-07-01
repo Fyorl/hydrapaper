@@ -1,5 +1,5 @@
 project('hydrapaper',
-    version: '1.7.2',
+    version: '1.7.3',
     meson_version: '>= 0.40.0',
     license: 'GPL3'
 )
@@ -33,3 +33,6 @@ pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
 install_subdir(meson.project_name(), install_dir: pythondir)
 subdir('data')
 subdir('bin')
+
+
+meson.add_install_script('meson_post_install.py')
