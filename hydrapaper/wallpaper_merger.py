@@ -1,7 +1,7 @@
 from gi.repository import Gio
 from PIL import Image
 from PIL.ImageOps import fit
-from os import Popen
+from subprocess import Popen
 from .confManager import ConfManager
 
 TMP_DIR='/tmp/HydraPaper/'
