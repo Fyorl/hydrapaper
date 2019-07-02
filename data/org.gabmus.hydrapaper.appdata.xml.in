@@ -13,7 +13,19 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>@gitrepo@/raw/master/screenshot.png</image>
+            <image>@gitrepo@/raw/master/website/screenshots/mainwindow.png</image>
+        </screenshot>
+        <screenshot>
+            <image>@gitrepo@/raw/master/website/screenshots/folders.png</image>
+        </screenshot>
+        <screenshot>
+            <image>@gitrepo@/raw/master/website/screenshots/favorites.png</image>
+        </screenshot>
+        <screenshot>
+            <image>@gitrepo@/raw/master/website/screenshots/favorites2.png</image>
+        </screenshot>
+        <screenshot>
+            <image>@gitrepo@/raw/master/website/screenshots/random.png</image>
         </screenshot>
     </screenshots>
     <url type="homepage">@gitrepo@</url>
