@@ -28,7 +28,7 @@
             <image>@gitrepo@/raw/master/website/screenshots/random.png</image>
         </screenshot>
     </screenshots>
-    <url type="homepage">@gitrepo@</url>
+    <url type="homepage">@website@</url>
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>

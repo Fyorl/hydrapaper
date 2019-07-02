@@ -2,7 +2,7 @@ LIBEXEC_DIR = join_paths(get_option('prefix'), get_option('libexecdir'))
 EXTENSION_DIR = join_paths(get_option('prefix'), get_option('libdir'), meson.project_name())
 
 glade_conf = configuration_data()
-glade_conf.set('PACKAGE_URL', gitrepo)
+glade_conf.set('PACKAGE_URL', website)
 glade_conf.set('DATA_DIR', pkgdatadir)
 glade_conf.set('EXTENSION_DIR', EXTENSION_DIR)
 glade_conf.set('LOCALE_DIR', join_paths(get_option('prefix'), get_option('datadir'), 'locale'))

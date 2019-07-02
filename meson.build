@@ -14,6 +14,7 @@ authoremail = 'emaildigabry@gmail'
 domain = 'org'
 # app_id built as: domain.author.project_name
 gitrepo = 'https://gitlab.com/'+author+'/'+meson.project_name()
+website = 'http://'+meson.project_name()+'.'+author+'.org'
 
 # NOTE: if you contributed, feel free to add your name and email address here
 contributors = '\n'.join([
