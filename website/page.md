@@ -1,6 +1,6 @@
 <nav>
 
-- <span>![](./logo-symbolic.svg) **HydraPaper**</span>
+- [<span>![](./logo-symbolic.svg) **HydraPaper**</span>](#)
 - [Features](#features)
 - [Install](#install)
 - [Hack](#hack)
