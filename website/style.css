@@ -75,12 +75,18 @@ body, html {
     vertical-align: middle;
 }
 
+@media only screen and (max-width: 450px) {
+    #markdown nav ul li span strong {
+        display: none;
+    }
+}
+
 h1, h2, h3, p {
     text-align: center;
 }
 
 h1 {
-    font-size: 5rem;
+    font-size: 4rem;
     font-weight: normal;
 }
 

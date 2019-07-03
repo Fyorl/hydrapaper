@@ -4,7 +4,7 @@
 - [Features](#features)
 - [Install](#install)
 - [Hack](#hack)
-- [Report issues](#report-issues)
+- [Support](#support)
 
 </nav>
 
@@ -72,7 +72,7 @@ HydraPaper is written using Python 3 and GTK+ 3. It's free software, released un
 
 ---
 
-## Report issues
+## Support
 
 ![Bug](icons/bug.svg)
 
