@@ -66,7 +66,7 @@ If you're using Arch Linux or an Arch based system, you can install the [`hydrap
 
 ## Hack
 
-![Code]()
+![Code](icons/code.svg)
 
 HydraPaper is written using Python 3 and GTK+ 3. It's free software, released under the GPL3 license. Feel free to browse the source code on [the GitLab repository](https://gitlab.com/gabmus/hydrapaper), fork it, make changes or open issues!
 
@@ -74,6 +74,6 @@ HydraPaper is written using Python 3 and GTK+ 3. It's free software, released un
 
 ## Report issues
 
-![Bug]()
+![Bug](icons/bug.svg)
 
 Have you found a bug? Do you want a new feature? Whatever the case, opening an issue is never a bad idea. You can do that on [the issue page of HydraPaper's GitLab repository](https://gitlab.com/gabmus/hydrapaper)
