@@ -1,13 +1,13 @@
-# Italian translations for HydraPaper package.
-# Copyright (C) 2019 THE HydraPaper'S COPYRIGHT HOLDER
+# Italian translations for PACKAGE package.
+# Copyright (C) 2019 THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the HydraPaper package.
 # Gabriele Musco <emaildigabry@gmail.com>, 2019.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: HydraPaper \n"
+"Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-14 11:23+0200\n"
+"POT-Creation-Date: 2019-07-14 12:54+0200\n"
 "PO-Revision-Date: 2019-07-13 13:17+0200\n"
 "Last-Translator: Gabriele Musco <emaildigabry@gmail.com>\n"
 "Language-Team: Italian\n"
@@ -17,13 +17,22 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
+#: ../hydrapaper/main_stack.py:12
+msgid "Wallpapers"
+msgstr "Sfondi"
+
+#: ../hydrapaper/main_stack.py:13
+msgid "Favorites"
+msgstr "Preferiti"
+
 #: ../hydrapaper/wallpaper_flowbox_item.py:78
 msgid "ERROR: cannot create thumbnail for file"
 msgstr "ERRORE: impossibile creare miniatura per il file"
 
-#: ../hydrapaper/monitor_parser.py:44
-msgid "Error parsing monitors (Gdk)"
-msgstr "Errore nell'analisi dei monitor (Gdk)"
+#: ../hydrapaper/apply_wallpapers.py:32
+#, python-brace-format
+msgid "Hit cache for {0}. Skipping merge"
+msgstr "Collisione cache per {0}. Sto saltando l'unione"
 
 #: ../hydrapaper/__main__.py:121
 #, python-brace-format
@@ -43,18 +52,9 @@ msgstr "imposta sfondi dalla linea di comando"
 msgid "set wallpapers randomly"
 msgstr "imposta sfondi casualmente"
 
-#: ../hydrapaper/main_stack.py:12
-msgid "Wallpapers"
-msgstr "Sfondi"
-
-#: ../hydrapaper/main_stack.py:13
-msgid "Favorites"
-msgstr "Preferiti"
-
-#: ../hydrapaper/apply_wallpapers.py:32
-#, python-brace-format
-msgid "Hit cache for {0}. Skipping merge"
-msgstr "Collisione cache per {0}. Sto saltando l'unione"
+#: ../hydrapaper/monitor_parser.py:44
+msgid "Error parsing monitors (Gdk)"
+msgstr "Errore nell'analisi dei monitor (Gdk)"
 
 #: ../hydrapaper/wallpapers_flowbox.py:108
 msgid "Remove favorite"
@@ -63,6 +63,14 @@ msgstr "Rimuovi preferito"
 #: ../hydrapaper/wallpapers_flowbox.py:110
 msgid "Add favorite"
 msgstr "Aggiungi preferito"
+
+#: ../data/ui/headerbar.glade:29
+msgid "Lower all other windows"
+msgstr "Abbassa tutte le altre finestre"
+
+#: ../data/ui/headerbar.glade:60
+msgid "Apply"
+msgstr "Applica"
 
 #: ../data/ui/menu.xml:6
 msgid "Set random wallpapers"
@@ -83,22 +91,6 @@ msgstr "Informazioni"
 #: ../data/ui/menu.xml:24 ../data/ui/shortcutsWindow.xml:13
 msgid "Quit"
 msgstr "Esci"
-
-#: ../data/ui/choose_folder_dialog.glade:22
-msgid "Add a wallpapers folder"
-msgstr "Aggiungi una cartella di sfondi"
-
-#: ../data/ui/choose_folder_dialog.glade:89
-msgid "Selected path has already been added"
-msgstr "Il percorso selezionato è già stato aggiunto"
-
-#: ../data/ui/choose_folder_dialog.glade:106
-msgid "Close\n"
-msgstr "Chiudi\n"
-
-#: ../data/ui/shortcutsWindow.xml:9
-msgid "General"
-msgstr "Generale"
 
 #: ../data/ui/settings_window.glade:30
 msgid "Select wallpapers with a double click"
@@ -124,22 +116,6 @@ msgstr "Pulisci tutte le cache"
 msgid "Clear caches"
 msgstr "Pulisci le cache"
 
-#: ../data/ui/wallpapers_folders_view.glade:51
-msgid "Add"
-msgstr "Aggiungi"
-
-#: ../data/ui/wallpapers_folders_view.glade:73
-msgid "Remove"
-msgstr "Rimuovi"
-
-#: ../data/ui/headerbar.glade:29
-msgid "Lower all other windows"
-msgstr "Abbassa tutte le altre finestre"
-
-#: ../data/ui/headerbar.glade:60
-msgid "Apply"
-msgstr "Applica"
-
 #: ../data/ui/wallpapers_flowbox.glade:19
 msgid "title"
 msgstr "titolo"
@@ -147,3 +123,27 @@ msgstr "titolo"
 #: ../data/ui/wallpapers_flowbox.glade:61
 msgid "Path:"
 msgstr "Percorso:"
+
+#: ../data/ui/choose_folder_dialog.glade:22
+msgid "Add a wallpapers folder"
+msgstr "Aggiungi una cartella di sfondi"
+
+#: ../data/ui/choose_folder_dialog.glade:89
+msgid "Selected path has already been added"
+msgstr "Il percorso selezionato è già stato aggiunto"
+
+#: ../data/ui/choose_folder_dialog.glade:106
+msgid "Close\n"
+msgstr "Chiudi\n"
+
+#: ../data/ui/shortcutsWindow.xml:9
+msgid "General"
+msgstr "Generale"
+
+#: ../data/ui/wallpapers_folders_view.glade:51
+msgid "Add"
+msgstr "Aggiungi"
+
+#: ../data/ui/wallpapers_folders_view.glade:73
+msgid "Remove"
+msgstr "Rimuovi"
