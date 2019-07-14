@@ -34,7 +34,7 @@
         </child>
         <child>
           <object class="GtkButton" id="favoriteBtn">
-            <property name="label" translatable="yes">❤️ Add favorite</property>
+            <property name="label" translatable="yes">Add favorite</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
@@ -77,7 +77,6 @@
                     <property name="can_focus">True</property>
                     <property name="editable">False</property>
                     <property name="max_width_chars">30</property>
-                    <property name="text" translatable="yes">/home/gabmus/Pictures/Wallpapers/some/other/folder/wp.jpg</property>
                   </object>
                 </child>
               </object>

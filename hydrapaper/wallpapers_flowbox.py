@@ -1,3 +1,4 @@
+from gettext import gettext as _
 from gi.repository import Gtk
 from .confManager import ConfManager
 from .wallpaper_flowbox_item import WallpaperBox
@@ -104,9 +105,9 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         self.popover.set_relative_to(self.child_at_pos)
         self.flowbox.select_child(self.child_at_pos)
         if self.is_favorites or self.child_at_pos.is_fav:
-            self.favorite_btn.set_label('💔 Remove favorite')
+            self.favorite_btn.set_label(_('Remove favorite'))
         else:
-            self.favorite_btn.set_label('❤️ Add favorite')
+            self.favorite_btn.set_label(_('Add favorite'))
         wp_path = self.child_at_pos.get_child().wallpaper_path
         self.wallpaper_path_entry.set_text(wp_path)
         self.wallpaper_name_label.set_text(pathlib.Path(wp_path).name)

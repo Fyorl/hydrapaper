@@ -15,6 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
+from gettext import gettext as _
 import sys
 import argparse
 from gi.repository import Gtk, Gio
@@ -117,14 +118,14 @@ class HydraPaperApplication(Gtk.Application):
         monitors = build_monitors_from_gdk()
         if len(wlist_cli) < len(monitors):
             print(
-                'Error: you passed {0} wallpapers for {1} monitors'.format(
+                _('Error: you passed {0} wallpapers for {1} monitors').format(
                     len(wlist_cli), len(monitors)
                 )
             )
             exit(1)
         for wpath in wlist_cli:
             if not is_image(wpath):
-                print('Error: {0} is not a valid image path'.format(wpath))
+                print(_('Error: {0} is not a valid image path').format(wpath))
                 exit(1)
         for monitor, n_wp in zip(monitors, wlist_cli):
             monitor.wallpaper = n_wp
@@ -158,8 +159,8 @@ class HydraPaperApplication(Gtk.Application):
         Gtk.Application.do_command_line(self, args)  # call the default commandline handler
         # make a command line parser
         parser = argparse.ArgumentParser()
-        parser.add_argument('-c', '--cli', dest='wallpaper_path', nargs='+', action='append', help='set wallpapers from command line')
-        parser.add_argument('-r', '--random', dest='set_random', action='store_true', help='set wallpapers randomly')
+        parser.add_argument('-c', '--cli', dest='wallpaper_path', nargs='+', action='append', help=_('set wallpapers from command line'))
+        parser.add_argument('-r', '--random', dest='set_random', action='store_true', help=_('set wallpapers randomly'))
         # parse the command line stored in args, but skip the first element (the filename)
         self.args = parser.parse_args(args.get_arguments()[1:])
         # call the main program do_activate() to start up the app

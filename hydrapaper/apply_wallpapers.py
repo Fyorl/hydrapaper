@@ -1,3 +1,4 @@
+from gettext import gettext as _
 from os import environ as Env
 from os.path import isfile
 from hashlib import sha256
@@ -28,7 +29,7 @@ def _apply_wallpapers_worker(monitors):
         ).hexdigest()
     )
     if isfile(save_path):
-        print(f'Hit cache for {save_path}. Skipping merge')
+        print(_('Hit cache for {0}. Skipping merge').format(save_path))
     else:
         multi_setup_pillow(monitors, save_path)
     set_wallpaper(save_path)
