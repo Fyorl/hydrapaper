@@ -98,20 +98,22 @@ app_resources = gnome.compile_resources(app_id,
 
 app_settings = gnome.compile_schemas()
 
-appdata_conf = configuration_data()
-appdata_conf.set('authorfullname', authorfullname)
-appdata_conf.set('gitrepo', gitrepo)
-appdata_conf.set('website', website)
-appdata_conf.set('authoremail', authoremail)
-appdata_conf.set('prettyname', prettyname)
-appdata_conf.set('appid', app_id)
-appdata_conf.set('prettylicense', prettylicense)
-
-appdata_file = configure_file(
-    input: app_id + '.appdata.xml.in',
-    output: app_id + '.appdata.xml.i18n.in',
-    configuration: appdata_conf
-)
+#appdata_conf = configuration_data()
+#appdata_conf.set('authorfullname', authorfullname)
+#appdata_conf.set('gitrepo', gitrepo)
+#appdata_conf.set('website', website)
+#appdata_conf.set('authoremail', authoremail)
+#appdata_conf.set('prettyname', prettyname)
+#appdata_conf.set('appid', app_id)
+#appdata_conf.set('prettylicense', prettylicense)
+#
+#configure_file(
+#    input: appdata_file,
+#    output: app_id + '.appdata.xml.',
+#    configuration: appdata_conf,
+#    install: true,
+#    install_dir: join_paths(datadir, 'metainfo')
+#)
 
 i18n.merge_file(
     input: app_id + '.appdata.xml.in',

@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-    <id>@appid@.desktop</id>
-    <!-- <translation type="gettext">trg</translation> -->
-    <name>@prettyname@</name>
-    <developer_name>@authorfullname@</developer_name>
+    <id>org.gabmus.hydrapaper.desktop</id>
+    <name>HydraPaper</name>
+    <developer_name>Gabriele Musco</developer_name>
     <summary>Wallpaper manager with multimonitor support</summary>
     <metadata_license>CC0-1.0</metadata_license>
-    <project_license>@prettylicense@</project_license>
+    <project_license>GPL-3.0+</project_license>
     <description>
         <p>HydraPaper lets you set different wallpapers for each of your monitors in the GNOME desktop.</p>
         <p>It works around this lack of functionality by automatically merging multiple wallpapers into one, and setting it as your wallpaper with the "Spanned" option.</p>
@@ -14,24 +13,24 @@
     </description>
     <screenshots>
         <screenshot type="default">
-            <image>@gitrepo@/raw/master/website/screenshots/mainwindow.png</image>
+            <image>https://gitlab.com/gabmus/hydrapaper/raw/master/website/screenshots/mainwindow.png</image>
         </screenshot>
         <screenshot>
-            <image>@gitrepo@/raw/master/website/screenshots/folders.png</image>
+            <image>https://gitlab.com/gabmus/hydrapaper/raw/master/website/screenshots/folders.png</image>
         </screenshot>
         <screenshot>
-            <image>@gitrepo@/raw/master/website/screenshots/favorites.png</image>
+            <image>https://gitlab.com/gabmus/hydrapaper/raw/master/website/screenshots/favorites.png</image>
         </screenshot>
         <screenshot>
-            <image>@gitrepo@/raw/master/website/screenshots/random.png</image>
+            <image>https://gitlab.com/gabmus/hydrapaper/raw/master/website/screenshots/random.png</image>
         </screenshot>
         <screenshot>
-            <image>@gitrepo@/raw/master/website/screenshots/preferences.png</image>
+            <image>https://gitlab.com/gabmus/hydrapaper/raw/master/website/screenshots/preferences.png</image>
         </screenshot>
     </screenshots>
-    <url type="homepage">@website@</url>
-    <url type="bugtracker">@gitrepo@/issues</url>
-    <update_contact>@authoremail@</update_contact>
+    <url type="homepage">https://gabmus.gitlab.io/HydraPaper/</url>
+    <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
+    <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
         <release version="1.8" timestamp="1563213244">
             <description>
