@@ -1,4 +1,5 @@
 from gi.repository import Gtk, GObject
+from .confManager import ConfManager
 
 class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
     __gsignals__ = {
@@ -11,13 +12,14 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
     def __init__(self, folder_path, folder_active):
         super().__init__()
 
+        self.confman = ConfManager()
         self.folder_path = folder_path
 
         self.box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.label = Gtk.Label()
         self.switch = Gtk.Switch()
 
-        self.label.set_text(folder_path)
+        self.set_label_text()
         self.label.set_margin_left(12)
         self.label.set_margin_right(6)
         self.label.set_halign(Gtk.Align.START)
@@ -35,6 +37,16 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
 
         self.add(self.box)
         self.switch.connect('state-set', self.on_switch_state_set)
+        self.confman.connect(
+            'hydrapaper_set_folders_popover_labels',
+            self.set_label_text
+        )
 
     def on_switch_state_set(self, switch, state):
         self.emit('row_switch_state_set', state, self.value)
+
+    def set_label_text(self, *args):
+        text = self.folder_path
+        if not self.confman.conf['folders_popover_full_path']:
+            text = text.split('/')[-1]
+        self.label.set_text(text)

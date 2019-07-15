@@ -35,6 +35,11 @@ class ConfManagerSignaler(GObject.Object):
             GObject.SIGNAL_RUN_FIRST,
             None,
             (str,)
+        ),
+        'hydrapaper_set_folders_popover_labels': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str,)
         )
     }
 
@@ -51,6 +56,7 @@ class ConfManager(metaclass=Singleton):
         'monitors': {},
         'favorites': [],
         'favorites_in_mainview': True,
+        'folders_popover_full_path': False,
         'windowsize': {
             'width': 600,
             'height': 400

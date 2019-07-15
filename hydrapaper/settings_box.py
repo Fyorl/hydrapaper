@@ -28,6 +28,10 @@ class HydraPaperSettingsWindow(Gtk.Window):
             self.confman.conf['favorites_in_mainview']
         )
 
+        self.builder.get_object('folderFullPathToggle').set_active(
+            self.confman.conf['folders_popover_full_path']
+        )
+
         self.builder.connect_signals(self)
 
     def on_wallpaperSelectionModeToggle_state_set(self, toggle, state):
@@ -43,6 +47,14 @@ class HydraPaperSettingsWindow(Gtk.Window):
         self.confman.save_conf()
         self.confman.emit(
             'hydrapaper_show_hide_wallpapers',
+            'notimportant'
+        )
+
+    def on_folderFullPathToggle_state_set(self, toggle, state):
+        self.confman.conf['folders_popover_full_path'] = state
+        self.confman.save_conf()
+        self.confman.emit(
+            'hydrapaper_set_folders_popover_labels',
             'notimportant'
         )
 
