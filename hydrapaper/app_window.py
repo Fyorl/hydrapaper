@@ -1,10 +1,10 @@
 from gi.repository import Gtk
-from .confManager import ConfManager
 from .wnck_win_controller import change_minimize_state
-from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
+from .confManager import ConfManager
 from .main_stack import HydraPapaerMainStack
 from .monitors_flowbox import HydraPaperMonitorsFlowbox
 from .apply_wallpapers import apply_wallpapers
+from .headerbar import HydraPaperHeaderbar
 
 class HydraPaperAppWindow(Gtk.ApplicationWindow):
     def __init__(self, **kwargs):
@@ -14,20 +14,10 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.set_title('HydraPaper')
         self.set_icon_name('org.gabmus.hydrapaper')
         self.container_box = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
-
-        self.headerbar_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/headerbar.glade'
-        )
-        self.headerbar = self.headerbar_builder.get_object('headerbar')
-        self.wallpapers_folders_popover = self.headerbar_builder.get_object(
-            'wallpapersFoldersPopover'
-        )
-        self.folders_view = HydraPaperWallpapersFoldersView(self)
-        self.wallpapers_folders_popover.add(self.folders_view)
-        self.apply_spinner = self.headerbar_builder.get_object('applySpinner')
-        self.stack_switcher = self.headerbar_builder.get_object(
-            'mainStackSwitcher'
-        )
+        self.headerbar = HydraPaperHeaderbar(self, self.apply_handler)
+        self.folders_view = self.headerbar.folders_view
+        self.apply_spinner = self.headerbar.apply_spinner
+        self.stack_switcher = self.headerbar.stack_switcher
         self.main_stack = HydraPapaerMainStack()
         self.stack_switcher.set_stack(self.main_stack)
         self.monitors_flowbox = HydraPaperMonitorsFlowbox()
@@ -38,7 +28,6 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.container_box.pack_start(self.main_stack, True, True, 0)
         self.add(self.container_box)
         self.set_titlebar(self.headerbar)
-        self.headerbar_builder.connect_signals(self)
         # self.connect('destroy', self.destroy)
         self.resize(
             self.confman.conf['windowsize']['width'],
@@ -47,7 +36,7 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.size_allocation = self.get_allocation()
         self.connect('size-allocate', self.update_size_allocation)
 
-        self.menu_popover = self.headerbar_builder.get_object('menuPopover')
+        self.menu_popover = self.headerbar.menu_popover
         self.menu_builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/menu.xml'
         )
@@ -81,7 +70,7 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         super().show_all(**kwargs)
         self.main_stack.main_flowbox.show_hide_wallpapers()
 
-    def on_applyButton_clicked(self, btn):
+    def apply_handler(self, btn):
         apply_wallpapers(
             monitors = self.monitors_flowbox.monitors,
             widgets_to_freeze = [
@@ -91,15 +80,6 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
             spinner = self.apply_spinner
         )
         self.monitors_flowbox.dump_to_config()
-
-    def on_menuBtn_clicked(self, btn):
-        self.menu_popover.popup()
-
-    def on_wallpapersFoldersBtn_clicked(self, btn):
-        self.wallpapers_folders_popover.popup()
-
-    def on_lowerAllOtherWindowsToggle_toggled(self, toggle):
-        change_minimize_state(toggle = toggle)
 
     def on_destroy(self, *args):
         change_minimize_state(state = False)
