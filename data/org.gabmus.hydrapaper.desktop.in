@@ -1,12 +1,12 @@
 [Desktop Entry]
 Name=@prettyname@
-Comment=@description@
+Comment=Wallpaper manager with multimonitor support
 Exec=@bindir@/@projectname@ %U
 Icon=@appid@
 Terminal=false
 Type=Application
 StartupNotify=true
-MimeType=
+#MimeType=
 Categories=Utility;GTK;GNOME;
 Keywords=wallpaper;background;monitor;
 Actions=set-random-wallpapers

@@ -1,10 +1,10 @@
 project('hydrapaper',
     version: '1.7.3',
-    meson_version: '>= 0.40.0',
+    meson_version: '>= 0.50.0',
     license: 'GPL3'
 )
 
-description = 'Wallpaper manager with multimonitor support for GNOME'
+description = 'Wallpaper manager with multimonitor support'
 prettyname = 'HydraPaper'
 prettylicense = 'GPL-3.0+'
 
@@ -22,7 +22,7 @@ contributors = '\n'.join([
     'Alex Hunt (huntie) &lt;hello@alexhunt.io&gt;'
 ])
 
-# i18n = import('i18n')
+i18n = import('i18n')
 python = import('python3')
 gnome = import('gnome')
 prefix = get_option('prefix') # should be /usr
@@ -30,10 +30,12 @@ bindir = get_option('bindir') # should be bin
 datadir = get_option('datadir') # should be /usr/share
 pkgdatadir = join_paths(prefix, datadir, meson.project_name())
 pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
+localedir = join_paths(prefix, get_option('localedir'))
 
 install_subdir(meson.project_name(), install_dir: pythondir)
 subdir('data')
 subdir('bin')
+subdir('po')
 
 
 meson.add_install_script('meson_post_install.py')

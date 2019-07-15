@@ -1,3 +1,4 @@
+from gettext import gettext as _
 from gi.repository import Gtk, Gdk, Gio, GdkPixbuf
 import os
 from . import threading_helper as ThreadingHelper
@@ -74,5 +75,5 @@ class WallpaperBox(Gtk.FlowBoxChild):
             thumb.thumbnail((250, 250), Image.ANTIALIAS)
             thumb.save(self.cache_path, 'PNG')
         except IOError:
-            print('ERROR: cannot create thumbnail for file', self.wallpaper_path)
+            print(_('ERROR: cannot create thumbnail for file'), self.wallpaper_path)
         return self.cache_path

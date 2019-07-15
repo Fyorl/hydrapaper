@@ -1,3 +1,4 @@
+from gettext import gettext as _
 from gi.repository import Gdk
 
 class Monitor:
@@ -40,7 +41,7 @@ def build_monitors_from_gdk():
                 monitor.is_primary()
             ))
     except Exception as e:
-        print('Error parsing monitors (Gdk)')
+        print(_('Error parsing monitors (Gdk)'))
         import traceback
         traceback.print_exc()
         monitors = None

@@ -13,16 +13,26 @@ app_id_aspath = '/'.join([
 desktop_conf = configuration_data()
 desktop_conf.set('bindir', join_paths(prefix, bindir))
 desktop_conf.set('prettyname', prettyname)
-desktop_conf.set('description', description)
+# .desktop comment now hardcoded for better i18n support
+#desktop_conf.set('description', description)
 desktop_conf.set('appid', app_id)
 desktop_conf.set('projectname', meson.project_name())
 
 desktop_file = configure_file(
     input: app_id + '.desktop.in',
-    output: app_id + '.desktop',
-    install: true,
-    install_dir: join_paths(datadir, 'applications'),
+    output: app_id + '.desktop.i18n.in',
+    #install: true,
+    #install_dir: join_paths(datadir, 'applications'),
     configuration: desktop_conf
+)
+
+i18n.merge_file(
+    input: desktop_file,
+    output: app_id + '.desktop',
+    po_dir: '../po',
+    type: 'desktop',
+    install: true,
+    install_dir: join_paths(datadir, 'applications')
 )
 
 message('Looking for dependencies')
@@ -89,18 +99,24 @@ app_resources = gnome.compile_resources(app_id,
 app_settings = gnome.compile_schemas()
 
 appdata_conf = configuration_data()
-appdata_conf.set('description', description)
 appdata_conf.set('authorfullname', authorfullname)
 appdata_conf.set('gitrepo', gitrepo)
+appdata_conf.set('website', website)
 appdata_conf.set('authoremail', authoremail)
 appdata_conf.set('prettyname', prettyname)
 appdata_conf.set('appid', app_id)
 appdata_conf.set('prettylicense', prettylicense)
 
-configure_file(
+appdata_file = configure_file(
+    input: app_id + '.appdata.xml.in',
+    output: app_id + '.appdata.xml.i18n.in',
+    configuration: appdata_conf
+)
+
+i18n.merge_file(
     input: app_id + '.appdata.xml.in',
     output: app_id + '.appdata.xml',
-    configuration: appdata_conf,
+    po_dir: '../po',
     install: true,
     install_dir: join_paths(datadir, 'metainfo')
 )

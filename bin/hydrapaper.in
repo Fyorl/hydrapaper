@@ -21,6 +21,7 @@ import os
 import sys
 import signal
 import gettext
+import locale
 
 sys.path.insert(1, '@pythondir@')
 
@@ -36,7 +37,16 @@ if builddir:
 
 signal.signal(signal.SIGINT, signal.SIG_DFL)
 
-# gettext.install('trg', localedir)
+# Why both locale and gettext?
+# gettext works for the python part
+# but not for the glade/xml files
+# they need locale
+# don't ask me, it's effin weird
+# I copied this from uberwriter
+locale.textdomain('hydrapaper')
+locale.bindtextdomain('hydrapaper', localedir)
+gettext.textdomain('hydrapaper')
+gettext.bindtextdomain('hydrapaper', localedir)
 
 if __name__ == '__main__':
     import gi
