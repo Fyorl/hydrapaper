@@ -16,7 +16,6 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.container_box = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
         self.headerbar = HydraPaperHeaderbar(self, self.apply_handler)
         self.folders_view = self.headerbar.folders_view
-        self.apply_spinner = self.headerbar.apply_spinner
         self.stack_switcher = self.headerbar.stack_switcher
         self.main_stack = HydraPapaerMainStack()
         self.stack_switcher.set_stack(self.main_stack)
@@ -76,8 +75,7 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
             widgets_to_freeze = [
                 btn,
                 self.folders_view
-            ],
-            spinner = self.apply_spinner
+            ]
         )
         self.monitors_flowbox.dump_to_config()
 

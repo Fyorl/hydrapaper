@@ -19,7 +19,6 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         )
         self.wallpapers_folders_popover.add(self.folders_view)
         self.menu_popover = self.builder.get_object('menuPopover')
-        self.apply_spinner = self.builder.get_object('applySpinner')
         self.apply_button = self.builder.get_object('applyButton')
         self.lower_windows_toggle = self.builder.get_object(
             'lowerAllOtherWindowsToggle'
@@ -35,7 +34,6 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         right_widgets = [
             self.apply_button,
             self.menu_button,
-            self.apply_spinner
         ]
 
         for w in left_widgets:

@@ -35,7 +35,7 @@ def _apply_wallpapers_worker(monitors):
     set_wallpaper(save_path)
 
 
-def apply_wallpapers(monitors, widgets_to_freeze = [], spinner = None):
+def apply_wallpapers(monitors, widgets_to_freeze = []):
     t = Thread(
         group = None,
         target = _apply_wallpapers_worker,
@@ -44,13 +44,9 @@ def apply_wallpapers(monitors, widgets_to_freeze = [], spinner = None):
     )
     for w in widgets_to_freeze:
         w.set_sensitive(False)
-    if spinner:
-        spinner.start()
     t.start()
     while t.is_alive():
         while Gtk.events_pending():
             Gtk.main_iteration()
     for w in widgets_to_freeze:
         w.set_sensitive(True)
-    if spinner:
-        spinner.stop()
