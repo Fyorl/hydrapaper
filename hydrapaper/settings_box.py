@@ -1,81 +1,162 @@
-from gi.repository import Gtk, Gdk
+from gettext import gettext as _
+from gi.repository import Gtk, Gdk, Handy
 from .confManager import ConfManager
-from os.path import isfile
+from os.path import isfile, abspath, join
 from os import remove, listdir
 
-class HydraPaperSettingsWindow(Gtk.Window):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+class PreferencesButtonRow(Handy.ActionRow):
+    """
+    A preferences row with a title and a button
+    title: the title shown
+    button_label: a label to show inside the button
+    onclick: the function that will be called when the button is pressed
+    button_style_class: the style class of the button. Common options: `suggested-action`, `destructive-action`
+    signal: an optional signal to let ConfManager emit when the button is pressed
+    """
+    def __init__(self, title, button_label, onclick, button_style_class=None, signal=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.title = title
+        self.button_label = button_label
         self.confman = ConfManager()
+        self.set_title(self.title)
+        self.signal = signal
+        self.onclick = onclick
 
-        self.set_skip_taskbar_hint(True)
-        self.set_skip_pager_hint(True)
-        self.set_type_hint(Gdk.WindowTypeHint.DIALOG)
+        self.button = Gtk.Button()
+        self.button.set_label(self.button_label)
+        self.button.set_valign(Gtk.Align.CENTER)
+        if button_style_class:
+            self.button.get_style_context().add_class(button_style_class)
+        self.button.connect('clicked', self.on_button_clicked)
+        self.add_action(self.button)
+        # You need to press the actual button
+        # Avoids accidental presses
+        # self.set_activatable_widget(self.button)
 
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/settings_window.glade'
-        )
-        self.box = self.builder.get_object('settingsBox')
-        self.headerbar = self.builder.get_object('headerbar')
-
-        self.set_titlebar(self.headerbar)
-        self.add(self.box)
-
-        self.builder.get_object('wallpaperSelectionModeToggle').set_active(
-            self.confman.conf['selection_mode'] == 'double'
-        )
-        self.builder.get_object('keepFavoritesInMainviewToggle').set_active(
-            self.confman.conf['favorites_in_mainview']
-        )
-
-        self.builder.get_object('folderFullPathToggle').set_active(
-            self.confman.conf['folders_popover_full_path']
-        )
-
-        self.builder.connect_signals(self)
-
-    def on_wallpaperSelectionModeToggle_state_set(self, toggle, state):
-        self.confman.conf['selection_mode'] = 'double' if state else 'single'
+    def on_button_clicked(self, button):
+        self.onclick(self.confman)
+        if self.signal:
+            self.confman.emit(self.signal, '')
         self.confman.save_conf()
-        self.confman.emit(
-            'hydrapaper_flowbox_selection_mode_changed',
-            self.confman.conf['selection_mode']
-        )
 
-    def on_keepFavoritesInMainviewToggle_state_set(self, toggle, state):
-        self.confman.conf['favorites_in_mainview'] = state
+
+class PreferencesToggleRow(Handy.ActionRow):
+    """
+    A preferences row with a title and a toggle
+    title: the title shown
+    conf_key: the key of the configuration dictionary/json in ConfManager
+    signal: an optional signal to let ConfManager emit when the configuration is set
+    """
+    def __init__(self, title, conf_key, signal=None, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.title = title
+        self.confman = ConfManager()
+        self.set_title(self.title)
+        self.conf_key = conf_key
+        self.signal = signal
+
+        self.toggle = Gtk.Switch()
+        self.toggle.set_valign(Gtk.Align.CENTER)
+        if self.conf_key == 'selection_mode':
+            self.toggle.set_active(self.confman.conf[self.conf_key] == 'double')
+        else:
+            self.toggle.set_active(self.confman.conf[self.conf_key])
+        self.toggle.connect('state-set', self.on_toggle_state_set)
+        self.add_action(self.toggle)
+        self.set_activatable_widget(self.toggle)
+
+    def on_toggle_state_set(self, toggle, state):
+        # TODO: rework selection_mode to use True/False
+        if self.conf_key == 'selection_mode':
+            self.confman.conf[self.conf_key] = 'double' if state else 'single'
+        else:
+            self.confman.conf[self.conf_key] = state
         self.confman.save_conf()
-        self.confman.emit(
-            'hydrapaper_show_hide_wallpapers',
-            'notimportant'
-        )
+        if self.signal:
+            self.confman.emit(self.signal, '')
 
-    def on_folderFullPathToggle_state_set(self, toggle, state):
-        self.confman.conf['folders_popover_full_path'] = state
-        self.confman.save_conf()
-        self.confman.emit(
-            'hydrapaper_set_folders_popover_labels',
-            'notimportant'
-        )
 
-    def on_resetFavoritesButton_clicked(self, btn):
-        self.confman.conf['favorites'] = []
-        self.confman.save_conf()
-        self.confman.emit(
-            'hydrapaper_populate_wallpapers',
-            'notimportant'
-        )
+class GeneralPreferencesPage(Handy.PreferencesPage):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_title(_('General'))
+        self.set_icon_name('preferences-other-symbolic')
 
-    def on_clearCachesButton_clicked(self, btn):
-        files = listdir(
-            self.confman.cache_path
-            ) + listdir(
-            self.confman.thumbs_cache_path
-        )
-        for f in files:
-            if isfile(f):
-                remove(f)
-        self.confman.emit(
-            'hydrapaper_populate_wallpapers',
-            'notimportant'
-        )
+        
+        self.general_preferences_group = Handy.PreferencesGroup()
+        self.general_preferences_group.set_title(_('General Settings'))
+        toggle_settings = [
+            {
+                'title': _('Select wallpapers with a double click'),
+                'conf_key': 'selection_mode',
+                'signal': 'hydrapaper_flowbox_selection_mode_changed'
+            },
+            {
+                'title': _('Keep favorites in main wallpapers view'),
+                'conf_key': 'favorites_in_mainview',
+                'signal': 'hydrapaper_show_hide_wallpapers'
+            },
+            {
+                'title': _('Show full path in folder view'),
+                'conf_key': 'folders_popover_full_path',
+                'signal': 'hydrapaper_set_folders_popover_labels'
+            }
+        ]
+        for s in toggle_settings:
+            row = PreferencesToggleRow(s['title'], s['conf_key'], s['signal'])
+            self.general_preferences_group.add(row)
+        self.add(self.general_preferences_group)
+
+        self.caches_favs_preferences_group = Handy.PreferencesGroup()
+        self.caches_favs_preferences_group.set_title(_('Caches and favorites')) 
+        button_settings = [
+            {
+                'title': _('Clear all favorites'),
+                'button_label': _('Clear favorites'),
+                'onclick': self.clear_favorites,
+                'button_style_class': 'destructive-action',
+                'signal': 'hydrapaper_populate_wallpapers'
+            },
+            {
+                'title': _('Clear all caches'),
+                'button_label': _('Clear caches'),
+                'onclick': self.clear_caches,
+                'button_style_class': 'destructive-action',
+                'signal': 'hydrapaper_populate_wallpapers'
+            }
+        ]
+        for s in button_settings:
+            row = PreferencesButtonRow(
+                s['title'],
+                s['button_label'],
+                s['onclick'],
+                s['button_style_class'],
+                s['signal']
+            )
+            self.caches_favs_preferences_group.add(row)
+        self.add(self.caches_favs_preferences_group)
+
+        self.show_all()
+
+    def clear_favorites(self, confman, *args):
+        confman.conf['favorites'] = []
+
+    def clear_caches(self, confman, *args):
+        for p in [confman.cache_path, confman.thumbs_cache_path]:
+            files = [
+                abspath(join(p, f)) for f in listdir(p)
+            ]
+            for f in files:
+                if isfile(f):
+                    remove(f)
+
+
+class HydraPaperSettingsWindow(Handy.PreferencesWindow):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+        self.general_page = GeneralPreferencesPage()
+        self.add(self.general_page)
+        # values copied from libhandy demo
+        # https://source.puri.sm/Librem5/libhandy/blob/master/examples/hdy-demo-preferences-window.ui
+        self.set_default_size(640, 700)

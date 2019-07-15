@@ -9,7 +9,7 @@
         </section>
         <section>
             <item>
-                <attribute name="label" translatable="yes">Settings</attribute>
+                <attribute name="label" translatable="yes">Preferences</attribute>
                 <attribute name="action">app.settings</attribute>
             </item>
             <item>

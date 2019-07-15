@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-15 13:28+0200\n"
+"POT-Creation-Date: 2019-07-15 17:20+0200\n"
 "PO-Revision-Date: 2019-07-13 13:17+0200\n"
 "Last-Translator: Gabriele Musco <emaildigabry@gmail.com>\n"
 "Language-Team: Italian\n"
@@ -47,7 +47,7 @@ msgstr "imposta sfondi casualmente"
 msgid "Wallpapers"
 msgstr "Sfondi"
 
-#: ../hydrapaper/main_stack.py:13
+#: ../hydrapaper/main_stack.py:14
 msgid "Favorites"
 msgstr "Preferiti"
 
@@ -64,12 +64,52 @@ msgstr "Rimuovi preferito"
 msgid "Add favorite"
 msgstr "Aggiungi preferito"
 
+#: ../hydrapaper/settings_box.py:82
+msgid "General"
+msgstr "Generale"
+
+#: ../hydrapaper/settings_box.py:87
+msgid "General Settings"
+msgstr "Impostazioni Generali"
+
+#: ../hydrapaper/settings_box.py:90
+msgid "Select wallpapers with a double click"
+msgstr "Seleziona gli sfondi con un doppio click"
+
+#: ../hydrapaper/settings_box.py:95
+msgid "Keep favorites in main wallpapers view"
+msgstr "Mantieni i preferiti nella vista principale degli sfondi"
+
+#: ../hydrapaper/settings_box.py:100
+msgid "Show full path in folder view"
+msgstr "Mostra il percorso completo nella vista delle cartelle"
+
+#: ../hydrapaper/settings_box.py:111
+msgid "Caches and favorites"
+msgstr "Cache e preferiti"
+
+#: ../hydrapaper/settings_box.py:114
+msgid "Clear all favorites"
+msgstr "Pulisci tutti i preferiti"
+
+#: ../hydrapaper/settings_box.py:115
+msgid "Clear favorites"
+msgstr "Pulisci i preferiti"
+
+#: ../hydrapaper/settings_box.py:121
+msgid "Clear all caches"
+msgstr "Pulisci tutte le cache"
+
+#: ../hydrapaper/settings_box.py:122
+msgid "Clear caches"
+msgstr "Pulisci le cache"
+
 #: ../data/ui/menu.xml:6
 msgid "Set random wallpapers"
 msgstr "Imposta sfondi casualmente"
 
-#: ../data/ui/menu.xml:12 ../data/ui/settings_window.glade:8
-msgid "Settings"
+#: ../data/ui/menu.xml:12
+msgid "Preferences"
 msgstr "Preferenze"
 
 #: ../data/ui/menu.xml:16
@@ -95,38 +135,6 @@ msgstr "Il percorso selezionato è già stato aggiunto"
 #: ../data/ui/choose_folder_dialog.glade:106
 msgid "Close\n"
 msgstr "Chiudi\n"
-
-#: ../data/ui/shortcutsWindow.xml:9
-msgid "General"
-msgstr "Generale"
-
-#: ../data/ui/settings_window.glade:30
-msgid "Select wallpapers with a double click"
-msgstr "Seleziona gli sfondi con un doppio click"
-
-#: ../data/ui/settings_window.glade:80
-msgid "Keep favorites in main wallpapers view"
-msgstr "Mantieni i preferiti nella vista principale degli sfondi"
-
-#: ../data/ui/settings_window.glade:130
-msgid "Show full path in folder view"
-msgstr "Mostra il percorso completo nella vista delle cartelle"
-
-#: ../data/ui/settings_window.glade:179
-msgid "Clear all favorites"
-msgstr "Pulisci tutti i preferiti"
-
-#: ../data/ui/settings_window.glade:189
-msgid "Clear favorites"
-msgstr "Pulisci i preferiti"
-
-#: ../data/ui/settings_window.glade:233
-msgid "Clear all caches"
-msgstr "Pulisci tutte le cache"
-
-#: ../data/ui/settings_window.glade:243
-msgid "Clear caches"
-msgstr "Pulisci le cache"
 
 #: ../data/ui/wallpapers_folders_view.glade:51
 msgid "Add"
@@ -397,3 +405,6 @@ msgstr "Port a pillow"
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:194
 msgid "First release"
 msgstr "Prima release"
+
+#~ msgid "Settings"
+#~ msgstr "Preferenze"

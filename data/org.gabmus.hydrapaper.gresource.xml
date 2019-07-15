@@ -6,7 +6,6 @@
     <file preprocess="xml-stripblanks">aboutdialog.glade</file>
     <file preprocess="xml-stripblanks">ui/headerbar.glade</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_flowbox.glade</file>
-    <file preprocess="xml-stripblanks">ui/settings_window.glade</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_folders_view.glade</file>
     <file preprocess="xml-stripblanks">ui/choose_folder_dialog.glade</file>
     <file preprocess="xml-stripblanks">ui/menu.xml</file>
