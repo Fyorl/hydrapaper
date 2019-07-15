@@ -27,13 +27,12 @@ desktop_file = configure_file(
 )
 
 i18n.merge_file(
-    app_id + '.desktop',
-    input: app_id + '.desktop.i18n.in',
+    input: desktop_file,
     output: app_id + '.desktop',
     po_dir: '../po',
+    type: 'desktop',
     install: true,
-    install_dir: join_paths(datadir, 'applications'),
-    type: 'desktop'
+    install_dir: join_paths(datadir, 'applications')
 )
 
 message('Looking for dependencies')
