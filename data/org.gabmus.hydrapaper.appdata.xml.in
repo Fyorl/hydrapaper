@@ -33,6 +33,17 @@
     <url type="bugtracker">@gitrepo@/issues</url>
     <update_contact>@authoremail@</update_contact>
     <releases>
+        <release version="1.8" timestamp="1563213244">
+            <description>
+                <ul>
+                    <li>Internationalization support and Italian translation</li>
+                    <li>New widgets from Purism's libhandy</li>
+                    <li>Removed animated spinner</li>
+                    <li>Paths in folders view show only the folder name by default</li>
+                    <li>New website</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.7.3" timestamp="1561993358">
             <description>
                 <ul>
