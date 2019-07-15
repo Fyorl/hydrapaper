@@ -1,0 +1,32 @@
+#!/bin/bash
+
+meson . build
+meson configure -Dprefix=$PWD/build/testdir build
+ninja -C build
+ninja -C build install
+GTK_THEME=Adwaita ninja -C build run &
+sleep 5
+gnome-screenshot -w -f website/screenshots/mainwindow.png
+
+xdotool key --delay 100 Tab Shift+Tab Shift+Tab Shift+Tab Shift+Tab Shift+Tab Shift+Tab Return
+sleep 0.5
+gnome-screenshot -w -f website/screenshots/folders.png
+sleep 3
+
+xdotool key --delay 100 Escape Tab Tab Tab Return
+sleep 0.5
+gnome-screenshot -w -f website/screenshots/favorites.png
+sleep 3
+
+xdotool key --delay 100 Shift+Tab Return Tab Tab Return
+sleep 0.5
+gnome-screenshot -w -f website/screenshots/random.png
+sleep 3
+
+xdotool key --delay 100 Down Return
+sleep 0.5
+gnome-screenshot -w -f website/screenshots/preferences.png
+xdotool key Alt+F4
+sleep 3
+
+xdotool key Alt+F4

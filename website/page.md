@@ -32,13 +32,21 @@ Manage your collection simply with folders, then add all of them to HydraPaper. 
 
 We all have favorite wallpapers for any mood. Add them as favorites, and quickly find them back in the *Favorites* section.
 
-![Favorites](screenshots/favoritessplit.png)
+![Favorites](screenshots/favorites.png)
 
 ### Go random
 
 You can quickly set random wallpapers, even from the app launcher. Fresh wallpapers in seconds.
 
-![Random from window](screenshots/randomcombo.png)
+![Random from window](screenshots/random.png)
+
+![Random from shortcut](screenshots/randomshortcut.png)
+
+### As you want it
+
+Customize your interaction as you like it.
+
+![Preferences window](screenshots/preferences.png)
 
 ### CLI power
 
