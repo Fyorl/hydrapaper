@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-15 10:56+0200\n"
+"POT-Creation-Date: 2019-07-15 13:28+0200\n"
 "PO-Revision-Date: 2019-07-13 13:17+0200\n"
 "Last-Translator: Gabriele Musco <emaildigabry@gmail.com>\n"
 "Language-Team: Italian\n"
@@ -109,18 +109,22 @@ msgid "Keep favorites in main wallpapers view"
 msgstr "Mantieni i preferiti nella vista principale degli sfondi"
 
 #: ../data/ui/settings_window.glade:130
+msgid "Show full path in folder view"
+msgstr "Mostra il percorso completo nella vista delle cartelle"
+
+#: ../data/ui/settings_window.glade:179
 msgid "Clear all favorites"
 msgstr "Pulisci tutti i preferiti"
 
-#: ../data/ui/settings_window.glade:140
+#: ../data/ui/settings_window.glade:189
 msgid "Clear favorites"
 msgstr "Pulisci i preferiti"
 
-#: ../data/ui/settings_window.glade:184
+#: ../data/ui/settings_window.glade:233
 msgid "Clear all caches"
 msgstr "Pulisci tutte le cache"
 
-#: ../data/ui/settings_window.glade:194
+#: ../data/ui/settings_window.glade:243
 msgid "Clear caches"
 msgstr "Pulisci le cache"
 
@@ -132,13 +136,13 @@ msgstr "Aggiungi"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: ../data/ui/headerbar.glade:29
-msgid "Lower all other windows"
-msgstr "Abbassa tutte le altre finestre"
-
-#: ../data/ui/headerbar.glade:60
+#: ../data/ui/headerbar.glade:14
 msgid "Apply"
 msgstr "Applica"
+
+#: ../data/ui/headerbar.glade:31
+msgid "Lower all other windows"
+msgstr "Abbassa tutte le altre finestre"
 
 #: ../data/ui/wallpapers_flowbox.glade:19
 msgid "title"
@@ -173,8 +177,8 @@ msgid ""
 "HydraPaper lets you set different wallpapers for each of your monitors in "
 "the GNOME desktop."
 msgstr ""
-"HydraPaper ti permette di impostare uno sfondo diverso per ognuno dei tuoi"
-" monitor nell'ambiente desktop GNOME."
+"HydraPaper ti permette di impostare uno sfondo diverso per ognuno dei tuoi "
+"monitor nell'ambiente desktop GNOME."
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:12
 msgid ""
@@ -223,14 +227,13 @@ msgstr ""
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:69
 msgid "Added random wallpaper functionality from command line with -r option"
 msgstr ""
-"Aggiunta la funzionalità di sfondi casuali dalla linea di comando "
-"con l'opzione -r"
+"Aggiunta la funzionalità di sfondi casuali dalla linea di comando con "
+"l'opzione -r"
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:76
 msgid "Fixing startup error when added folders get deleted"
 msgstr ""
-"Corretto l'errore d'avvio quando le cartelle aggiunte vengono "
-"cancellate"
+"Corretto l'errore d'avvio quando le cartelle aggiunte vengono cancellate"
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:83
 msgid "Get correct localized Pictures folder on first startup"
@@ -287,14 +290,15 @@ msgstr "Aggiunto supporto per l'uso da linea di comando"
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:126
 msgid "Implemented boilerplate for gtk via gmgtk (gitlab.com/gabmus/gmgtk)"
-msgstr "Implementato boilerplate per gtk tramite gmgtk (gitlab.com/gabmus/gmgtk)"
+msgstr ""
+"Implementato boilerplate per gtk tramite gmgtk (gitlab.com/gabmus/gmgtk)"
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:127
 msgid ""
 "Migrated configuration management to gmconfig (gitlab.com/gabmus/gmconfig)"
 msgstr ""
-"Migrata la gestione della configurazione a gmconfig "
-"(gitlab.com/gabmus/gmconfig)"
+"Migrata la gestione della configurazione a gmconfig (gitlab.com/gabmus/"
+"gmconfig)"
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:128
 msgid "Migrated to GitLab"
