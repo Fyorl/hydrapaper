@@ -3,7 +3,8 @@
 rm *.pot
 find ../hydrapaper -iname "*.py" | xargs xgettext --from-code=UTF-8 --output=hydrapaper-python.pot
 find ../data/ui -iname "*.glade" -or -iname "*.xml" | xargs xgettext --from-code=UTF-8 --output=hydrapaper-glade.pot -L Glade
-msgcat --use-first hydrapaper-python.pot hydrapaper-glade.pot > hydrapaper.pot
+find ../data/ -iname "*.desktop.in" | xargs xgettext --from-code=UTF-8 --output=hydrapaper-desktop.pot -L Desktop
+msgcat --use-first hydrapaper-python.pot hydrapaper-glade.pot hydrapaper-desktop.pot > hydrapaper.pot
 version=$(fgrep "version: " ../meson.build | grep -v "meson" | grep -o "'.*'" | sed "s/'//g")
 echo $version
 sed 's/#: //g;s/:[0-9]*//g;s/\.\.\///g' <(fgrep "#: " hydrapaper.pot) | sort | uniq > POTFILES.in

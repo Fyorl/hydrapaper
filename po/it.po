@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-07-14 12:54+0200\n"
+"POT-Creation-Date: 2019-07-15 09:42+0200\n"
 "PO-Revision-Date: 2019-07-13 13:17+0200\n"
 "Last-Translator: Gabriele Musco <emaildigabry@gmail.com>\n"
 "Language-Team: Italian\n"
@@ -147,3 +147,19 @@ msgstr "Aggiungi"
 #: ../data/ui/wallpapers_folders_view.glade:73
 msgid "Remove"
 msgstr "Rimuovi"
+
+#: ../data/org.gabmus.hydrapaper.desktop.in:3
+msgid "@prettyname@"
+msgstr ""
+
+#: ../data/org.gabmus.hydrapaper.desktop.in:4
+msgid "Wallpaper manager with multimonitor support"
+msgstr "Gestore di sfondi con supporto per multi monitor"
+
+#: ../data/org.gabmus.hydrapaper.desktop.in:6
+msgid "@appid@"
+msgstr ""
+
+#: ../data/org.gabmus.hydrapaper.desktop.in:12
+msgid "wallpaper;background;monitor;"
+msgstr "sfondi;monitor;"

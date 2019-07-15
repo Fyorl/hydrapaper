@@ -1,3 +1,4 @@
+data/org.gabmus.hydrapaper.desktop.in
 data/ui/choose_folder_dialog.glade
 data/ui/headerbar.glade
 data/ui/menu.xml

@@ -13,16 +13,27 @@ app_id_aspath = '/'.join([
 desktop_conf = configuration_data()
 desktop_conf.set('bindir', join_paths(prefix, bindir))
 desktop_conf.set('prettyname', prettyname)
-desktop_conf.set('description', description)
+# .desktop comment now hardcoded for better i18n support
+#desktop_conf.set('description', description)
 desktop_conf.set('appid', app_id)
 desktop_conf.set('projectname', meson.project_name())
 
 desktop_file = configure_file(
     input: app_id + '.desktop.in',
+    output: app_id + '.desktop.i18n.in',
+    #install: true,
+    #install_dir: join_paths(datadir, 'applications'),
+    configuration: desktop_conf
+)
+
+i18n.merge_file(
+    app_id + '.desktop',
+    input: app_id + '.desktop.i18n.in',
     output: app_id + '.desktop',
+    po_dir: '../po',
     install: true,
     install_dir: join_paths(datadir, 'applications'),
-    configuration: desktop_conf
+    type: 'desktop'
 )
 
 message('Looking for dependencies')

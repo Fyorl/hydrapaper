@@ -4,7 +4,7 @@ project('hydrapaper',
     license: 'GPL3'
 )
 
-description = 'Wallpaper manager with multimonitor support for GNOME'
+description = 'Wallpaper manager with multimonitor support'
 prettyname = 'HydraPaper'
 prettylicense = 'GPL-3.0+'
 
@@ -22,7 +22,7 @@ contributors = '\n'.join([
     'Alex Hunt (huntie) &lt;hello@alexhunt.io&gt;'
 ])
 
-# i18n = import('i18n')
+i18n = import('i18n')
 python = import('python3')
 gnome = import('gnome')
 prefix = get_option('prefix') # should be /usr
