@@ -21,16 +21,17 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.stack_switcher.set_stack(self.main_stack)
         self.monitors_flowbox = HydraPaperMonitorsFlowbox()
 
-        self.monitors_flowbox.set_hexpand(False)
-        self.monitors_flowbox.set_halign(Gtk.Align.CENTER)
         self.container_box.pack_start(self.monitors_flowbox, False, False, 6)
         self.container_box.pack_start(self.main_stack, True, True, 0)
         self.add(self.container_box)
         self.set_titlebar(self.headerbar)
-        # self.connect('destroy', self.destroy)
+        # Why this -52?
+        # because every time a new value is saved, for some reason
+        # it's the actual value +52 out of nowhere
+        # this makes the window ACTUALLY preserve its old size
         self.resize(
-            self.confman.conf['windowsize']['width'],
-            self.confman.conf['windowsize']['height']
+            self.confman.conf['windowsize']['width']-52,
+            self.confman.conf['windowsize']['height']-52
         )
         self.size_allocation = self.get_allocation()
         self.connect('size-allocate', self.update_size_allocation)

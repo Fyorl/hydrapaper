@@ -26,6 +26,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
         self.show_all()
 
     def set_picture(self, n_wp=None):
+        wp_size = 256 if self.confman.conf['big_monitor_thumbnails'] else 64
         if n_wp and is_image(n_wp):
             self.monitor.wallpaper = n_wp
         if self.monitor.wallpaper and is_image(self.monitor.wallpaper):
@@ -38,7 +39,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
             if not isfile(thumb_path):
                 thumb_path = self.monitor.wallpaper
             pixbuf = GdkPixbuf.Pixbuf.new_from_file_at_scale(
-                thumb_path, 64, 64, True
+                thumb_path, wp_size, wp_size, True
             )
             self.image.set_from_pixbuf(pixbuf)
         else:
@@ -54,14 +55,22 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
 
         self.monitors = build_monitors_from_gdk()
 
-        self.set_min_children_per_line(4)
-        self.set_max_children_per_line(7)
+        self.set_min_children_per_line(1)
+        self.set_max_children_per_line(len(self.monitors))
+        self.set_halign(Gtk.Align.FILL)
+        self.set_hexpand(True)
+        self.set_homogeneous(False)
+        self.set_vexpand(False)
         self.set_activate_on_single_click(
             self.confman.conf['selection_mode']
         )
         self.confman.connect(
             'hydrapaper_flowbox_wallpaper_selected',
             self.change_selected_wp
+        )
+        self.confman.connect(
+            'hydrapaper_reload_monitor_thumbs',
+            self.reload_children_pictures
         )
         self.populate()
 
@@ -72,6 +81,10 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
                 HydraPaperMonitorsFlowboxItem(m)
             )
         self.select_child(self.get_children()[0])
+
+    def reload_children_pictures(self, *args):
+        for c in self.get_children():
+            c.set_picture()
 
     def load_from_config(self):
         for m in self.monitors:

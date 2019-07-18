@@ -40,6 +40,11 @@ class ConfManagerSignaler(GObject.Object):
             GObject.SIGNAL_RUN_FIRST,
             None,
             (str,)
+        ),
+        'hydrapaper_reload_monitor_thumbs': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str,)
         )
     }
 
@@ -57,6 +62,7 @@ class ConfManager(metaclass=Singleton):
         'favorites': [],
         'favorites_in_mainview': True,
         'folders_popover_full_path': False,
+        'big_monitor_thumbnails': True,
         'windowsize': {
             'width': 600,
             'height': 400

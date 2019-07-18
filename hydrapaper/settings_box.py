@@ -151,12 +151,40 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
                     remove(f)
 
 
+class ViewPreferencesPage(Handy.PreferencesPage):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.set_title(_('View'))
+        self.set_icon_name('applications-graphics-symbolic')
+
+        
+        self.view_preferences_group = Handy.PreferencesGroup()
+        self.view_preferences_group.set_title(_('View Settings'))
+        toggle_settings = [
+            {
+                'title': _('Use big thumbnails for the monitors previews'),
+                'conf_key': 'big_monitor_thumbnails',
+                'signal': 'hydrapaper_reload_monitor_thumbs'
+            }
+        ]
+        for s in toggle_settings:
+            row = PreferencesToggleRow(s['title'], s['conf_key'], s['signal'])
+            self.view_preferences_group.add(row)
+        self.add(self.view_preferences_group)
+
+        self.show_all()
+
+
 class HydraPaperSettingsWindow(Handy.PreferencesWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        self.general_page = GeneralPreferencesPage()
-        self.add(self.general_page)
+        self.pages = [
+            GeneralPreferencesPage(),
+            ViewPreferencesPage()
+        ]
+        for p in self.pages:
+            self.add(p)
         # values copied from libhandy demo
         # https://source.puri.sm/Librem5/libhandy/blob/master/examples/hdy-demo-preferences-window.ui
         self.set_default_size(640, 700)
