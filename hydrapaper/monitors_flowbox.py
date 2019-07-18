@@ -19,6 +19,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
         self.image = Gtk.Image()
         self.box.pack_start(self.image, False, False, 0)
         self.box.pack_start(self.label, False, False, 0)
+        self.set_halign(Gtk.Align.CENTER)
         self.box.set_margin_left(24)
         self.box.set_margin_right(24)
         self.add(self.box)
