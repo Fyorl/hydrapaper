@@ -32,6 +32,13 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9" timestamp="1564647040">
+            <description>
+                <ul>
+                    <li>Added option to set lockscreen wallpapers in GNOME</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.8" timestamp="1563213244">
             <description>
                 <ul>

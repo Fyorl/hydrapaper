@@ -35,11 +35,33 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
             self.apply_button,
             self.menu_button,
         ]
-
         for w in left_widgets:
             self.pack_start(w)
         for w in right_widgets:
             self.pack_end(w)
+
+        self.ww_popover = Gtk.Popover()
+        self.ww_popover_content_builder = Gtk.Builder.new_from_resource(
+            '/org/gabmus/hydrapaper/ui/which_wallpaper_box.glade'
+        )
+        self.ww_container = self.ww_popover_content_builder.get_object(
+            'ww_container'
+        )
+        # self.set_desktop_btn = self.ww_popover_content_builder.get_object(
+        #     'desktop_btn'
+        # )
+        # self.set_lockscreen_btn = self.ww_popover_content_builder.get_object(
+        #     'lockscreen_btn'
+        # )
+        # self.set_both_btn = self.ww_popover_content_builder.get_object(
+        #     'both_btn'
+        # )
+        self.ww_popover_content_builder.connect_signals(self)
+        self.ww_popover.add(self.ww_container)
+        self.ww_popover.set_modal(True)
+        self.ww_popover.set_relative_to(self.apply_button)
+
+
         self.builder.connect_signals(self)
 
     def on_menuBtn_clicked(self, btn):
@@ -52,4 +74,18 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         change_minimize_state(toggle = toggle)
 
     def on_applyButton_clicked(self, btn):
-        self.apply_handler(btn)
+        self.ww_popover.popup()
+        # self.apply_handler(btn)
+
+    def on_desktop_clicked(self, btn):
+        self.ww_popover.popdown()
+        self.apply_handler(self.apply_button, lockscreen = False)
+
+    def on_lockscreen_clicked(self, btn):
+        self.ww_popover.popdown()
+        self.apply_handler(self.apply_button, lockscreen = True)
+
+    def on_both_clicked(self, btn):
+        self.ww_popover.popdown()
+        self.apply_handler(self.apply_button, lockscreen = False)
+        self.apply_handler(self.apply_button, lockscreen = True)

@@ -11,7 +11,7 @@ from .wallpaper_merger import (
 )
 from .confManager import ConfManager
 
-def _apply_wallpapers_worker(monitors):
+def _apply_wallpapers_worker(monitors, lockscreen = False):
     confman = ConfManager()
     desktop_environment = Env.get('XDG_CURRENT_DESKTOP').lower()
     set_wallpaper = set_wallpaper_gnome
@@ -19,7 +19,7 @@ def _apply_wallpapers_worker(monitors):
         set_wallpaper = set_wallpaper_mate
     # add other DE cases as `elif` here
     if len(monitors) == 1:
-        set_wallpaper(monitors[0].wallpaper, 'zoom')
+        set_wallpaper(monitors[0].wallpaper, 'zoom', lockscreen)
         return
     wp_unique_str = '_'.join([m.__repr__() for m in monitors])
     save_path = '{0}/{1}.png'.format(
@@ -32,15 +32,15 @@ def _apply_wallpapers_worker(monitors):
         print(_('Hit cache for {0}. Skipping merge').format(save_path))
     else:
         multi_setup_pillow(monitors, save_path)
-    set_wallpaper(save_path)
+    set_wallpaper(save_path, lockscreen = lockscreen)
 
 
-def apply_wallpapers(monitors, widgets_to_freeze = []):
+def apply_wallpapers(monitors, widgets_to_freeze = [], lockscreen = False):
     t = Thread(
         group = None,
         target = _apply_wallpapers_worker,
         name = None,
-        args = (monitors,)
+        args = (monitors, lockscreen)
     )
     for w in widgets_to_freeze:
         w.set_sensitive(False)

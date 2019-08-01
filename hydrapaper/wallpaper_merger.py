@@ -28,14 +28,20 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
         final_image.paste(i, o)
     final_image.save(save_path)
 
-def set_wallpaper_gnome(path, wp_mode='spanned'):
-    gsettings = Gio.Settings.new('org.gnome.desktop.background')
+def set_wallpaper_gnome(path, wp_mode = 'spanned', lockscreen = False):
+    gsettings_path = 'org.gnome.desktop.background'
+    if lockscreen:
+        gsettings_path = 'org.gnome.desktop.screensaver'
+    gsettings = Gio.Settings.new(gsettings_path)
     wp_key = 'picture-uri'
     mode_key = 'picture-options'
     gsettings.set_string(wp_key, 'file://{}'.format(path))
     gsettings.set_string(mode_key, wp_mode)
 
-def set_wallpaper_mate(path, wp_mode='spanned'):
+def set_wallpaper_mate(path, wp_mode = 'spanned', lockscreen = False):
+    if lockscreen:
+        print('Lock screen wallpaper on MATE unsupported')
+        return
     gsettings = Gio.Settings.new('org.mate.background')
     wp_key = 'picture-filename'
     mode_key = 'picture-options'

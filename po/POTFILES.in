@@ -6,6 +6,7 @@ data/ui/menu.xml
 data/ui/menu.xml data/ui/shortcutsWindow.xml
 data/ui/wallpapers_flowbox.glade
 data/ui/wallpapers_folders_view.glade
+data/ui/which_wallpaper_box.glade
 hydrapaper/apply_wallpapers.py
 hydrapaper/__main__.py
 hydrapaper/main_stack.py

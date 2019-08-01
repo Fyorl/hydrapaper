@@ -74,13 +74,14 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         super().show_all(**kwargs)
         self.main_stack.main_flowbox.show_hide_wallpapers()
 
-    def apply_handler(self, btn):
+    def apply_handler(self, btn, lockscreen = False):
         apply_wallpapers(
             monitors = self.monitors_flowbox.monitors,
             widgets_to_freeze = [
                 btn,
                 self.folders_view
-            ]
+            ],
+            lockscreen = lockscreen
         )
         self.monitors_flowbox.dump_to_config()
 
