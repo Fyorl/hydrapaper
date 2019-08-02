@@ -142,7 +142,7 @@
               <object class="GtkImage">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <property name="icon_name">starred-symbolic</property>
+                <property name="icon_name">org.gabmus.hydrapaper-lockscreen-desktop-icon-symbolic</property>
               </object>
               <packing>
                 <property name="expand">False</property>
