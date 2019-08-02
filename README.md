@@ -35,26 +35,10 @@ It requires the following dependencies:
 
 - Make sure you have flatpak installed in your system ([here is a tutorial on how to install it](https://flatpak.org/getting.html)), and make sure that the version is >= 0.10 (check it using this command: `flatpak --version`)
 - Add the [flathub](https://flathub.org) repository using the following command: `flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`. This is needed for flatpak to download the GNOME 3.28 Runtime
-- Proceed with one of the following options:
-  - [Install from Flathub (recommended)](#from-flathub-recommended)
-  - [Install from GitHub release](#from-github-release)
-
-#### From Flathub (recommended)
 
 Click the following button install HydraPaper from the Flathub store.
 
 [![Get it on Flathub](https://raw.githubusercontent.com/flatpak-design-team/flathub-mockups/master/assets/download-button/download.svg?sanitize=true)](https://flathub.org/apps/details/org.gabmus.hydrapaper)
-
-#### From GitHub release
-
-- Download the latest flatpak release [from the releases page](https://github.com/GabMus/HydraPaper/releases)
-- Install the flatpak file you just downloaded either opening it up with GNOME Software, Discover or using one of the following commands:
-  - To install HydraPaper systemwide: `flatpak install hydrapaper*.flatpak`
-  - To install HydraPaper locally for your user only: `flatpak --user install hydrapaper*.flatpak`
-
-#### Using development builds
-
-For every notable change made to HydraPaper I will build a flatpak. If you want to try out the latest features and don't mind some bugs or crashes here and there, or if you want to help out with development, you can grab the latest development snapshot build using the following link: **[Get the latest development snapshot](https://github.com/GabMus/HydraPaper/issues/21)**
 
 #### Uninstalling HydraPaper flatpak
 
@@ -76,11 +60,6 @@ Your best bet is installing via Flatpak. [Check the instructions in this section
 Alternatively ou can either run HydraPaper without installing it (refer to the [Building for testing section](#building-for-testing)), or install it in your system (refer to the [Installing systemwide directly section](#build-and-install-systemwide-directly)).
 
 ## Building
-
-To build HydraPaper, first you need to install two libraries I made:
-
-- [`gmconfig`](https://gitlab.com/gabmus/gmconfig)
-- [`gmgtk`](https://gitlab.com/gabmus/gmconfig)
 
 ### Building for testing
 
