@@ -29,6 +29,12 @@ body, html {
     color: #555;
 }
 
+video {
+    display: block;
+    max-width: 90%;
+    margin: auto;
+}
+
 #markdown nav img {
     display: inline-block !important;
     margin: 0 0 0 0 !important;
@@ -75,13 +81,20 @@ body, html {
     vertical-align: middle;
 }
 
-@media only screen and (max-width: 450px) {
+@media only screen and (max-width: 560px) {
     #markdown nav ul li span strong {
         display: none;
+    }
+
+    #markdown nav ul li {
+        font-size: large;
+        padding: 0 6px 0 6px;
     }
 }
 
 h1, h2, h3, p {
+    max-width: 1000px !important;
+    margin: auto;
     text-align: center;
 }
 
@@ -101,7 +114,7 @@ h2 {
     max-width: 100%;
 }
 
-#markdown img {
+#markdown img, #markdown video {
     margin-top: 24px;
     margin-bottom: 60px;
 }
