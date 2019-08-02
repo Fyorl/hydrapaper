@@ -32,8 +32,8 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
             self.lower_windows_toggle
         ]
         right_widgets = [
-            self.apply_button,
             self.menu_button,
+            self.apply_button
         ]
         for w in left_widgets:
             self.pack_start(w)
