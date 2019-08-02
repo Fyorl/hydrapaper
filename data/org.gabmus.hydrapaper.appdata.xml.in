@@ -32,6 +32,14 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.1" timestamp="1564647040">
+            <description>
+                <ul>
+                    <li>Moved app menu to the far right</li>
+                    <li>Added view switcher bar when window is too small</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9" timestamp="1564647040">
             <description>
                 <ul>
