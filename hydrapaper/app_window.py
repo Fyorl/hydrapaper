@@ -1,4 +1,4 @@
-from gi.repository import Gtk # , Handy
+from gi.repository import Gtk , Handy
 from .wnck_win_controller import change_minimize_state
 from .confManager import ConfManager
 from .main_stack import HydraPapaerMainStack
@@ -14,19 +14,18 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.set_title('HydraPaper')
         self.set_icon_name('org.gabmus.hydrapaper')
         self.container_box = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
+        self.bottom_bar = Handy.ViewSwitcherBar()
         self.headerbar = HydraPaperHeaderbar(self, self.apply_handler)
-        self.folders_view = self.headerbar.folders_view
         self.stack_switcher = self.headerbar.stack_switcher
+        self.folders_view = self.headerbar.folders_view
         self.main_stack = HydraPapaerMainStack()
         self.stack_switcher.set_stack(self.main_stack)
+        self.bottom_bar.set_stack(self.main_stack)
         self.monitors_flowbox = HydraPaperMonitorsFlowbox()
-        #self.bottom_bar = Handy.ViewSwitcherBar()
-        #self.bottom_bar.set_stack(self.main_stack)
-        #self.bottom_bar.set_reveal(True)
 
         self.container_box.pack_start(self.monitors_flowbox, False, False, 6)
         self.container_box.pack_start(self.main_stack, True, True, 0)
-        #self.container_box.pack_start(self.bottom_bar, False, False, 0)
+        self.container_box.pack_start(self.bottom_bar, False, False, 0)
         self.add(self.container_box)
         self.set_titlebar(self.headerbar)
         # Why this -52?

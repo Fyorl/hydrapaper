@@ -8,7 +8,13 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.apply_handler = apply_handler
         self.set_show_close_button(True)
         self.stack_switcher = Handy.ViewSwitcher()
-        self.set_custom_title(self.stack_switcher)
+        self.squeezer = Handy.Squeezer()
+        self.nobox = Gtk.Label()
+        self.bottom_bar = window.bottom_bar
+        self.squeezer.add(self.stack_switcher)
+        self.squeezer.add(self.nobox)
+        self.squeezer.connect('notify::visible-child', self.on_squeeze)
+        self.set_custom_title(self.squeezer)
 
         self.folders_view = HydraPaperWallpapersFoldersView(window)
         self.builder = Gtk.Builder.new_from_resource(
@@ -47,15 +53,6 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.ww_container = self.ww_popover_content_builder.get_object(
             'ww_container'
         )
-        # self.set_desktop_btn = self.ww_popover_content_builder.get_object(
-        #     'desktop_btn'
-        # )
-        # self.set_lockscreen_btn = self.ww_popover_content_builder.get_object(
-        #     'lockscreen_btn'
-        # )
-        # self.set_both_btn = self.ww_popover_content_builder.get_object(
-        #     'both_btn'
-        # )
         self.ww_popover_content_builder.connect_signals(self)
         self.ww_popover.add(self.ww_container)
         self.ww_popover.set_modal(True)
@@ -63,6 +60,11 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
 
 
         self.builder.connect_signals(self)
+
+    def on_squeeze(self, *args):
+        self.bottom_bar.set_reveal(
+            self.squeezer.get_visible_child() == self.nobox
+        )
 
     def on_menuBtn_clicked(self, btn):
         self.menu_popover.popup()
