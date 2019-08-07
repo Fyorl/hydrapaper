@@ -1,20 +1,12 @@
-# <a href="https://gabmus.gitlab.io/HydraPaper"><img height="32" src="https://gitlab.com/gabmus/HydraPaper/raw/master/data/icons/org.gabmus.hydrapaper.svg" /> HydraPaper</a>
+# <a href="https://gabmus.gitlab.io/HydraPaper"><img height="32" src="data/icons/org.gabmus.hydrapaper.svg" /> HydraPaper</a>
 
-A Gtk utility to set two different backgrounds for each monitor on GNOME (which lacks this feature)
+Wallpaper manager with multimonitor support
 
-![screenshot](screenshot.png)
-
-### Using from the command line
-
-HydraPaper can be used to set wallpapers from the command line:
-
-```bash
-hydrapaper -c path_to_wallpaper1 path_to_wallpaper2 ...
-```
+![screenshot](website/screenshots/mainwindow.png)
 
 ## Installing
 
-### Requirements
+[![Packaging status](https://repology.org/badge/vertical-allrepos/hydrapaper.svg)](https://repology.org/project/hydrapaper/versions)
 
 HydraPaper officially supports the following desktop environments:
 
@@ -22,32 +14,13 @@ HydraPaper officially supports the following desktop environments:
 - MATE
 - Budgie
 
-It requires the following dependencies:
+### Flatpak universal package
 
-- `python3` (>=3.5)
-- `python-pillow`
-- `libwnck3`
-- `gtk`
-
-### Installing via Flatpak
-
-#### Prerequisites
-
-- Make sure you have flatpak installed in your system ([here is a tutorial on how to install it](https://flatpak.org/getting.html)), and make sure that the version is >= 0.10 (check it using this command: `flatpak --version`)
-- Add the [flathub](https://flathub.org) repository using the following command: `flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo`. This is needed for flatpak to download the GNOME 3.28 Runtime
+[Install **Flatpak** by following the quick setup guide](https://flatpak.org/setup/).
 
 Click the following button install HydraPaper from the Flathub store.
 
 [![Get it on Flathub](https://raw.githubusercontent.com/flatpak-design-team/flathub-mockups/master/assets/download-button/download.svg?sanitize=true)](https://flathub.org/apps/details/org.gabmus.hydrapaper)
-
-#### Uninstalling HydraPaper flatpak
-
-You can uninstall HydraPaper from GNOME Software or Discover.
-
-Alternatively you can run one of these commands:
-
-- If you installed HydraPaper using GNOME Software or system wide: `flatpak uninstall org.gabmus.hydrapaper`
-- If you installed HydraPaper using Discover or using the `--user` option: `flatpak --user uninstall org.gabmus.hydrapaper`
 
 ### Installing on Arch Linux/Antergos/Manjaro
 
@@ -57,15 +30,21 @@ You can find HydraPaper on AUR, as `hydrapaper-git` ([AUR page](https://aur.arch
 
 [Fedora (official repo)](https://apps.fedoraproject.org/packages/hydrapaper): `sudo dnf install hydrapaper`
 
-[![Packaging status](https://repology.org/badge/vertical-allrepos/hydrapaper.svg)](https://repology.org/project/hydrapaper/versions)
-
 ### Other distros
 
-Your best bet is installing via Flatpak. [Check the instructions in this section](#installing-via-flatpak).
+Your best bet is installing via Flatpak. [Check the instructions in the Flatpak section](#flatpak-universal-package).
 
 Alternatively ou can either run HydraPaper without installing it (refer to the [Building for testing section](#building-for-testing)), or install it in your system (refer to the [Installing systemwide directly section](#build-and-install-systemwide-directly)).
 
 ## Building
+
+HydraPaper has these dependencies:
+
+- `python3` (>=3.5)
+- `python-pillow`
+- `libwnck3`
+- `libhandy` (>=0.10)
+- `gtk`
 
 ### Building for testing
 
@@ -93,6 +72,8 @@ ninja run
 ```
 
 ### Building a Flatpak
+
+*NOTE: these instructions could be out of date. Please use GNOME Builder to build and test Flatpaks easily.*
 
 First install `flatpak` and `flatpak-builder` from your distro repository. Although it's not necessary, you may also want to install `gnome-software`.
 
