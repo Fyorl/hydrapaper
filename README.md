@@ -1,4 +1,4 @@
-# HydraPaper
+# <a href="https://gabmus.gitlab.io/HydraPaper"><img height="32" src="https://gitlab.com/gabmus/HydraPaper/raw/master/data/icons/org.gabmus.hydrapaper.svg" /> HydraPaper</a>
 
 A Gtk utility to set two different backgrounds for each monitor on GNOME (which lacks this feature)
 
