@@ -53,6 +53,12 @@ Alternatively you can run one of these commands:
 
 You can find HydraPaper on AUR, as `hydrapaper-git` ([AUR page](https://aur.archlinux.org/packages/hydrapaper-git)).
 
+### Installing on Fedora
+
+[Fedora (official repo)](https://apps.fedoraproject.org/packages/hydrapaper): `sudo dnf install hydrapaper`
+
+[![Packaging status](https://repology.org/badge/vertical-allrepos/hydrapaper.svg)](https://repology.org/project/hydrapaper/versions)
+
 ### Other distros
 
 Your best bet is installing via Flatpak. [Check the instructions in this section](#installing-via-flatpak).
