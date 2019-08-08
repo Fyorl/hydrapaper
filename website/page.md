@@ -66,6 +66,10 @@ Then, click the button below to install HydraPaper:
 
 <a href="https://flathub.org/apps/details/org.gabmus.hydrapaper"><img src="https://raw.githubusercontent.com/flatpak-design-team/flathub-mockups/master/assets/download-button/download.svg?sanitize=true" height="100" alt="Get it on Flathub" /></a>
 
+### Fedora
+
+HydraPaper is available on Fedora's official repos. Just run `sudo dnf install hydrapaper` in your terminal to install it. Alternatively, use [Flatpak](#flatpak) to get the latest and greatest version of HydraPaper.
+
 ### AUR
 
 If you're using Arch Linux or an Arch based system, you can install the [`hydrapaper-git`](https://aur.archlinux.org/packages/hydrapaper-git/) package from the AUR.
