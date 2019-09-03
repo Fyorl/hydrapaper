@@ -32,6 +32,13 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.2" timestamp="1564647040">
+            <description>
+                <ul>
+                    <li>Fixed path enable/disable bug</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9.1" timestamp="1564647040">
             <description>
                 <ul>

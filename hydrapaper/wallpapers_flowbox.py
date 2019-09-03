@@ -3,6 +3,7 @@ from gi.repository import Gtk
 from .confManager import ConfManager
 from .wallpaper_flowbox_item import WallpaperBox
 import pathlib
+from os import listdir
 
 class HydraPaperWallpapersFlowbox(Gtk.Bin):
     def __init__(self, is_favorites=False, **kwargs):
@@ -85,7 +86,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         for p in self.confman.conf['wallpapers_paths']:
             if not p['active']:
                 for c in self.flowbox.get_children():
-                    if p['path'] in c.wallpaper_path:
+                    if c.wallpaper_path.parent == pathlib.Path(p['path']):
                         c.hide()
         if not self.confman.conf['favorites_in_mainview']:
             for c in self.flowbox.get_children():
