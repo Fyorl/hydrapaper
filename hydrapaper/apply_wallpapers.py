@@ -1,7 +1,6 @@
 from gettext import gettext as _
 from os import environ as Env
 from os.path import isfile
-from hashlib import sha256
 from threading import Thread
 from gi.repository import Gtk
 from .wallpaper_merger import (
@@ -22,16 +21,10 @@ def _apply_wallpapers_worker(monitors, lockscreen = False):
         set_wallpaper(monitors[0].wallpaper, 'zoom', lockscreen)
         return
     wp_unique_str = '_'.join([m.__repr__() for m in monitors])
-    save_path = '{0}/{1}.png'.format(
-        confman.cache_path,
-        sha256(
-            f'HydraPaper{wp_unique_str}'.encode()
-        ).hexdigest()
+    save_path = '{0}/merged_wallpaper.png'.format(
+        confman.cache_path
     )
-    if isfile(save_path):
-        print(_('Hit cache for {0}. Skipping merge').format(save_path))
-    else:
-        multi_setup_pillow(monitors, save_path)
+    multi_setup_pillow(monitors, save_path)
     set_wallpaper(save_path, lockscreen = lockscreen)
 
 

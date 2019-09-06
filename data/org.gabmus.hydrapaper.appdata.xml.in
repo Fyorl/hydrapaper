@@ -32,6 +32,13 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.3" timestamp="1567757366">
+            <description>
+                <ul>
+                    <li>Merged wallpapers aren't cached anymore. Just keep one and save lots of space</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9.2" timestamp="1564647040">
             <description>
                 <ul>
