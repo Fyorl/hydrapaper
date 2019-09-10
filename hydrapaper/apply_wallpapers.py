@@ -21,8 +21,9 @@ def _apply_wallpapers_worker(monitors, lockscreen = False):
         set_wallpaper(monitors[0].wallpaper, 'zoom', lockscreen)
         return
     wp_unique_str = '_'.join([m.__repr__() for m in monitors])
-    save_path = '{0}/merged_wallpaper.png'.format(
-        confman.cache_path
+    save_path = '{0}/{1}merged_wallpaper.png'.format(
+        confman.cache_path,
+        'lockscreen_' if lockscreen else ''
     )
     multi_setup_pillow(monitors, save_path)
     set_wallpaper(save_path, lockscreen = lockscreen)
