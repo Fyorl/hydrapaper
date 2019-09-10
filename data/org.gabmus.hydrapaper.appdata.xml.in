@@ -32,6 +32,13 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.4" timestamp="1568137893">
+            <description>
+                <ul>
+                    <li>Fixed conflict between desktop and lockscreen wallpapers</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9.3" timestamp="1567757366">
             <description>
                 <ul>
