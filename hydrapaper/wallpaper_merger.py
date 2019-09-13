@@ -1,24 +1,31 @@
 from gi.repository import Gio
 from PIL import Image
 from PIL.ImageOps import fit
-from .confManager import ConfManager
+from os import environ as Env
+from subprocess import run
+import json
 
-TMP_DIR='/tmp/HydraPaper/'
+TMP_DIR = '/tmp/HydraPaper/'
+SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
+
 
 def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
     images = list(map(Image.open, [m.wallpaper for m in monitors]))
-    resolutions = [(m.width * m.scaling, m.height * m.scaling) for m in monitors]
+    resolutions = [
+        (m.width * m.scaling, m.height * m.scaling) for m in monitors
+    ]
     offsets = [(m.offset_x, m.offset_y) for m in monitors]
 
     # DEBUG
     # for m in monitors:
     #     print(m)
 
-    final_image_width = max([m.offset_x + m.width * m.scaling for m in monitors])
-    final_image_height = max([m.offset_y + m.height * m.scaling for m in monitors])
-
-    # DEBUG
-    # print('Final Size: {} x {}'.format(final_image_width, final_image_height))
+    final_image_width = max([
+        m.offset_x + m.width * m.scaling for m in monitors
+    ])
+    final_image_height = max([
+        m.offset_y + m.height * m.scaling for m in monitors
+    ])
 
     n_images = []
     for i, r in zip(images, resolutions):
@@ -28,7 +35,8 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
         final_image.paste(i, o)
     final_image.save(save_path)
 
-def set_wallpaper_gnome(path, wp_mode = 'spanned', lockscreen = False):
+
+def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
     gsettings_path = 'org.gnome.desktop.background'
     if lockscreen:
         gsettings_path = 'org.gnome.desktop.screensaver'
@@ -38,7 +46,8 @@ def set_wallpaper_gnome(path, wp_mode = 'spanned', lockscreen = False):
     gsettings.set_string(wp_key, 'file://{}'.format(path))
     gsettings.set_string(mode_key, wp_mode)
 
-def set_wallpaper_mate(path, wp_mode = 'spanned', lockscreen = False):
+
+def set_wallpaper_mate(path, wp_mode='spanned', lockscreen=False):
     if lockscreen:
         print('Lock screen wallpaper on MATE unsupported')
         return
@@ -47,3 +56,8 @@ def set_wallpaper_mate(path, wp_mode = 'spanned', lockscreen = False):
     mode_key = 'picture-options'
     gsettings.set_string(wp_key, path)
     gsettings.set_string(mode_key, wp_mode)
+
+
+def set_wallpaper_sway(path, wp_mode='spanned', lockscreen=False):
+    res = run('swaymsg -rt get_outputs'.split(' '))
+    json.loads(res.stdout.decode())
