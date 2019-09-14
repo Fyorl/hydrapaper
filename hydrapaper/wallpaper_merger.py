@@ -7,6 +7,7 @@ import re
 
 TMP_DIR = '/tmp/HydraPaper/'
 SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
+SWAYLOCK_CONF_PATH = f'{Env.get("HOME")}/.swaylock/config'
 
 
 def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
@@ -59,17 +60,21 @@ def set_wallpaper_mate(path, wp_mode='spanned', lockscreen=False):
 
 
 def set_wallpaper_sway(monitors, lockscreen=False):
-    if lockscreen:
-        print('Lock screen wallpaper on sway unsupported')
-        return
-    with open(SWAY_CONF_PATH) as fd:
+    conf_path = SWAYLOCK_CONF_PATH if lockscreen else SWAY_CONF_PATH
+    with open(conf_path) as fd:
         conf = fd.read()
         fd.close()
-    n_conf = re.sub(r'output .* bg .*', '', conf).strip()
-    n_conf += '\n' + '\n'.join([
-        f'output {m.name} bg {m.wallpaper} fill' for m in monitors
-    ])
-    with open(SWAY_CONF_PATH, 'w') as fd:
+    if lockscreen:
+        n_conf = re.sub(r'image=.*', '', conf).strip()
+        n_conf += '\n' + '\n'.join([
+            f'image={m.name}:{m.wallpaper.replace(":", "::")}' for m in monitors
+        ])
+    else:
+        n_conf = re.sub(r'output .* bg .*', '', conf).strip()
+        n_conf += '\n' + '\n'.join([
+            f'output {m.name} bg {m.wallpaper} fill' for m in monitors
+        ])
+    with open(conf_path, 'w') as fd:
         fd.write(n_conf)
         fd.close()
     run('sway reload'.split(' '))
