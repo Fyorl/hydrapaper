@@ -2,8 +2,7 @@ from gi.repository import Gio
 from PIL import Image
 from PIL.ImageOps import fit
 from os import environ as Env
-from subprocess import run
-import json
+import re
 
 TMP_DIR = '/tmp/HydraPaper/'
 SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
@@ -58,6 +57,17 @@ def set_wallpaper_mate(path, wp_mode='spanned', lockscreen=False):
     gsettings.set_string(mode_key, wp_mode)
 
 
-def set_wallpaper_sway(path, wp_mode='spanned', lockscreen=False):
-    res = run('swaymsg -rt get_outputs'.split(' '))
-    json.loads(res.stdout.decode())
+def set_wallpaper_sway(monitors, lockscreen=False):
+    if lockscreen:
+        print('Lock screen wallpaper on sway unsupported')
+        return
+    with open(SWAY_CONF_PATH) as fd:
+        conf = fd.read()
+        fd.close()
+    n_conf = re.sub(r'output .* bg .*', '', conf)
+    n_conf += '\n' + '\n'.join([
+        f'output {m.name} bg {m.wallpaper} fill' for m in monitors
+    ])
+    with open(SWAY_CONF_PATH, 'w') as fd:
+        fd.write(n_conf)
+        fd.close()

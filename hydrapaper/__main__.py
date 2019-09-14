@@ -23,7 +23,7 @@ from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
 from .settings_box import HydraPaperSettingsWindow
 from .is_image import is_image
-from .monitor_parser import build_monitors_from_gdk
+from .monitor_parser import build_monitors_autodetect
 from .apply_wallpapers import apply_wallpapers
 
 class HydraPaperApplication(Gtk.Application):
@@ -101,7 +101,7 @@ class HydraPaperApplication(Gtk.Application):
 
     def apply_random(self, *args):
         from random import randint
-        monitors = build_monitors_from_gdk()
+        monitors = build_monitors_autodetect()
         all_wallpapers = self.confman.wallpapers
         wallpapers = []
         for i in range(len(monitors)):
@@ -115,7 +115,7 @@ class HydraPaperApplication(Gtk.Application):
 
     def apply_from_cli(self, wlist_cli):
         # check all the passed wallpapers to be correct
-        monitors = build_monitors_from_gdk()
+        monitors = build_monitors_autodetect()
         if len(wlist_cli) < len(monitors):
             print(
                 _('Error: you passed {0} wallpapers for {1} monitors').format(

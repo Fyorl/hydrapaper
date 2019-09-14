@@ -1,6 +1,6 @@
 from gi.repository import Gtk, GdkPixbuf
 from .confManager import ConfManager
-from .monitor_parser import build_monitors_from_gdk
+from .monitor_parser import build_monitors_autodetect
 from .is_image import is_image
 from hashlib import sha256
 from os.path import isfile
@@ -54,7 +54,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
         super().__init__(**kwargs)
         self.confman = ConfManager()
 
-        self.monitors = build_monitors_from_gdk()
+        self.monitors = build_monitors_autodetect()
 
         self.set_min_children_per_line(1)
         self.set_max_children_per_line(len(self.monitors))

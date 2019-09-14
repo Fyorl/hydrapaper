@@ -1,8 +1,11 @@
 from gettext import gettext as _
 from gi.repository import Gdk
+from subprocess import run, PIPE
+import json
+from os import environ as Env
+
 
 class Monitor:
-
     def __init__(self, width, height, scaling, offset_x, offset_y, index, name, primary=False):
         self.width = int(width)
         self.height = int(height)
@@ -22,6 +25,25 @@ class Monitor:
 - Offset: {self.offset_x} x {self.offset_y};
 - Wallpaper path: {self.wallpaper};'''
 
+
+def build_monitors_from_swaymsg():
+    monitors = []
+    res = run('swaymsg -rt get_outputs'.split(' '), stdout=PIPE)
+    outputs = json.loads(res.stdout.decode())
+    for i, out in enumerate(outputs):
+        monitors.append(Monitor(
+            out['rect']['width'],
+            out['rect']['height'],
+            out['scale'],
+            out['rect']['x'],
+            out['rect']['y'],
+            i,
+            out['name'],
+            out['primary']
+        ))
+    return monitors
+
+
 def build_monitors_from_gdk():
     monitors = []
     try:
@@ -40,9 +62,22 @@ def build_monitors_from_gdk():
                 f'Monitor {i} ({monitor.get_model()})',
                 monitor.is_primary()
             ))
-    except Exception as e:
+    except Exception:
         print(_('Error parsing monitors (Gdk)'))
         import traceback
         traceback.print_exc()
         monitors = None
     return monitors
+
+
+def build_monitors_autodetect():
+    desktop_environment = (
+        Env.get('XDG_CURRENT_DESKTOP') or
+        Env.get('XDG_SESSION_DESKTOP') or
+        Env.get('DESKTOP_SESSION') or
+        ''
+    ).lower()
+    if desktop_environment == 'sway':
+        return build_monitors_from_swaymsg()
+    else:
+        return build_monitors_from_gdk()
