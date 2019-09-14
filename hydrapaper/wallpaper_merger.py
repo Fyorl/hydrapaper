@@ -2,6 +2,7 @@ from gi.repository import Gio
 from PIL import Image
 from PIL.ImageOps import fit
 from os import environ as Env
+from subprocess import run
 import re
 
 TMP_DIR = '/tmp/HydraPaper/'
@@ -71,3 +72,4 @@ def set_wallpaper_sway(monitors, lockscreen=False):
     with open(SWAY_CONF_PATH, 'w') as fd:
         fd.write(n_conf)
         fd.close()
+    run('sway reload'.split(' '))
