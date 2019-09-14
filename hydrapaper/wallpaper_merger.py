@@ -65,7 +65,7 @@ def set_wallpaper_sway(monitors, lockscreen=False):
     with open(SWAY_CONF_PATH) as fd:
         conf = fd.read()
         fd.close()
-    n_conf = re.sub(r'output .* bg .*', '', conf)
+    n_conf = re.sub(r'output .* bg .*', '', conf).strip()
     n_conf += '\n' + '\n'.join([
         f'output {m.name} bg {m.wallpaper} fill' for m in monitors
     ])
