@@ -2,7 +2,7 @@
     "app-id": "org.gabmus.hydrapaper",
     "command": "hydrapaper",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.34",
+    "runtime-version": "3.32",
     "sdk": "org.gnome.Sdk",
     "finish-args": [
         "--share=ipc",
@@ -89,8 +89,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/mate-desktop/mate-desktop/archive/v1.23.1.tar.gz",
-                    "sha256": "4bfc81aaaba468b4e39d6aec7fe772d3405f3766058c49168f65cfe4a14e0b47"
+                    "url": "https://github.com/mate-desktop/mate-desktop/archive/v1.23.2.tar.gz",
+                    "sha256": "8276408866c50508f754be8a3d5b5c57c0c8e365bab8abbf0595bd54aed8ee07"
                 }
             ]
         },
