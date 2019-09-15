@@ -5,6 +5,7 @@ from .wallpapers_flowbox import HydraPaperWallpapersFlowbox
 class HydraPapaerMainStack(Gtk.Stack):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
+        self.get_style_context().add_class('view')
 
         self.main_flowbox = HydraPaperWallpapersFlowbox()
         self.favs_flowbox = HydraPaperWallpapersFlowbox(is_favorites = True)

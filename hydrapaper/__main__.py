@@ -18,7 +18,7 @@
 from gettext import gettext as _
 import sys
 import argparse
-from gi.repository import Gtk, Gio
+from gi.repository import Gtk, Gdk, Gio
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
 from .settings_box import HydraPaperSettingsWindow
@@ -87,7 +87,7 @@ class HydraPaperApplication(Gtk.Application):
         ).get_object('shortcuts-hydrapaper')
         shortcuts_win.props.section_name = 'shortcuts'
         shortcuts_win.set_transient_for(self.window)
-        shortcuts_win.set_attached_to(self.window)
+        # shortcuts_win.set_attached_to(self.window)
         shortcuts_win.set_modal(True)
         shortcuts_win.present()
         shortcuts_win.show_all()
@@ -95,7 +95,7 @@ class HydraPaperApplication(Gtk.Application):
     def show_settings_window(self, *args):
         settings_win = HydraPaperSettingsWindow()
         settings_win.set_transient_for(self.window)
-        settings_win.set_attached_to(self.window)
+        # settings_win.set_attached_to(self.window)
         settings_win.set_modal(True)
         settings_win.present()
 
@@ -138,6 +138,18 @@ class HydraPaperApplication(Gtk.Application):
 
     def do_activate(self):
         self.add_window(self.window)
+        stylecontext = Gtk.StyleContext()
+        provider = Gtk.CssProvider()
+        provider.load_from_data('''
+            .wallpapers-flowbox {
+                padding-top: 24px;
+            }
+        '''.encode())
+        stylecontext.add_provider_for_screen(
+            Gdk.Screen.get_default(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
         if self.args:
             if self.args.wallpaper_path:
                 self.apply_from_cli(self.args.wallpaper_path[0])

@@ -34,7 +34,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         self.file_chooser_dialog.set_type_hint(Gdk.WindowTypeHint.DIALOG)
         self.file_chooser_dialog.set_modal(True)
         self.file_chooser_dialog.set_transient_for(window)
-        self.file_chooser_dialog.set_attached_to(window)
+        # self.file_chooser_dialog.set_attached_to(window)
         self.file_chooser_dialog_revealer = self.dialog_builder.get_object(
             'infoRevealer'
         )

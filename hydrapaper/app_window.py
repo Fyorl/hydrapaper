@@ -22,8 +22,11 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.stack_switcher.set_stack(self.main_stack)
         self.bottom_bar.set_stack(self.main_stack)
         self.monitors_flowbox = HydraPaperMonitorsFlowbox()
+        # self.separator = Gtk.Separator()
+        # self.separator.get_style_context().add_class('sidebar')
 
-        self.container_box.pack_start(self.monitors_flowbox, False, False, 6)
+        self.container_box.pack_start(self.monitors_flowbox, False, False, 0)
+        # self.container_box.pack_start(self.separator, False, False, 0)
         self.container_box.pack_start(self.main_stack, True, True, 0)
         self.container_box.pack_start(self.bottom_bar, False, False, 0)
         self.add(self.container_box)

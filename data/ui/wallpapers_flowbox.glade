@@ -100,11 +100,11 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="hscrollbar_policy">never</property>
-    <property name="shadow_type">in</property>
     <child>
       <object class="GtkViewport">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="shadow_type">none</property>
         <child>
           <object class="GtkFlowBox" id="wallpapersFlowbox">
             <property name="visible">True</property>
@@ -112,9 +112,16 @@
             <property name="valign">start</property>
             <signal name="button-release-event" handler="on_wallpapersFlowbox_button_release_event" swapped="no"/>
             <signal name="child-activated" handler="on_wallpapersFlowbox_child_activated" swapped="no"/>
+            <style>
+              <class name="view"/>
+              <class name="wallpapers-flowbox"/>
+            </style>
           </object>
         </child>
       </object>
     </child>
+    <style>
+      <class name="view"/>
+    </style>
   </object>
 </interface>
