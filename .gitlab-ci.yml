@@ -4,7 +4,7 @@ variables:
     BUNDLE: "hydrapaper.flatpak"
 
 flatpak:
-    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.34'
+    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.32'
     variables:
         MANIFEST_PATH: "dist/flatpak/org.gabmus.hydrapaper.json"
         MESON_ARGS: "-Dprofile=Devel"
