@@ -22,15 +22,3 @@ review:
 stop_review:
     stage: deploy
     extends: '.stop_review'
-
-pages:
-  stage: deploy
-  script:
-  - mkdir .public
-  - cp -r website/* .public
-  - mv .public public
-  artifacts:
-    paths:
-    - public
-  only:
-  - master
