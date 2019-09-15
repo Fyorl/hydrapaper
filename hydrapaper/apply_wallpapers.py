@@ -23,6 +23,7 @@ def _apply_wallpapers_worker(monitors, lockscreen=False):
         set_wallpaper = set_wallpaper_mate
     elif desktop_environment == 'sway':
         set_wallpaper_sway(monitors, lockscreen)
+        return
     # add other DE cases as `elif` here
     if len(monitors) == 1:
         set_wallpaper(monitors[0].wallpaper, 'zoom', lockscreen)
