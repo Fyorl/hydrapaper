@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-11 20:48+0200\n"
-"PO-Revision-Date: 2019-09-10 19:53+0200\n"
+"POT-Creation-Date: 2019-09-15 13:06+0200\n"
+"PO-Revision-Date: 2019-09-15 13:07+0200\n"
 "Last-Translator: Gabriele Musco <emaildigabry@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -22,7 +22,7 @@ msgstr ""
 msgid "ERROR: cannot create thumbnail for file"
 msgstr "ERRORE: impossibile creare miniatura per il file"
 
-#: ../hydrapaper/monitor_parser.py:44
+#: ../hydrapaper/monitor_parser.py:66
 msgid "Error parsing monitors (Gdk)"
 msgstr "Errore nell'analisi dei monitor (Gdk)"
 
@@ -36,19 +36,19 @@ msgstr "Errore: hai passato {0} sfondi per {1} monitor"
 msgid "Error: {0} is not a valid image path"
 msgstr "Errore: {0} non è il percorso di un'immagine valida"
 
-#: ../hydrapaper/__main__.py:162
+#: ../hydrapaper/__main__.py:174
 msgid "set wallpapers from command line"
 msgstr "imposta sfondi dalla linea di comando"
 
-#: ../hydrapaper/__main__.py:163
+#: ../hydrapaper/__main__.py:175
 msgid "set wallpapers randomly"
 msgstr "imposta sfondi casualmente"
 
-#: ../hydrapaper/main_stack.py:12
+#: ../hydrapaper/main_stack.py:13
 msgid "Wallpapers"
 msgstr "Sfondi"
 
-#: ../hydrapaper/main_stack.py:14
+#: ../hydrapaper/main_stack.py:15
 msgid "Favorites"
 msgstr "Preferiti"
 
@@ -152,13 +152,21 @@ msgstr "Aggiungi"
 msgid "Remove"
 msgstr "Rimuovi"
 
-#: ../data/ui/headerbar.glade:14
+#: ../data/ui/headerbar.glade:9
 msgid "Apply"
 msgstr "Applica"
 
 #: ../data/ui/headerbar.glade:31
 msgid "Lower all other windows"
 msgstr "Abbassa tutte le altre finestre"
+
+#: ../data/ui/headerbar.glade:45
+msgid "Menu"
+msgstr "Menu"
+
+#: ../data/ui/headerbar.glade:67
+msgid "Wallpapers Folders"
+msgstr "Cartelle degli sfondi"
 
 #: ../data/ui/which_wallpaper_box.glade:43
 msgid "Desktop"
@@ -296,7 +304,7 @@ msgstr "Corretto il supporto per MATE sotto Flatpak"
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:107
 msgid "New icon! Should be closer to GNOME HIG."
-msgstr "Nuova icona! Dovrebbe essere più vicina alle HIG di GNOME"
+msgstr "Nuova icona! Dovrebbe essere più vicina alle HIG di GNOME."
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:108
 msgid ""

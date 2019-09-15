@@ -6,12 +6,12 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>
+    <property name="tooltip_text" translatable="yes">Apply</property>
     <signal name="clicked" handler="on_applyButton_clicked" swapped="no"/>
     <child>
       <object class="GtkImage">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
-        <property name="tooltip_text" translatable="yes">Apply</property>
         <property name="icon_name">object-select-symbolic</property>
       </object>
     </child>
@@ -42,6 +42,7 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>
+    <property name="tooltip_text" translatable="yes">Menu</property>
     <signal name="clicked" handler="on_menuBtn_clicked" swapped="no"/>
     <child>
       <object class="GtkImage">
@@ -63,6 +64,7 @@
     <property name="visible">True</property>
     <property name="can_focus">True</property>
     <property name="receives_default">True</property>
+    <property name="tooltip_text" translatable="yes">Wallpapers Folders</property>
     <signal name="clicked" handler="on_wallpapersFoldersBtn_clicked" swapped="no"/>
     <child>
       <object class="GtkImage">
