@@ -18,8 +18,12 @@ website = 'http://'+meson.project_name()+'.'+author+'.org'
 
 # NOTE: if you contributed, feel free to add your name and email address here
 contributors = '\n'.join([
-    'Gabriele Musco (GabMus) &lt;emaildigabry@gmail.com&gt;',
+    'Gabriele Musco (GabMus) &lt;gabmus@disroot.org&gt;',
     'Alex Hunt (huntie) &lt;hello@alexhunt.io&gt;'
+])
+
+translators = '\n'.join([
+    'Alessandra Gallia &lt;alessandragalliaaru@gmail.com&gt;'
 ])
 
 i18n = import('i18n')
