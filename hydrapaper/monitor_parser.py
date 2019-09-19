@@ -3,6 +3,7 @@ from gi.repository import Gdk
 from subprocess import run, PIPE
 import json
 from os import environ as Env
+from .get_desktop_environment import get_desktop_environment
 
 
 class Monitor:
@@ -71,12 +72,7 @@ def build_monitors_from_gdk():
 
 
 def build_monitors_autodetect():
-    desktop_environment = (
-        Env.get('XDG_CURRENT_DESKTOP') or
-        Env.get('XDG_SESSION_DESKTOP') or
-        Env.get('DESKTOP_SESSION') or
-        ''
-    ).lower()
+    desktop_environment = get_desktop_environment()
     if desktop_environment == 'sway':
         return build_monitors_from_swaymsg()
     else:

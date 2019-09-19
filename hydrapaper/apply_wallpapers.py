@@ -8,16 +8,12 @@ from .wallpaper_merger import (
     multi_setup_pillow
 )
 from .confManager import ConfManager
+from .get_desktop_environment import get_desktop_environment
 
 
 def _apply_wallpapers_worker(monitors, lockscreen=False):
     confman = ConfManager()
-    desktop_environment = (
-        Env.get('XDG_CURRENT_DESKTOP') or
-        Env.get('XDG_SESSION_DESKTOP') or
-        Env.get('DESKTOP_SESSION') or
-        ''
-    ).lower()
+    desktop_environment = get_desktop_environment()
     set_wallpaper = set_wallpaper_gnome
     if desktop_environment == 'mate':
         set_wallpaper = set_wallpaper_mate
