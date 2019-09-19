@@ -4,6 +4,7 @@ from subprocess import run, PIPE
 import json
 from os import environ as Env
 from .get_desktop_environment import get_desktop_environment
+from .confManager import ConfManager
 
 
 class Monitor:
@@ -28,8 +29,12 @@ class Monitor:
 
 
 def build_monitors_from_swaymsg():
+    confman = ConfManager()
     monitors = []
-    res = run('swaymsg -rt get_outputs'.split(' '), stdout=PIPE)
+    cmd = 'swaymsg -rt get_outputs'
+    if confman.is_flatpak:
+        cmd = 'flatpak-spawn --host ' + cmd
+    res = run(cmd.split(' '), stdout=PIPE)
     outputs = json.loads(res.stdout.decode())
     for i, out in enumerate(outputs):
         monitors.append(Monitor(

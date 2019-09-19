@@ -9,9 +9,12 @@
         "--socket=x11",
         "--socket=wayland",
         "--talk-name=org.gnome.SettingsDaemon",
+        "--talk-name=org.freedesktop.Flatpak",
         "--filesystem=home:ro",
         "--filesystem=xdg-run/dconf",
         "--filesystem=~/.config/dconf:ro",
+        "--filesystem=~/.config/sway/config:rw",
+        "--filesystem=~/.swaylock/config:rw",
         "--talk-name=ca.desrt.dconf",
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf"
     ],
