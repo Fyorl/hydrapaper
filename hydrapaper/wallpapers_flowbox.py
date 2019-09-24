@@ -60,7 +60,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         if self.is_favorites:
             return True
         for p in self.confman.conf['wallpapers_paths']:
-            if fb_item.wallpaper_path.parent == pathlib.Path(p['path']):
+            if fb_item.pathlib_path.parent == pathlib.Path(p['path']):
                 return (p['active'])
         print(f'ERROR: wallpaper `{fb_item.wallpaper_path}` is not in any path')
 
@@ -75,7 +75,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             c = self.flowbox.get_child_at_index(0)
             if c:
                 self.flowbox.remove(c)
-                c.destroy()
+                # c.destroy()
             else:
                 break
         if self.is_favorites:

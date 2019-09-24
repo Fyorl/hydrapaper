@@ -16,7 +16,8 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.set_halign(Gtk.Align.CENTER)
         self.set_valign(Gtk.Align.CENTER)
 
-        self.wallpaper_path = Path(wp_path)
+        self.wallpaper_path = wp_path
+        self.pathlib_path = Path(wp_path)
         self.cache_path = '{0}/{1}.png'.format(
             self.confman.thumbs_cache_path,
             sha256(
