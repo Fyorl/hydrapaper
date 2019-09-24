@@ -81,18 +81,14 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         self.file_chooser_dialog_revealer.set_reveal_child(False)
 
     def on_addFolderFileChooserDialogOpenButton_clicked(self, btn):
-        fpath = self.file_chooser_dialog.get_filename()
-        if not isdir(fpath):
-            return
-        if fpath in [wp['path'] for wp in self.confman.conf['wallpapers_paths']]:
-            self.file_chooser_dialog_revealer.set_reveal_child(True)
-            return
-        self.file_chooser_dialog.hide()
-        self.file_chooser_dialog_revealer.set_reveal_child(False)
-        self.confman.conf['wallpapers_paths'].append({
-            'path': fpath,
-            'active': True
-        })
+        for fpath in self.file_chooser_dialog.get_filenames():
+            if isdir(fpath):
+                self.file_chooser_dialog.hide()
+                self.file_chooser_dialog_revealer.set_reveal_child(False)
+                self.confman.conf['wallpapers_paths'].append({
+                    'path': fpath,
+                    'active': True
+                })
         self.confman.save_conf()
         self.populate()
         self.confman.populate_wallpapers()
