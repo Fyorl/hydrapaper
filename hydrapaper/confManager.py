@@ -60,7 +60,6 @@ class ConfManager(metaclass=Singleton):
         'selection_mode': 'single',
         'monitors': {},
         'favorites': [],
-        'favorites_in_mainview': True,
         'folders_popover_full_path': False,
         'big_monitor_thumbnails': True,
         'windowsize': {

@@ -92,11 +92,6 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
                 'signal': 'hydrapaper_flowbox_selection_mode_changed'
             },
             {
-                'title': _('Keep favorites in main wallpapers view'),
-                'conf_key': 'favorites_in_mainview',
-                'signal': 'hydrapaper_show_hide_wallpapers'
-            },
-            {
                 'title': _('Show full path in folder view'),
                 'conf_key': 'folders_popover_full_path',
                 'signal': 'hydrapaper_set_folders_popover_labels'
