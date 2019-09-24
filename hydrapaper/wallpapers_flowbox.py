@@ -54,6 +54,15 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             self.show_hide_wallpapers
         )
         self.populate()
+        self.flowbox.set_filter_func(self.flowbox_filter_func, None, False)
+
+    def flowbox_filter_func(self, fb_item, data, notify_destroy):
+        if self.is_favorites:
+            return True
+        for p in self.confman.conf['wallpapers_paths']:
+            if fb_item.wallpaper_path.parent == pathlib.Path(p['path']):
+                return (p['active'])
+        print(f'ERROR: wallpaper `{fb_item.wallpaper_path}` is not in any path')
 
     def change_selection_mode(self, *args):
         self.flowbox.set_activate_on_single_click(
@@ -80,18 +89,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         self.show_hide_wallpapers()
 
     def show_hide_wallpapers(self, *args):
-        if self.is_favorites:
-            return
-        self.show_all()
-        for p in self.confman.conf['wallpapers_paths']:
-            if not p['active']:
-                for c in self.flowbox.get_children():
-                    if c.wallpaper_path.parent == pathlib.Path(p['path']):
-                        c.hide()
-        if not self.confman.conf['favorites_in_mainview']:
-            for c in self.flowbox.get_children():
-                if c.wallpaper_path in self.confman.conf['favorites']:
-                    c.hide()
+        self.flowbox.invalidate_filter()
 
     def on_wallpapersFlowbox_child_activated(self, flowbox, child):
         self.confman.emit(
