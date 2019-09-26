@@ -32,6 +32,19 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.5" timestamp="1569489041">
+            <description>
+                <ul>
+                    <li>You can now add multiple folders at once!</li>
+                    <li>Slight design overhaul</li>
+                    <li>Added German and Russian translations (courtesy of Alessandra Gallia)</li>
+                    <li>Redesigned symbolic icon</li>
+                    <li>Initial support for sway (still broken in Flatpak)</li>
+                    <li>Small performance improvements</li>
+                    <li>Various bug fixes</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9.4" timestamp="1568137893">
             <description>
                 <ul>
