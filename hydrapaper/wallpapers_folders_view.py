@@ -34,10 +34,6 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         self.file_chooser_dialog.set_type_hint(Gdk.WindowTypeHint.DIALOG)
         self.file_chooser_dialog.set_modal(True)
         self.file_chooser_dialog.set_transient_for(window)
-        # self.file_chooser_dialog.set_attached_to(window)
-        self.file_chooser_dialog_revealer = self.dialog_builder.get_object(
-            'infoRevealer'
-        )
         self.dialog_builder.connect_signals(self)
         self.show_all()
 
@@ -75,16 +71,11 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
 
     def on_addFolderFileChooserDialogCancelButton_clicked(self, btn):
         self.file_chooser_dialog.hide()
-        self.file_chooser_dialog_revealer.set_reveal_child(False)
-
-    def on_infoRevealerCloseBtn_clicked(self, btn):
-        self.file_chooser_dialog_revealer.set_reveal_child(False)
 
     def on_addFolderFileChooserDialogOpenButton_clicked(self, btn):
         for fpath in self.file_chooser_dialog.get_filenames():
             if isdir(fpath):
                 self.file_chooser_dialog.hide()
-                self.file_chooser_dialog_revealer.set_reveal_child(False)
                 self.confman.conf['wallpapers_paths'].append({
                     'path': fpath,
                     'active': True
@@ -112,4 +103,3 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
                 self.confman.conf['favorites'].pop(i)
         self.confman.save_conf()
         self.populate()
-        
