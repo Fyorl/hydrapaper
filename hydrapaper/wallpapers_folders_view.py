@@ -35,7 +35,11 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         self.file_chooser_dialog.set_modal(True)
         self.file_chooser_dialog.set_transient_for(window)
         self.dialog_builder.connect_signals(self)
+        self.listbox.set_sort_func(self.listbox_sort_func, None, False)
         self.show_all()
+
+    def listbox_sort_func(self, row1, row2, data, notify_destroy):
+        return row1.label.get_text().lower() > row2.label.get_text().lower()
 
     def populate(self):
         while True:
