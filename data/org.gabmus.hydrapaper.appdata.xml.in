@@ -32,6 +32,14 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.6" timestamp="1569852365">
+            <description>
+                <ul>
+                    <li>Ordering wallpapers folders alphabetically</li>
+                    <li>Fixed folder adding</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9.5" timestamp="1569489041">
             <description>
                 <ul>
