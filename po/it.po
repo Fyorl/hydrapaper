@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-09-30 16:07+0200\n"
-"PO-Revision-Date: 2019-09-30 16:09+0200\n"
+"POT-Creation-Date: 2019-10-03 10:23+0200\n"
+"PO-Revision-Date: 2019-10-03 10:23+0200\n"
 "Last-Translator: Gabriele Musco <emaildigabry@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -43,6 +43,10 @@ msgstr "imposta sfondi dalla linea di comando"
 #: ../hydrapaper/__main__.py:175
 msgid "set wallpapers randomly"
 msgstr "imposta sfondi casualmente"
+
+#: ../hydrapaper/__main__.py:176
+msgid "set lockscreen wallpapers instead of desktop ones"
+msgstr "imposta sfondi della schermata di blocco invece che della scrivania"
 
 #: ../hydrapaper/main_stack.py:13
 msgid "Wallpapers"
