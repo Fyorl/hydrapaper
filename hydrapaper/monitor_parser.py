@@ -72,7 +72,6 @@ def build_monitors_from_gdk():
             display.get_monitor(i).is_primary()
         ) for i in range(0, num_monitors)
     ]
-    print(monitors)
     return monitors
 
 
