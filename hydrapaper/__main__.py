@@ -103,7 +103,6 @@ class HydraPaperApplication(Gtk.Application):
         from random import randint
         monitors = build_monitors_autodetect()
         all_wallpapers = self.confman.wallpapers
-        wallpapers = []
         for i in range(len(monitors)):
             n_wp = -1
             while n_wp == -1 or n_wp in wallpapers:

@@ -30,14 +30,13 @@ class Monitor:
 
 def build_monitors_from_swaymsg():
     confman = ConfManager()
-    monitors = []
     cmd = 'swaymsg -rt get_outputs'
     if confman.is_flatpak:
         cmd = 'flatpak-spawn --host ' + cmd
     res = run(cmd.split(' '), stdout=PIPE)
     outputs = json.loads(res.stdout.decode())
-    for i, out in enumerate(outputs):
-        monitors.append(Monitor(
+    monitors = [
+        Monitor(
             out['rect']['width'],
             out['rect']['height'],
             out['scale'],
@@ -46,33 +45,34 @@ def build_monitors_from_swaymsg():
             i,
             out['name'],
             out['primary']
-        ))
+        ) for i, out in enumerate(outputs)
+    ]
     return monitors
 
 
 def build_monitors_from_gdk():
-    monitors = []
     try:
         display = Gdk.Display.get_default()
         num_monitors = display.get_n_monitors()
-        for i in range(0, num_monitors):
-            monitor = display.get_monitor(i)
-            monitor_rect = monitor.get_geometry()
-            monitors.append(Monitor(
-                monitor_rect.width,
-                monitor_rect.height,
-                monitor.get_scale_factor(),
-                monitor_rect.x,
-                monitor_rect.y,
-                i,
-                f'Monitor {i} ({monitor.get_model()})',
-                monitor.is_primary()
-            ))
     except Exception:
         print(_('Error parsing monitors (Gdk)'))
         import traceback
         traceback.print_exc()
         monitors = None
+    get_monitor_rect = lambda i: display.get_monitor(i).get_geometry()
+    monitors = [
+        Monitor(
+            get_monitor_rect(i).width,
+            get_monitor_rect(i).height,
+            display.get_monitor(i).get_scale_factor(),
+            get_monitor_rect(i).x,
+            get_monitor_rect(i).y,
+            i,
+            f'Monitor {i} ({display.get_monitor(i).get_model()})',
+            display.get_monitor(i).is_primary()
+        ) for i in range(0, num_monitors)
+    ]
+    print(monitors)
     return monitors
 
 

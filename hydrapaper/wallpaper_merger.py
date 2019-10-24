@@ -17,10 +17,6 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
     ]
     offsets = [(m.offset_x, m.offset_y) for m in monitors]
 
-    # DEBUG
-    # for m in monitors:
-    #     print(m)
-
     final_image_width = max([
         m.offset_x + m.width * m.scaling for m in monitors
     ])
@@ -28,9 +24,7 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
         m.offset_y + m.height * m.scaling for m in monitors
     ])
 
-    n_images = []
-    for i, r in zip(images, resolutions):
-        n_images.append(fit(i, r, method=Image.LANCZOS))
+    n_images = [fit(i, r, method=Image.LANCZOS) for i, r in zip(images, resolutions)]
     final_image = Image.new('RGB', (final_image_width, final_image_height))
     for i, o in zip(n_images, offsets):
         final_image.paste(i, o)
