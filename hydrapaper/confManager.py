@@ -74,10 +74,16 @@ class ConfManager(metaclass=Singleton):
         self.connect = self.signaler.connect
 
         # check if inside flatpak sandbox
-        self.is_flatpak = False
-        if 'XDG_RUNTIME_DIR' in Env.keys():
-            if isfile(f'{Env["XDG_RUNTIME_DIR"]}/flatpak-info'):
-                self.is_flatpak = True
+        self.is_flatpak = (
+            'XDG_RUNTIME_DIR' in Env.keys() and
+            isfile(f'{Env["XDG_RUNTIME_DIR"]}/flatpak-info')
+        )
+        self.is_wayland = (
+            (
+                'XDG_SESSION_TYPE' in Env.keys() and
+                Env['XDG_SESSION_TYPE'].lower() == 'wayland'
+            ) or 'WAYLAND_DISPLAY' in Env.keys()
+        )
 
         if self.is_flatpak:
             self.path = Path(f'{Env.get("XDG_CONFIG_HOME")}/org.gabmus.hydrapaper.json')

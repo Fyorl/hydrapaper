@@ -1,10 +1,12 @@
 from gi.repository import Gtk, Handy
 from .wnck_win_controller import change_minimize_state
 from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
+from .confManager import ConfManager
 
 class HydraPaperHeaderbar(Handy.HeaderBar):
     def __init__(self, window, apply_handler, *args, **kwargs):
         super().__init__(*args, **kwargs)
+        self.confman = ConfManager()
         self.apply_handler = apply_handler
         self.set_show_close_button(True)
         self.stack_switcher = Handy.ViewSwitcher()
@@ -29,6 +31,9 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.lower_windows_toggle = self.builder.get_object(
             'lowerAllOtherWindowsToggle'
         )
+        if self.confman.is_wayland:
+            self.lower_windows_toggle.set_no_show_all(True)
+            self.lower_windows_toggle.hide()
         self.menu_button = self.builder.get_object('menuBtn')
         self.wallpapers_folders_button = self.builder.get_object(
             'wallpapersFoldersBtn'

@@ -4,6 +4,9 @@ from .confManager import ConfManager
 
 def change_minimize_state(toggle=None, state=None):
     confman = ConfManager()
+    if confman.is_wayland:
+        print('libwnck unsupported in Wayland')
+        return
     if toggle and state == None:
         state = toggle.get_active()
     if toggle:
