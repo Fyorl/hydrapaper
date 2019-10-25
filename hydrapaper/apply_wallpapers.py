@@ -1,6 +1,8 @@
 from os import environ as Env
 from threading import Thread
 from gi.repository import Gtk
+from hashlib import sha256
+from os.path import isfile
 from .wallpaper_merger import (
     set_wallpaper_gnome,
     set_wallpaper_mate,
@@ -21,14 +23,21 @@ def _apply_wallpapers_worker(monitors, lockscreen=False):
         set_wallpaper_sway(monitors, lockscreen)
         return
     # add other DE cases as `elif` here
+    wp_fname = 'merged_wallpaper'
+    if confman.conf['random_wallpapers_names']:
+        wp_fname = sha256(
+            '_'.join([m.__repr__() for m in monitors]).encode()
+        ).hexdigest()
     if len(monitors) == 1:
         set_wallpaper(monitors[0].wallpaper, 'zoom', lockscreen)
         return
-    save_path = '{0}/{1}merged_wallpaper.png'.format(
+    save_path = '{0}/{1}{2}.png'.format(
         confman.cache_path,
-        'lockscreen_' if lockscreen else ''
+        'lockscreen_' if lockscreen and not confman.conf['random_wallpapers_names'] else '',
+        wp_fname
     )
-    multi_setup_pillow(monitors, save_path)
+    if not confman.conf['random_wallpapers_names'] or not isfile(save_path):
+        multi_setup_pillow(monitors, save_path)
     set_wallpaper(save_path, lockscreen=lockscreen)
 
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-10-03 10:23+0200\n"
-"PO-Revision-Date: 2019-10-03 10:23+0200\n"
+"POT-Creation-Date: 2019-10-25 10:31+0200\n"
+"PO-Revision-Date: 2019-10-25 10:32+0200\n"
 "Last-Translator: Gabriele Musco <emaildigabry@gmail.com>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -16,35 +16,35 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 2.2.1\n"
+"X-Generator: Poedit 2.2.4\n"
 
 #: ../hydrapaper/wallpaper_flowbox_item.py:80
 msgid "ERROR: cannot create thumbnail for file"
 msgstr "ERRORE: impossibile creare miniatura per il file"
 
-#: ../hydrapaper/monitor_parser.py:72
+#: ../hydrapaper/monitor_parser.py:58
 msgid "Error parsing monitors (Gdk)"
 msgstr "Errore nell'analisi dei monitor (Gdk)"
 
-#: ../hydrapaper/__main__.py:121
+#: ../hydrapaper/__main__.py:120
 #, python-brace-format
 msgid "Error: you passed {0} wallpapers for {1} monitors"
 msgstr "Errore: hai passato {0} sfondi per {1} monitor"
 
-#: ../hydrapaper/__main__.py:128
+#: ../hydrapaper/__main__.py:127
 #, python-brace-format
 msgid "Error: {0} is not a valid image path"
 msgstr "Errore: {0} non è il percorso di un'immagine valida"
 
-#: ../hydrapaper/__main__.py:174
+#: ../hydrapaper/__main__.py:173
 msgid "set wallpapers from command line"
 msgstr "imposta sfondi dalla linea di comando"
 
-#: ../hydrapaper/__main__.py:175
+#: ../hydrapaper/__main__.py:174
 msgid "set wallpapers randomly"
 msgstr "imposta sfondi casualmente"
 
-#: ../hydrapaper/__main__.py:176
+#: ../hydrapaper/__main__.py:175
 msgid "set lockscreen wallpapers instead of desktop ones"
 msgstr "imposta sfondi della schermata di blocco invece che della scrivania"
 
@@ -64,51 +64,63 @@ msgstr "Rimuovi preferito"
 msgid "Add favorite"
 msgstr "Aggiungi preferito"
 
-#: ../hydrapaper/settings_box.py:82
+#: ../hydrapaper/settings_box.py:85
 msgid "General"
 msgstr "Generale"
 
-#: ../hydrapaper/settings_box.py:87
+#: ../hydrapaper/settings_box.py:90
 msgid "General Settings"
 msgstr "Impostazioni Generali"
 
-#: ../hydrapaper/settings_box.py:90
+#: ../hydrapaper/settings_box.py:93
 msgid "Select wallpapers with a double click"
 msgstr "Seleziona gli sfondi con un doppio click"
 
-#: ../hydrapaper/settings_box.py:95
+#: ../hydrapaper/settings_box.py:98
 msgid "Show full path in folder view"
 msgstr "Mostra il percorso completo nella vista delle cartelle"
 
-#: ../hydrapaper/settings_box.py:106
+#: ../hydrapaper/settings_box.py:103
+msgid "Save each wallpaper separately"
+msgstr "Salva ogni sfondo separatamente"
+
+#: ../hydrapaper/settings_box.py:105
+msgid ""
+"Warning: this feature will use a lot of disk space\n"
+"Periodically clear the cache to mitigate this problem"
+msgstr ""
+"Attenzione: questa funzione userà molto spazio del disco\n"
+"Pulisci le cache periodicamente per mitigare questo problema"
+
+#: ../hydrapaper/settings_box.py:122
 msgid "Caches and favorites"
 msgstr "Cache e preferiti"
 
-#: ../hydrapaper/settings_box.py:109
+#: ../hydrapaper/settings_box.py:125
 msgid "Clear all favorites"
 msgstr "Pulisci tutti i preferiti"
 
-#: ../hydrapaper/settings_box.py:110
+#: ../hydrapaper/settings_box.py:126
 msgid "Clear favorites"
 msgstr "Pulisci i preferiti"
 
-#: ../hydrapaper/settings_box.py:116
+#: ../hydrapaper/settings_box.py:132
 msgid "Clear all caches"
 msgstr "Pulisci tutte le cache"
 
-#: ../hydrapaper/settings_box.py:117
+#: ../hydrapaper/settings_box.py:133
 msgid "Clear caches"
 msgstr "Pulisci le cache"
 
-#: ../hydrapaper/settings_box.py:152
+#: ../hydrapaper/settings_box.py:168
 msgid "View"
 msgstr "Vista"
 
-#: ../hydrapaper/settings_box.py:157
+#: ../hydrapaper/settings_box.py:173
 msgid "View Settings"
 msgstr "Impostazioni della Vista"
 
-#: ../hydrapaper/settings_box.py:160
+#: ../hydrapaper/settings_box.py:176
 msgid "Use big thumbnails for the monitors previews"
 msgstr "Usa miniature grandi per le anteprime dei monitor"
 

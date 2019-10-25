@@ -47,11 +47,14 @@ class PreferencesToggleRow(Handy.ActionRow):
     conf_key: the key of the configuration dictionary/json in ConfManager
     signal: an optional signal to let ConfManager emit when the configuration is set
     """
-    def __init__(self, title, conf_key, signal=None, *args, **kwargs):
+    def __init__(self, title, conf_key, signal=None, subtitle=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.title = title
         self.confman = ConfManager()
         self.set_title(self.title)
+        if subtitle:
+            self.subtitle = subtitle
+            self.set_subtitle(self.subtitle)
         self.conf_key = conf_key
         self.signal = signal
 
@@ -95,10 +98,23 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
                 'title': _('Show full path in folder view'),
                 'conf_key': 'folders_popover_full_path',
                 'signal': 'hydrapaper_set_folders_popover_labels'
+            },
+            {
+                'title': _('Save each wallpaper separately'),
+                'subtitle': _(
+                    'Warning: this feature will use a lot of disk space\n'
+                    'Periodically clear the cache to mitigate this problem'
+                ),
+                'conf_key': 'random_wallpapers_names',
             }
         ]
         for s in toggle_settings:
-            row = PreferencesToggleRow(s['title'], s['conf_key'], s['signal'])
+            row = PreferencesToggleRow(
+                s['title'],
+                s['conf_key'],
+                signal=s.get('signal'),
+                subtitle=s.get('subtitle')
+            )
             self.general_preferences_group.add(row)
         self.add(self.general_preferences_group)
 

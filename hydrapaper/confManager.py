@@ -62,6 +62,7 @@ class ConfManager(metaclass=Singleton):
         'favorites': [],
         'folders_popover_full_path': False,
         'big_monitor_thumbnails': True,
+        'random_wallpapers_names': False,
         'windowsize': {
             'width': 600,
             'height': 400
