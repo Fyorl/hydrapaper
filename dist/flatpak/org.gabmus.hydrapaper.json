@@ -69,8 +69,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://github.com/python-pillow/Pillow/archive/6.1.0.tar.gz",
-                    "sha256": "9a3a613e7780362605b10765274389b3e9a6fe3201dd2bceeb422d45c5c9ba18"
+                    "url": "https://github.com/python-pillow/Pillow/archive/6.2.1.tar.gz",
+                    "sha256": "7bf2d6bdb68fa6ccec15c0fd9aa20fac9641cd20dc6079344f5a6534e13a70f9"
                 },
                 {
                     "type": "shell",
@@ -104,8 +104,8 @@
             "config-opts": ["--buildtype=release"],
             "sources": [{
                 "type": "archive",
-                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.9.6/HydraPaper-1.9.6.tar.gz",
-                "sha256": "644d9976544133c17e2f681aaeaea80383994aa088fa6e121d41317403860b89"
+                "url": "https://gitlab.com/gabmus/HydraPaper/-/archive/1.9.7/HydraPaper-1.9.7.tar.gz",
+                "sha256": ""
             }]
         }
     ]

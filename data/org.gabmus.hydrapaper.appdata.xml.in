@@ -32,6 +32,15 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.7" timestamp="1571992595">
+            <description>
+                <ul>
+                    <li>You can now set lockscreen wallpapers from the command line</li>
+                    <li>New preference to save wallpapers with random names</li>
+                    <li>Various bug fixes and improvements</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9.6" timestamp="1569852365">
             <description>
                 <ul>

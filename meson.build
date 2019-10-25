@@ -1,5 +1,5 @@
 project('hydrapaper',
-    version: '1.9.6',
+    version: '1.9.7',
     meson_version: '>= 0.50.0',
     license: 'GPL3'
 )
@@ -23,7 +23,9 @@ contributors = '\n'.join([
 ])
 
 translators = '\n'.join([
-    'Alessandra Gallia &lt;alessandragalliaaru@gmail.com&gt;'
+    'German: Alessandra Gallia &lt;alessandragalliaaru@gmail.com&gt;',
+    'Russian: Alessandra Gallia &lt;alessandragalliaaru@gmail.com&gt;',
+    'Italian: Gabriele Musco (GabMus) &lt;gabmus@disroot.org&gt;'
 ])
 
 i18n = import('i18n')
