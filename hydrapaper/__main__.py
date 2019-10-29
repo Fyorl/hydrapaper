@@ -43,7 +43,7 @@ class HydraPaperApplication(Gtk.Application):
         actions = [
             {
                 'name': 'set_random_wallpaper',
-                'func': self.apply_random
+                'func': lambda *args: self.apply_random()
             },
             {
                 'name': 'settings',
@@ -103,13 +103,11 @@ class HydraPaperApplication(Gtk.Application):
         from random import randint
         monitors = build_monitors_autodetect()
         all_wallpapers = self.confman.wallpapers
-        for i in range(len(monitors)):
-            n_wp = -1
-            while n_wp == -1 or n_wp in wallpapers:
-                n_wp = all_wallpapers[
-                    randint(0,len(all_wallpapers)-1)
-                ]
-            wallpapers.append(n_wp)
+        wallpapers = [
+            all_wallpapers[
+                randint(0,len(all_wallpapers)-1)
+            ] for i in range(len(monitors))
+        ]
         self.apply_from_cli(wallpapers, lockscreen)
 
     def apply_from_cli(self, wlist_cli, lockscreen=False):
