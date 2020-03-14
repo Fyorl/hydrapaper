@@ -1,16 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <component type="desktop">
-    <id>org.gabmus.hydrapaper.desktop</id>
+    <id>org.gabmus.hydrapaper</id>
     <name>HydraPaper</name>
     <developer_name>Gabriele Musco</developer_name>
     <summary>Wallpaper manager with multimonitor support</summary>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0+</project_license>
+    <recommends>
+        <control>pointing</control>
+        <control>keyboard</control>
+        <control>touch</control>
+    </recommends>
     <description>
         <p>HydraPaper lets you set different wallpapers for each of your monitors in the GNOME desktop.</p>
         <p>It works around this lack of functionality by automatically merging multiple wallpapers into one, and setting it as your wallpaper with the "Spanned" option.</p>
         <p>HydraPaper also supports the MATE desktop, and should work on any desktop that is based on GNOME, like Budgie and Pantheon.</p>
     </description>
+    <launchable type="desktop-id">org.gabmus.hydrapaper.desktop</launchable>
     <screenshots>
         <screenshot type="default">
             <image>https://gitlab.com/gabmus/hydrapaper/raw/website/website/screenshots/mainwindow.png</image>
