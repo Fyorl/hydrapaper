@@ -32,6 +32,14 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.9.9" timestamp="1584193015">
+            <description>
+                <ul>
+                    <li>Updated flatpak dependencies and GNOME runtime</li>
+                    <li>Removed libwnck dependency and functionalities (lower other windows toggle)</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.9.8" timestamp="1572381124">
             <description>
                 <ul>
