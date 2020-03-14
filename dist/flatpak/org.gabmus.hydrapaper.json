@@ -2,7 +2,7 @@
     "app-id": "org.gabmus.hydrapaper",
     "command": "hydrapaper",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.32",
+    "runtime-version": "3.36",
     "sdk": "org.gnome.Sdk",
     "finish-args": [
         "--share=ipc",
@@ -20,61 +20,41 @@
     ],
     "modules": [
         {
-            "name": "libwnck",
-            "cleanup": ["/include", "*.la"],
-            "sources": [
+            "name" : "libhandy",
+            "buildsystem" : "meson",
+            "config-opts" : [
+                "--buildtype=release"
+            ],
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://download.gnome.org/sources/libwnck/3.32/libwnck-3.32.0.tar.xz",
-                    "sha256": "9595835cf28d0fc6af5526a18f77f2fcf3ca8c09e36741bb33915b6e69b8e3ca"
+                    "type" : "git",
+                    "url" : "https://source.puri.sm/Librem5/libhandy",
+                    "tag" : "v0.0.13"
                 }
             ]
         },
         {
-            "name": "libhandy",
-            "buildsystem": "meson",
-            "config-opts": ["--buildtype=release"],
-            "sources": [{
-                "type": "archive",
-                "url": "https://source.puri.sm/Librem5/libhandy/-/archive/v0.0.11/libhandy-v0.0.11.tar.gz",
-                "sha256": "c7e7b51203d9221c50b1a38ba81e0aefb5ab906c55e85b6ca2d0501e907e077d"
-            }]
-        },
-        {
-            "name": "python-pillow",
-            "buildsystem": "simple",
-            "build-options": {
-                "arch": {
-                    "i386": {
-                        "env": {
-                            "MAX_CONCURRENCY": "1"
-                        }
-                    },
-                    "arm": {
-                        "env": {
-                            "MAX_CONCURRENCY": "1"
-                        }
-                    }
-                }
-            },
-            "ensure-writable": [
+            "name" : "python-pillow",
+            "buildsystem" : "simple",
+            "ensure-writable" : [
                 "/lib/python*/site-packages/easy-install.pth",
                 "/lib/python*/site-packages/setuptools.pth",
                 "/app/lib/python*/site-packages/easy-install.pth",
                 "/app/lib/python*/site-packages/setuptools.pth"
             ],
-            "build-commands": [
+            "build-commands" : [
                 "python3 setup.py install --prefix=/app --root=/"
             ],
-            "sources": [
+            "sources" : [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/python-pillow/Pillow/archive/6.2.1.tar.gz",
-                    "sha256": "7bf2d6bdb68fa6ccec15c0fd9aa20fac9641cd20dc6079344f5a6534e13a70f9"
+                    "type" : "git",
+                    "url" : "https://github.com/python-pillow/Pillow",
+                    "tag" : "7.0.0",
+                    "commit" : "1cecf08d16509c20473766b4cdb7a65169844819"
                 },
                 {
-                    "type": "shell",
-                    "commands": [
+                    "type" : "shell",
+                    "commands" : [
                         "sed -i 's/if not platform_/if not dirs/' setup.py"
                     ]
                 }
@@ -91,9 +71,9 @@
             ],
             "sources": [
                 {
-                    "type": "archive",
-                    "url": "https://github.com/mate-desktop/mate-desktop/archive/v1.23.2.tar.gz",
-                    "sha256": "8276408866c50508f754be8a3d5b5c57c0c8e365bab8abbf0595bd54aed8ee07"
+                    "type": "git",
+                    "url": "https://github.com/mate-desktop/mate-desktop",
+                    "tag": "v1.24.0"
                 }
             ]
         },

@@ -1,5 +1,4 @@
 from gi.repository import Gtk , Handy
-from .wnck_win_controller import change_minimize_state
 from .confManager import ConfManager
 from .main_stack import HydraPapaerMainStack
 from .monitors_flowbox import HydraPaperMonitorsFlowbox
@@ -88,7 +87,6 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         self.monitors_flowbox.dump_to_config()
 
     def on_destroy(self, *args):
-        change_minimize_state(state = False)
         self.confman.conf['windowsize'] = {
             'width': self.size_allocation.width,
             'height': self.size_allocation.height

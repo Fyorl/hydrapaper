@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkButton" id="applyButton">
@@ -23,20 +23,6 @@
     <property name="width_request">32</property>
     <property name="visible">True</property>
     <property name="can_focus">False</property>
-  </object>
-  <object class="GtkToggleButton" id="lowerAllOtherWindowsToggle">
-    <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="receives_default">True</property>
-    <property name="tooltip_text" translatable="yes">Lower all other windows</property>
-    <signal name="toggled" handler="on_lowerAllOtherWindowsToggle_toggled" swapped="no"/>
-    <child>
-      <object class="GtkImage">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">go-bottom-symbolic</property>
-      </object>
-    </child>
   </object>
   <object class="GtkButton" id="menuBtn">
     <property name="visible">True</property>
