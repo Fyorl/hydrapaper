@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.1 -->
+<!-- Generated with glade 3.22.2 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkBox" id="wallpapersFoldersContainer">
     <property name="visible">True</property>
     <property name="can_focus">False</property>
+    <property name="margin_left">6</property>
+    <property name="margin_right">6</property>
+    <property name="margin_top">6</property>
+    <property name="margin_bottom">6</property>
     <property name="orientation">vertical</property>
     <child>
       <object class="GtkScrolledWindow">
@@ -36,6 +40,7 @@
       <object class="GtkActionBar" id="wallpapersFoldersActionbar">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
+        <property name="margin_top">6</property>
         <child>
           <object class="GtkButtonBox" id="wallpapersFoldersActionbarButtonbox">
             <property name="visible">True</property>
@@ -88,6 +93,60 @@
             </child>
           </object>
           <packing>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkButtonBox" id="wallpaperFoldersBulkOptionsButtonBox">
+            <property name="visible">True</property>
+            <property name="can_focus">False</property>
+            <property name="homogeneous">True</property>
+            <property name="layout_style">expand</property>
+            <child>
+              <object class="GtkButton" id="wallpaperFoldersActivateAllButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="tooltip_text" translatable="yes">Activate all folders</property>
+                <signal name="clicked" handler="on_wallpaperFoldersActivateAllButton_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">emblem-ok-symbolic</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">0</property>
+              </packing>
+            </child>
+            <child>
+              <object class="GtkButton" id="wallpaperFoldersDeactivateAllButton">
+                <property name="visible">True</property>
+                <property name="can_focus">True</property>
+                <property name="receives_default">True</property>
+                <property name="tooltip_text" translatable="yes">Deactivate all folders</property>
+                <signal name="clicked" handler="on_wallpaperFoldersDeactivateAllButton_clicked" swapped="no"/>
+                <child>
+                  <object class="GtkImage">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="icon_name">window-close-symbolic</property>
+                  </object>
+                </child>
+              </object>
+              <packing>
+                <property name="expand">True</property>
+                <property name="fill">True</property>
+                <property name="position">1</property>
+              </packing>
+            </child>
+          </object>
+          <packing>
+            <property name="pack_type">end</property>
             <property name="position">0</property>
           </packing>
         </child>

@@ -107,3 +107,24 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
                 self.confman.conf['favorites'].pop(i)
         self.confman.save_conf()
         self.populate()
+        
+    def set_all_enabled(self, state):
+        # This is a nice hack
+        # The obvious thing to do would be to cycle the listbox rows and toggle
+        # all of them one by one. This is possible but not optimal since every
+        # time a row switch is toggled, the config file is saved meaning file
+        # system access meaning the UI freezes for about half a second. Instead
+        # I just edit the conf to set the path active state there, the call
+        # populate to empty the listbox and re-populate it with the new values
+        # directly from the config, finally I just save once. This works nicely
+        for i, wp_path in enumerate(self.confman.conf['wallpapers_paths']):
+            self.confman.conf['wallpapers_paths'][i]['active'] = state
+        self.populate()
+        self.confman.emit('hydrapaper_show_hide_wallpapers', 'notimportant')
+        self.confman.save_conf()
+
+    def on_wallpaperFoldersActivateAllButton_clicked(self, btn):
+        self.set_all_enabled(True)
+
+    def on_wallpaperFoldersDeactivateAllButton_clicked(self, btn):
+        self.set_all_enabled(False)
