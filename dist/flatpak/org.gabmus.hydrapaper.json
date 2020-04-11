@@ -20,41 +20,41 @@
     ],
     "modules": [
         {
-            "name" : "libhandy",
-            "buildsystem" : "meson",
-            "config-opts" : [
+            "name": "libhandy",
+            "buildsystem": "meson",
+            "config-opts": [
                 "--buildtype=release"
             ],
-            "sources" : [
+            "sources": [
                 {
-                    "type" : "git",
-                    "url" : "https://source.puri.sm/Librem5/libhandy",
-                    "tag" : "v0.0.13"
+                    "type": "git",
+                    "url": "https://source.puri.sm/Librem5/libhandy",
+                    "tag": "v0.0.13"
                 }
             ]
         },
         {
-            "name" : "python-pillow",
-            "buildsystem" : "simple",
-            "ensure-writable" : [
+            "name": "python-pillow",
+            "buildsystem": "simple",
+            "ensure-writable": [
                 "/lib/python*/site-packages/easy-install.pth",
                 "/lib/python*/site-packages/setuptools.pth",
                 "/app/lib/python*/site-packages/easy-install.pth",
                 "/app/lib/python*/site-packages/setuptools.pth"
             ],
-            "build-commands" : [
+            "build-commands": [
                 "python3 setup.py install --prefix=/app --root=/"
             ],
-            "sources" : [
+            "sources": [
                 {
-                    "type" : "git",
-                    "url" : "https://github.com/python-pillow/Pillow",
-                    "tag" : "7.0.0",
-                    "commit" : "1cecf08d16509c20473766b4cdb7a65169844819"
+                    "type": "git",
+                    "url": "https://github.com/python-pillow/Pillow",
+                    "tag": "7.0.0",
+                    "commit": "1cecf08d16509c20473766b4cdb7a65169844819"
                 },
                 {
-                    "type" : "shell",
-                    "commands" : [
+                    "type": "shell",
+                    "commands": [
                         "sed -i 's/if not platform_/if not dirs/' setup.py"
                     ]
                 }
@@ -64,8 +64,8 @@
             "name": "mate-desktop-background-gschema",
             "buildsystem": "simple",
             "build-commands": [
-            	"mkdir -p /app/share/glib-2.0/schemas/",
-            	"sed 's#@datadir@#\\/usr\\/share#g' schemas/org.mate.background.gschema.xml.in > schemas/org.mate.background.gschema.xml",
+                "mkdir -p /app/share/glib-2.0/schemas/",
+                "sed 's#@datadir@#\\/usr\\/share#g' schemas/org.mate.background.gschema.xml.in > schemas/org.mate.background.gschema.xml",
                 "install schemas/org.mate.background.gschema.xml /app/share/glib-2.0/schemas/",
                 "glib-compile-schemas /app/share/glib-2.0/schemas"
             ],
@@ -81,12 +81,16 @@
             "name": "hydrapaper",
             "buildsystem": "meson",
             "builddir": true,
-            "config-opts": ["--buildtype=release"],
-            "sources": [{
-                "type": "git",
-                "url": "https://gitlab.com/gabmus/HydraPaper",
-                "tag": "1.9.9"
-            }]
+            "config-opts": [
+                "--buildtype=release"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.com/gabmus/HydraPaper",
+                    "tag": "1.10"
+                }
+            ]
         }
     ]
 }
