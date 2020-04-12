@@ -95,7 +95,7 @@ class ConfManager(metaclass=Singleton):
         self.thumbs_cache_path = f'{self.cache_path}/thumbnails/'
 
         self.conf = None
-        if isfile(self.path):
+        if isfile(str(self.path)):
             try:
                 with open(self.path) as fd:
                     self.conf = json.loads(fd.read())
