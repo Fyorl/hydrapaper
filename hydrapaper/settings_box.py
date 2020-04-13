@@ -1,8 +1,9 @@
 from gettext import gettext as _
-from gi.repository import Gtk, Gdk, Handy
+from gi.repository import Gtk, Handy
 from .confManager import ConfManager
 from os.path import isfile, abspath, join
 from os import remove, listdir
+
 
 class PreferencesButtonRow(Handy.ActionRow):
     """
@@ -10,8 +11,10 @@ class PreferencesButtonRow(Handy.ActionRow):
     title: the title shown
     button_label: a label to show inside the button
     onclick: the function that will be called when the button is pressed
-    button_style_class: the style class of the button. Common options: `suggested-action`, `destructive-action`
-    signal: an optional signal to let ConfManager emit when the button is pressed
+    button_style_class: the style class of the button.
+    Common options: `suggested-action`, `destructive-action`
+    signal: an optional signal to let ConfManager emit when the
+    button is pressed
     """
     def __init__(self, title, button_label, onclick, button_style_class=None, signal=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -45,7 +48,8 @@ class PreferencesToggleRow(Handy.ActionRow):
     A preferences row with a title and a toggle
     title: the title shown
     conf_key: the key of the configuration dictionary/json in ConfManager
-    signal: an optional signal to let ConfManager emit when the configuration is set
+    signal: an optional signal to let ConfManager emit when the configuration
+    is set
     """
     def __init__(self, title, conf_key, signal=None, subtitle=None, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -61,7 +65,8 @@ class PreferencesToggleRow(Handy.ActionRow):
         self.toggle = Gtk.Switch()
         self.toggle.set_valign(Gtk.Align.CENTER)
         if self.conf_key == 'selection_mode':
-            self.toggle.set_active(self.confman.conf[self.conf_key] == 'double')
+            self.toggle.set_active(
+                self.confman.conf[self.conf_key] == 'double')
         else:
             self.toggle.set_active(self.confman.conf[self.conf_key])
         self.toggle.connect('state-set', self.on_toggle_state_set)
@@ -85,7 +90,6 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
         self.set_title(_('General'))
         self.set_icon_name('preferences-other-symbolic')
 
-        
         self.general_preferences_group = Handy.PreferencesGroup()
         self.general_preferences_group.set_title(_('General Settings'))
         toggle_settings = [
@@ -119,7 +123,7 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
         self.add(self.general_preferences_group)
 
         self.caches_favs_preferences_group = Handy.PreferencesGroup()
-        self.caches_favs_preferences_group.set_title(_('Caches and favorites')) 
+        self.caches_favs_preferences_group.set_title(_('Caches and favorites'))
         button_settings = [
             {
                 'title': _('Clear all favorites'),
@@ -168,7 +172,6 @@ class ViewPreferencesPage(Handy.PreferencesPage):
         self.set_title(_('View'))
         self.set_icon_name('applications-graphics-symbolic')
 
-        
         self.view_preferences_group = Handy.PreferencesGroup()
         self.view_preferences_group.set_title(_('View Settings'))
         toggle_settings = [

@@ -1,11 +1,12 @@
 from gettext import gettext as _
-from gi.repository import Gtk, Gdk, Gio, GdkPixbuf
+from gi.repository import Gtk
 import os
 from . import threading_helper as ThreadingHelper
 from PIL import Image
 from hashlib import sha256
 from .confManager import ConfManager
 from pathlib import Path
+
 
 class WallpaperBox(Gtk.FlowBoxChild):
 
@@ -28,8 +29,10 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.container_box = Gtk.Overlay()
         self.container_box.set_halign(Gtk.Align.CENTER)
         self.container_box.set_valign(Gtk.Align.CENTER)
-        self.wp_image = Gtk.Image.new_from_icon_name('image-x-generic', Gtk.IconSize.DIALOG)
-        self.heart_icon = Gtk.Image.new_from_icon_name('emblem-favorite', Gtk.IconSize.DIALOG)
+        self.wp_image = Gtk.Image.new_from_icon_name(
+            'image-x-generic', Gtk.IconSize.DIALOG)
+        self.heart_icon = Gtk.Image.new_from_icon_name(
+            'emblem-favorite', Gtk.IconSize.DIALOG)
         self.heart_icon.set_no_show_all(True)
         self.heart_icon.set_halign(Gtk.Align.END)
         self.heart_icon.set_valign(Gtk.Align.END)
@@ -61,7 +64,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.is_fav = fav
         if self.is_fav:
             self.heart_icon.show()
-            if not self.wallpaper_path in self.confman.conf['favorites']:
+            if self.wallpaper_path not in self.confman.conf['favorites']:
                 self.confman.conf['favorites'].append(self.wallpaper_path)
         else:
             self.heart_icon.hide()
@@ -77,5 +80,8 @@ class WallpaperBox(Gtk.FlowBoxChild):
             thumb.thumbnail((250, 250), Image.ANTIALIAS)
             thumb.save(self.cache_path, 'PNG')
         except IOError:
-            print(_('ERROR: cannot create thumbnail for file'), self.wallpaper_path)
+            print(
+                _('ERROR: cannot create thumbnail for file'),
+                self.wallpaper_path
+            )
         return self.cache_path

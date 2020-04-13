@@ -1,4 +1,3 @@
-from os import environ as Env
 from threading import Thread
 from gi.repository import Gtk
 from hashlib import sha256
@@ -33,7 +32,10 @@ def _apply_wallpapers_worker(monitors, lockscreen=False):
         return
     save_path = '{0}/{1}{2}.png'.format(
         confman.cache_path,
-        'lockscreen_' if lockscreen and not confman.conf['random_wallpapers_names'] else '',
+        'lockscreen_'
+        if lockscreen
+        and not confman.conf['random_wallpapers_names']
+        else '',
         wp_fname
     )
     if not confman.conf['random_wallpapers_names'] or not isfile(save_path):

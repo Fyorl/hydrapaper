@@ -2,13 +2,22 @@ from gettext import gettext as _
 from gi.repository import Gdk
 from subprocess import run, PIPE
 import json
-from os import environ as Env
 from .get_desktop_environment import get_desktop_environment
 from .confManager import ConfManager
 
 
 class Monitor:
-    def __init__(self, width, height, scaling, offset_x, offset_y, index, name, primary=False):
+    def __init__(
+            self,
+            width,
+            height,
+            scaling,
+            offset_x,
+            offset_y,
+            index,
+            name,
+            primary=False
+    ):
         self.width = int(width)
         self.height = int(height)
         self.scaling = int(scaling)
@@ -59,7 +68,9 @@ def build_monitors_from_gdk():
         import traceback
         traceback.print_exc()
         monitors = None
-    get_monitor_rect = lambda i: display.get_monitor(i).get_geometry()
+
+    def get_monitor_rect(i):
+        return display.get_monitor(i).get_geometry()
     monitors = [
         Monitor(
             get_monitor_rect(i).width,

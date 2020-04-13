@@ -3,7 +3,7 @@ from gi.repository import Gtk
 from .confManager import ConfManager
 from .wallpaper_flowbox_item import WallpaperBox
 import pathlib
-from os import listdir
+
 
 class HydraPaperWallpapersFlowbox(Gtk.Bin):
     def __init__(self, is_favorites=False, **kwargs):
@@ -62,7 +62,9 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         for p in self.confman.conf['wallpapers_paths']:
             if fb_item.pathlib_path.parent == pathlib.Path(p['path']):
                 return (p['active'])
-        print(f'ERROR: wallpaper `{fb_item.wallpaper_path}` is not in any path')
+        print(
+            f'ERROR: wallpaper `{fb_item.wallpaper_path}` is not in any path'
+        )
 
     def change_selection_mode(self, *args):
         self.flowbox.set_activate_on_single_click(
@@ -97,8 +99,14 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             child.wallpaper_path
         )
 
-    def on_wallpapersFlowbox_rightclick_or_longpress(self, gesture_or_event, x, y, *args):
-        self.child_at_pos = self.flowbox.get_child_at_pos(x,y)
+    def on_wallpapersFlowbox_rightclick_or_longpress(
+            self,
+            gesture_or_event,
+            x,
+            y,
+            *args
+    ):
+        self.child_at_pos = self.flowbox.get_child_at_pos(x, y)
         if not self.child_at_pos:
             return
         self.popover.set_relative_to(self.child_at_pos)
@@ -110,11 +118,12 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         wp_path = self.child_at_pos.get_child().wallpaper_path
         self.wallpaper_path_entry.set_text(wp_path)
         self.wallpaper_name_label.set_text(pathlib.Path(wp_path).name)
-        self.on_wallpapersFlowbox_child_activated(self.flowbox, self.child_at_pos)
+        self.on_wallpapersFlowbox_child_activated(
+                self.flowbox, self.child_at_pos)
         self.popover.popup()
 
     def on_wallpapersFlowbox_button_release_event(self, flowbox, event):
-        if event.button == 3: # 3 is the right mouse button
+        if event.button == 3:  # 3 is the right mouse button
             self.on_wallpapersFlowbox_rightclick_or_longpress(
                 event,
                 event.x,
