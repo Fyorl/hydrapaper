@@ -32,9 +32,10 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
 
 
 def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
-    gsettings_path = 'org.gnome.desktop.background'
-    if lockscreen:
-        gsettings_path = 'org.gnome.desktop.screensaver'
+    gsettings_path = (
+        'org.gnome.desktop.screensaver' if lockscreen
+        else'org.gnome.desktop.background'
+    )
     gsettings = Gio.Settings.new(gsettings_path)
     wp_key = 'picture-uri'
     mode_key = 'picture-options'
