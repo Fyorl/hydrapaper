@@ -8,9 +8,9 @@ flatpak-readroot:
     variables:
         MANIFEST_PATH: "dist/flatpak/org.gabmus.hydrapaper-readroot.json"
         MESON_ARGS: "-Dprofile=Devel"
-        FLATPAK_MODULE: "hydrapaper-readroot"
+        FLATPAK_MODULE: "hydrapaper"
         RUNTIME_REPO: "https://flathub.org/repo/flathub.flatpakrepo"
-        APP_ID: "org.gabmus.hydrapaper-readroot"
+        APP_ID: "org.gabmus.hydrapaper"
     extends: .flatpak
 
 flatpak:
