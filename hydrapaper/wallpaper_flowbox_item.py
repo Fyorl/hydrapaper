@@ -36,8 +36,6 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.heart_icon.set_no_show_all(True)
         self.heart_icon.set_halign(Gtk.Align.END)
         self.heart_icon.set_valign(Gtk.Align.END)
-        # self.heart_icon.set_margin_bottom(6)
-        # self.heart_icon.set_margin_right(6)
         self.container_box.add(self.wp_image)
         self.container_box.set_margin_left(12)
         self.container_box.set_margin_right(12)
