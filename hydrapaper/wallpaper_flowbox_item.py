@@ -31,13 +31,13 @@ class WallpaperBox(Gtk.FlowBoxChild):
         self.container_box.set_valign(Gtk.Align.CENTER)
         self.wp_image = Gtk.Image.new_from_icon_name(
             'image-x-generic', Gtk.IconSize.DIALOG)
-        self.heart_icon = Gtk.Image.new_from_icon_name(
-            'emblem-favorite', Gtk.IconSize.DIALOG)
+        self.heart_icon = Gtk.Image.new_from_resource(
+            '/org/gabmus/hydrapaper/icons/favorite-badge.svg')
         self.heart_icon.set_no_show_all(True)
         self.heart_icon.set_halign(Gtk.Align.END)
         self.heart_icon.set_valign(Gtk.Align.END)
-        self.heart_icon.set_margin_bottom(6)
-        self.heart_icon.set_margin_right(6)
+        # self.heart_icon.set_margin_bottom(6)
+        # self.heart_icon.set_margin_right(6)
         self.container_box.add(self.wp_image)
         self.container_box.set_margin_left(12)
         self.container_box.set_margin_right(12)
