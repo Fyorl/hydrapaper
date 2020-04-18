@@ -70,18 +70,20 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.wallpapers_folders_popover.popup()
 
     def on_applyButton_clicked(self, btn):
-        self.ww_popover.popup()
-        # self.apply_handler(btn)
+        if self.confman.has_lockscreen_wallpaper:
+            self.ww_popover.popup()
+        else:
+            self.apply_handler(self.apply_button, lockscreen=False)
 
     def on_desktop_clicked(self, btn):
         self.ww_popover.popdown()
-        self.apply_handler(self.apply_button, lockscreen = False)
+        self.apply_handler(self.apply_button, lockscreen=False)
 
     def on_lockscreen_clicked(self, btn):
         self.ww_popover.popdown()
-        self.apply_handler(self.apply_button, lockscreen = True)
+        self.apply_handler(self.apply_button, lockscreen=True)
 
     def on_both_clicked(self, btn):
         self.ww_popover.popdown()
-        self.apply_handler(self.apply_button, lockscreen = False)
-        self.apply_handler(self.apply_button, lockscreen = True)
+        self.apply_handler(self.apply_button, lockscreen=False)
+        self.apply_handler(self.apply_button, lockscreen=True)

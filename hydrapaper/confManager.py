@@ -89,10 +89,20 @@ class ConfManager(metaclass=Singleton):
         if self.is_flatpak:
             self.path = Path(f'{Env.get("XDG_CONFIG_HOME")}/org.gabmus.hydrapaper.json')
             self.cache_path = f'{Env.get("XDG_CACHE_HOME")}/hydrapaper'
+            self.gnome_version_path = '/run/host/usr/share/gnome/gnome-version.xml'
         else:
             self.path = Path(f'{Env.get("HOME")}/.config/hydrapaper.json')
             self.cache_path = f'{Env.get("HOME")}/.cache/hydrapaper'
+            self.gnome_version_path = '/usr/share/gnome/gnome-version.xml'
         self.thumbs_cache_path = f'{self.cache_path}/thumbnails/'
+        if isfile(self.gnome_version_path):
+            with open(self.gnome_version_path, 'r') as fd:
+                for line in fd.readlines():
+                    if '<minor>' in line:
+                        self.has_lockscreen_wallpaper = '36' not in line
+                        break
+        else:
+            self.has_lockscreen_wallpaper = True
 
         self.conf = None
         if isfile(str(self.path)):
