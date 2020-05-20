@@ -38,6 +38,16 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.11" timestamp="1589971385">
+            <description>
+                <ul>
+                    <li>New icon courtesy of Tobias Bernard</li>
+                    <li>New minimal favorite wallpaper badge</li>
+                    <li>Various improvements and bug fixes</li>
+                </ul>
+            </description>
+        </release>
+
         <release version="1.10" timestamp="1586603340">
             <description>
                 <ul>
