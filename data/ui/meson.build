@@ -15,6 +15,7 @@ glade_conf.set('libexecdir', LIBEXEC_DIR)
 glade_conf.set('VERSION', meson.project_version())
 glade_conf.set('CONTRIBUTORS', contributors)
 glade_conf.set('TRANSLATORS', translators)
+glade_conf.set('DESIGNERS', designers)
 glade_conf.set('authorfullname', authorfullname)
 glade_conf.set('prettyname', prettyname)
 

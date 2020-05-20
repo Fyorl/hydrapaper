@@ -28,6 +28,10 @@ translators = '\n'.join([
     'Italian: Gabriele Musco (GabMus) &lt;gabmus@disroot.org&gt;'
 ])
 
+designers = '\n'.join([
+    'Icon by Tobias Bernard (bertob) &lt;hi@tobiasbernard.com&gt;'
+])
+
 i18n = import('i18n')
 python = import('python3')
 gnome = import('gnome')
