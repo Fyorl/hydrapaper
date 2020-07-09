@@ -31,7 +31,7 @@ class PreferencesButtonRow(Handy.ActionRow):
         if button_style_class:
             self.button.get_style_context().add_class(button_style_class)
         self.button.connect('clicked', self.on_button_clicked)
-        self.add_action(self.button)
+        self.add(self.button)
         # You need to press the actual button
         # Avoids accidental presses
         # self.set_activatable_widget(self.button)
@@ -70,7 +70,7 @@ class PreferencesToggleRow(Handy.ActionRow):
         else:
             self.toggle.set_active(self.confman.conf[self.conf_key])
         self.toggle.connect('state-set', self.on_toggle_state_set)
-        self.add_action(self.toggle)
+        self.add(self.toggle)
         self.set_activatable_widget(self.toggle)
 
     def on_toggle_state_set(self, toggle, state):

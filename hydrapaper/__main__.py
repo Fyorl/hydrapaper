@@ -18,7 +18,7 @@
 from gettext import gettext as _
 import sys
 import argparse
-from gi.repository import Gtk, Gdk, Gio
+from gi.repository import Gtk, Gdk, Gio, Handy
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
 from .settings_box import HydraPaperSettingsWindow
@@ -39,7 +39,7 @@ class HydraPaperApplication(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
-
+        Handy.init()
         actions = [
             {
                 'name': 'set_random_wallpaper',

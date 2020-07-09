@@ -5,7 +5,7 @@ from .monitors_flowbox import HydraPaperMonitorsFlowbox
 from .apply_wallpapers import apply_wallpapers
 from .headerbar import HydraPaperHeaderbar
 
-class HydraPaperAppWindow(Gtk.ApplicationWindow):
+class HydraPaperAppWindow(Handy.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
@@ -24,12 +24,15 @@ class HydraPaperAppWindow(Gtk.ApplicationWindow):
         # self.separator = Gtk.Separator()
         # self.separator.get_style_context().add_class('sidebar')
 
+        self.window_handle = Handy.WindowHandle()
+        self.window_handle.add(self.headerbar)
+        self.container_box.pack_start(self.window_handle, False, False, 0)
+        self.window_handle.set_vexpand(False)
         self.container_box.pack_start(self.monitors_flowbox, False, False, 0)
         # self.container_box.pack_start(self.separator, False, False, 0)
         self.container_box.pack_start(self.main_stack, True, True, 0)
         self.container_box.pack_start(self.bottom_bar, False, False, 0)
         self.add(self.container_box)
-        self.set_titlebar(self.headerbar)
         # Why this -52?
         # because every time a new value is saved, for some reason
         # it's the actual value +52 out of nowhere
