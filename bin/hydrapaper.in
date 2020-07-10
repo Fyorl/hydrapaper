@@ -43,8 +43,14 @@ signal.signal(signal.SIGINT, signal.SIG_DFL)
 # they need locale
 # don't ask me, it's effin weird
 # I copied this from uberwriter
-locale.textdomain('hydrapaper')
-locale.bindtextdomain('hydrapaper', localedir)
+try:
+    locale.bindtextdomain('hydrapaper', localedir)
+    locale.textdomain('hydrapaper')
+except AttributeError as e:
+    # Python built without gettext support doesn't have bindtextdomain()
+    # and textdomain()
+    print("Couldn't bind the gettext translation domain. Some translations"
+    " won't work. Error: \n{}".format(e))
 gettext.textdomain('hydrapaper')
 gettext.bindtextdomain('hydrapaper', localedir)
 
