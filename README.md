@@ -53,7 +53,7 @@ This is the best practice to test HydraPaper without installing using meson and 
 #### First time
 
 ```bash
-git clone https://gitlab.com/gabmus/hydrapaper
+git clone https://gitlab.gnome.org/GabMus/hydrapaper
 cd hydrapaper
 mkdir builddir
 cd builddir
@@ -79,7 +79,7 @@ First install `flatpak` and `flatpak-builder` from your distro repository. Altho
 
 Create a directory somewhere in your home, I suggest something like `~/hydrapaperflatpak`.
 
-Either clone the whole HydraPaper repo (`git clone https://gitlab.com/gabmus/hydrapaper`) or just download the flatpak manifest file from this repo in `dist/flatpak/org.gabmus.hydrapaper.json`. In either case, put the files inside the directory you created before.
+Either clone the whole HydraPaper repo (`git clone https://gitlab.gnome.org/GabMus/hydrapaper`) or just download the flatpak manifest file from this repo in `dist/flatpak/org.gabmus.hydrapaper.json`. In either case, put the files inside the directory you created before.
 
 Run the following: `flatpak-builder --repo=repo hydrapaper $PATH_TO_MANIFEST` where `$PATH_TO_MANIFEST` is the path to the `org.gabmus.hydrapaper.json` flatpak manifest. If everything works correctly, this command should create two directories `repo` and `hydrapaper` with flatpak stuff inside of your present working directory (again, I suggest to run everything inside a specifically designated directory).
 
@@ -94,7 +94,7 @@ Now you'll be creating a flatpak bundle, so that you can install it and distribu
 But if you know what you're doing, here you go:
 
 ```bash
-git clone https://gitlab.com/gabmus/hydrapaper
+git clone https://gitlab.gnome.org/GabMus/hydrapaper
 cd hydrapaper
 mkdir builddir
 cd builddir
