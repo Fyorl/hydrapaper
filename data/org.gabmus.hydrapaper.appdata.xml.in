@@ -38,6 +38,15 @@
     <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
     <update_contact>emaildigabry@gmail.com</update_contact>
     <releases>
+        <release version="1.12" timestamp="1595150857">
+            <description>
+                <ul>
+                    <li>Added Brazilian Portuguese translation</li>
+                    <li>Updated to support the latest version of libhandy</li>
+                    <li>Added more keyboard shortcuts</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.11" timestamp="1589971385">
             <description>
                 <ul>
