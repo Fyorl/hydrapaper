@@ -50,8 +50,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/python-pillow/Pillow",
-                    "tag": "7.0.0",
-                    "commit": "1cecf08d16509c20473766b4cdb7a65169844819"
+                    "tag": "7.2.0"
                 },
                 {
                     "type": "shell",
@@ -88,7 +87,7 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.com/gabmus/HydraPaper",
+                    "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
                     "tag": "1.11"
                 }
             ]
