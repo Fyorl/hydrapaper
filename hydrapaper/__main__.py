@@ -43,15 +43,18 @@ class HydraPaperApplication(Gtk.Application):
         actions = [
             {
                 'name': 'set_random_wallpaper',
-                'func': lambda *args: self.apply_random()
+                'func': lambda *args: self.apply_random(),
+                'accel': '<Primary><Shift>r'
             },
             {
                 'name': 'settings',
-                'func': self.show_settings_window
+                'func': self.show_settings_window,
+                'accel': '<Primary>comma'
             },
             {
                 'name': 'shortcuts',
-                'func': self.show_shortcuts_window
+                'func': self.show_shortcuts_window,
+                'accel': '<Primary>question'
             },
             {
                 'name': 'about',
@@ -59,7 +62,8 @@ class HydraPaperApplication(Gtk.Application):
             },
             {
                 'name': 'quit',
-                'func': self.on_destroy_window
+                'func': self.on_destroy_window,
+                'accel': '<Primary>q'
             }
         ]
 
@@ -67,6 +71,11 @@ class HydraPaperApplication(Gtk.Application):
             c_action = Gio.SimpleAction.new(a['name'], None)
             c_action.connect('activate', a['func'])
             self.add_action(c_action)
+            if 'accel' in a.keys():
+                self.set_accels_for_action(
+                    f'app.{a["name"]}',
+                    [a['accel']]
+                )
 
     def show_about_dialog(self, *args):
         about_builder = Gtk.Builder.new_from_resource(

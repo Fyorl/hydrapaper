@@ -51,13 +51,18 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         self.menu = self.menu_builder.get_object('generalMenu')
         self.menu_popover.bind_model(self.menu)
 
+        # most shortcuts are in __main__
         # accel_group is for keyboard shortcuts
         self.accel_group = Gtk.AccelGroup()
         self.add_accel_group(self.accel_group)
         shortcuts_l = [
             {
-                'combo': '<Control>q',
-                'cb': self.emit_destroy
+                'combo': 'F10',
+                'cb': lambda *args: (
+                    self.headerbar.menu_popover.popup
+                    if not self.headerbar.menu_popover.is_visible()
+                    else self.headerbar.menu_popover.popdown
+                )()
             }
         ]
         for s in shortcuts_l:

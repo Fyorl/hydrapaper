@@ -202,3 +202,10 @@ class HydraPaperSettingsWindow(Handy.PreferencesWindow):
         # values copied from libhandy demo
         # https://source.puri.sm/Librem5/libhandy/blob/master/examples/hdy-demo-preferences-window.ui
         self.set_default_size(640, 700)
+
+        self.accel_group = Gtk.AccelGroup()
+        self.accel_group.connect(
+            *Gtk.accelerator_parse('Escape'), Gtk.AccelFlags.VISIBLE,
+            lambda *args: self.close()
+        )
+        self.add_accel_group(self.accel_group)
