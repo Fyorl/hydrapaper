@@ -2,7 +2,7 @@
 
 Wallpaper manager with multimonitor support
 
-![screenshot](website/screenshots/mainwindow.png)
+![screenshot](https://gitlab.gnome.org/GabMus/HydraPaper/-/raw/website/website/screenshots/mainwindow.png)
 
 ## Installing
 
