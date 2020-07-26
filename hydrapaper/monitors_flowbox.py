@@ -106,12 +106,14 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
                     self.spanned_monitor
                 )
             )
+            self.set_max_children_per_line(1)
         else:
             self.load_from_config()
             for m in self.monitors:
                 self.add(
                     HydraPaperMonitorsFlowboxItem(m)
                 )
+            self.set_max_children_per_line(len(self.monitors))
         self.select_child(self.get_children()[0])
 
     def get_monitors(self):
