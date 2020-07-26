@@ -1,9 +1,12 @@
 from gi.repository import Gtk, GdkPixbuf
 from .confManager import ConfManager
-from .monitor_parser import build_monitors_autodetect
+from .monitor_parser import build_monitors_autodetect, Monitor
 from .is_image import is_image
+from .wallpaper_merger import get_combined_resolution
 from hashlib import sha256
 from os.path import isfile
+from gettext import gettext as _
+
 
 class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
     def __init__(self, monitor, **kwargs):
@@ -50,12 +53,22 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
                 Gtk.IconSize.DIALOG
             )
 
+
 class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
 
         self.monitors = build_monitors_autodetect()
+        self.spanned_monitor = Monitor(
+            *get_combined_resolution(self.monitors),
+            1,
+            0, 0,
+            0,
+            _('Combined spanned monitor'),
+            True,
+            True
+        )
 
         self.set_min_children_per_line(1)
         self.set_max_children_per_line(len(self.monitors))
@@ -74,15 +87,39 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
             'hydrapaper_reload_monitor_thumbs',
             self.reload_children_pictures
         )
+        self.confman.connect(
+            'hydrapaper_spanned_mode_changed',
+            self.populate
+        )
         self.populate()
 
-    def populate(self):
-        self.load_from_config()
-        for m in self.monitors:
+    def populate(self, *args):
+        while True:
+            item = self.get_child_at_index(0)
+            if item is not None:
+                self.remove(item)
+            else:
+                break
+        if self.confman.conf['spanned_mode']:
             self.add(
-                HydraPaperMonitorsFlowboxItem(m)
+                HydraPaperMonitorsFlowboxItem(
+                    self.spanned_monitor
+                )
             )
+        else:
+            self.load_from_config()
+            for m in self.monitors:
+                self.add(
+                    HydraPaperMonitorsFlowboxItem(m)
+                )
         self.select_child(self.get_children()[0])
+
+    def get_monitors(self):
+        return (
+            [self.spanned_monitor]
+            if self.confman.conf['spanned_mode']
+            else self.monitors
+        )
 
     def reload_children_pictures(self, *args):
         for c in self.get_children():

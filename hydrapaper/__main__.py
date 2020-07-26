@@ -18,7 +18,7 @@
 from gettext import gettext as _
 import sys
 import argparse
-from gi.repository import Gtk, Gdk, Gio, Handy
+from gi.repository import Gtk, Gdk, Gio, GLib, Handy
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
 from .settings_box import HydraPaperSettingsWindow
@@ -40,6 +40,15 @@ class HydraPaperApplication(Gtk.Application):
     def do_startup(self):
         Gtk.Application.do_startup(self)
         Handy.init()
+        stateful_actions = [
+            {
+                'name': 'spanned_mode',
+                'func': self.toggle_spanned_mode,
+                'type': 'bool',
+                # 'accel': '<Control>h',
+                'confman_key': 'spanned_mode'
+            }
+        ]
         actions = [
             {
                 'name': 'set_random_wallpaper',
@@ -67,6 +76,34 @@ class HydraPaperApplication(Gtk.Application):
             }
         ]
 
+        for sa in stateful_actions:
+            c_action = None
+            if sa['type'] == 'bool':
+                c_action = Gio.SimpleAction.new_stateful(
+                    sa['name'],
+                    None,
+                    GLib.Variant.new_boolean(
+                        self.confman.conf[sa['confman_key']]
+                    )
+                )
+            elif sa['type'] == 'radio':
+                c_action = Gio.SimpleAction.new_stateful(
+                    sa['name'],
+                    GLib.VariantType.new('s'),
+                    GLib.Variant('s', self.confman.conf[sa['confman_key']])
+                )
+            else:
+                raise ValueError(
+                    f'Stateful Action: unsupported type `{sa["type"]}`'
+                )
+            c_action.connect('activate', sa['func'])
+            self.add_action(c_action)
+            if 'accel' in sa.keys():
+                self.set_accels_for_action(
+                    f'app.{sa["name"]}',
+                    [sa['accel']]
+                )
+
         for a in actions:
             c_action = Gio.SimpleAction.new(a['name'], None)
             c_action.connect('activate', a['func'])
@@ -76,6 +113,13 @@ class HydraPaperApplication(Gtk.Application):
                     f'app.{a["name"]}',
                     [a['accel']]
                 )
+
+    def toggle_spanned_mode(self, action: Gio.SimpleAction, *args):
+        action.change_state(
+            GLib.Variant.new_boolean(not action.get_state().get_boolean())
+        )
+        self.confman.conf['spanned_mode'] = action.get_state().get_boolean()
+        self.confman.emit('hydrapaper_spanned_mode_changed', '')
 
     def show_about_dialog(self, *args):
         about_builder = Gtk.Builder.new_from_resource(

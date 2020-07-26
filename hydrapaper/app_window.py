@@ -85,7 +85,7 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
 
     def apply_handler(self, btn, lockscreen = False):
         apply_wallpapers(
-            monitors = self.monitors_flowbox.monitors,
+            monitors = self.monitors_flowbox.get_monitors(),
             widgets_to_freeze = [
                 btn,
                 self.folders_view

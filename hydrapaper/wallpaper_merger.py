@@ -10,6 +10,27 @@ SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
 SWAYLOCK_CONF_PATH = f'{Env.get("HOME")}/.swaylock/config'
 
 
+def cut_image(image_path, resolution, save_path):
+    with Image.open(image_path) as image:
+        n_image = fit(
+            image,
+            resolution,
+            method=Image.LANCZOS, centering=(0.5, 0.5)
+        )
+        n_image.save(save_path)
+
+
+def get_combined_resolution(monitors):
+    return (
+        max([
+            m.offset_x + m.width * m.scaling for m in monitors
+        ]),
+        max([
+            m.offset_y + m.height * m.scaling for m in monitors
+        ])
+    )
+
+
 def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
     images = list(map(Image.open, [m.wallpaper for m in monitors]))
     resolutions = [
@@ -17,18 +38,15 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
     ]
     offsets = [(m.offset_x, m.offset_y) for m in monitors]
 
-    final_image_width = max([
-        m.offset_x + m.width * m.scaling for m in monitors
-    ])
-    final_image_height = max([
-        m.offset_y + m.height * m.scaling for m in monitors
-    ])
+    final_image_width, final_image_height = get_combined_resolution(monitors)
 
     n_images = [fit(i, r, method=Image.LANCZOS) for i, r in zip(images, resolutions)]
     final_image = Image.new('RGB', (final_image_width, final_image_height))
     for i, o in zip(n_images, offsets):
         final_image.paste(i, o)
     final_image.save(save_path)
+    for i in images:
+        i.close()
 
 
 def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):

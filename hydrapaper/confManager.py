@@ -45,6 +45,11 @@ class ConfManagerSignaler(GObject.Object):
             GObject.SIGNAL_RUN_FIRST,
             None,
             (str,)
+        ),
+        'hydrapaper_spanned_mode_changed': (
+            GObject.SIGNAL_RUN_FIRST,
+            None,
+            (str,)
         )
     }
 
@@ -63,6 +68,7 @@ class ConfManager(metaclass=Singleton):
         'folders_popover_full_path': False,
         'big_monitor_thumbnails': True,
         'random_wallpapers_names': False,
+        'spanned_mode': False,
         'windowsize': {
             'width': 600,
             'height': 400

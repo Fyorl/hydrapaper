@@ -3,6 +3,10 @@
     <menu id="generalMenu">
         <section>
             <item>
+                <attribute name="label" translatable="yes">Single wallpaper spanned mode</attribute>
+                <attribute name="action">app.spanned_mode</attribute>
+            </item>
+            <item>
                 <attribute name="label" translatable="yes">Set random wallpapers</attribute>
                 <attribute name="action">app.set_random_wallpaper</attribute>
             </item>
