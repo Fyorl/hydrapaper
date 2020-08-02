@@ -49,27 +49,51 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
         i.close()
 
 
-def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
-    gsettings_path = (
-        'org.gnome.desktop.screensaver' if lockscreen
-        else'org.gnome.desktop.background'
-    )
+def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
     gsettings = Gio.Settings.new(gsettings_path)
-    wp_key = 'picture-uri'
-    mode_key = 'picture-options'
-    gsettings.set_string(wp_key, 'file://{}'.format(path))
+    gsettings.set_string(wp_key, path)
     gsettings.set_string(mode_key, wp_mode)
+
+def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
+    __set_wallpaper_gsettings(
+        gsettings_path=(
+            'org.gnome.desktop.screensaver' if lockscreen
+            else'org.gnome.desktop.background'
+        ),
+        wp_key='picture-uri',
+        mode_key='picture-options',
+        path='file://{}'.format(path),
+        wp_mode=wp_mode
+    )
+
+
+def set_wallpaper_cinnamon(path, wp_mode='spanned', lockscreen=False):
+    if lockscreen:
+        print('Lock screen wallpaper on Cinnamon unsupported')
+        return
+    __set_wallpaper_gsettings(
+        gsettings_path=(
+            'org.cinnamon.desktop.screensaver' if lockscreen
+            else'org.cinnamon.desktop.background'
+        ),
+        wp_key='picture-uri',
+        mode_key='picture-options',
+        path='file://{}'.format(path),
+        wp_mode=wp_mode
+    )
 
 
 def set_wallpaper_mate(path, wp_mode='spanned', lockscreen=False):
     if lockscreen:
         print('Lock screen wallpaper on MATE unsupported')
         return
-    gsettings = Gio.Settings.new('org.mate.background')
-    wp_key = 'picture-filename'
-    mode_key = 'picture-options'
-    gsettings.set_string(wp_key, path)
-    gsettings.set_string(mode_key, wp_mode)
+    __set_wallpaper_gsettings(
+        gsettings_path='org.mate.background',
+        wp_key='picture-filename',
+        mode_key='picture-options',
+        path=path,
+        wp_mode=wp_mode
+    )
 
 
 def set_wallpaper_sway(monitors, lockscreen=False):

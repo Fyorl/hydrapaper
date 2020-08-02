@@ -4,6 +4,7 @@ from hashlib import sha256
 from os.path import isfile
 from .wallpaper_merger import (
     set_wallpaper_gnome,
+    set_wallpaper_cinnamon,
     set_wallpaper_mate,
     set_wallpaper_sway,
     multi_setup_pillow,
@@ -22,6 +23,8 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
     set_wallpaper = set_wallpaper_gnome
     if desktop_environment == 'mate':
         set_wallpaper = set_wallpaper_mate
+    elif desktop_environment == 'cinnamon':
+        set_wallpaper = set_wallpaper_cinnamon
     elif desktop_environment == 'sway':
         set_wallpaper_sway(monitors, lockscreen)
         GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)

@@ -9,6 +9,8 @@
         "--socket=x11",
         "--socket=wayland",
         "--talk-name=org.gnome.SettingsDaemon",
+        "--talk-name=org.cinnamon.SettingsDaemon",
+        "--talk-name=org.Cinnamon",
         "--talk-name=org.freedesktop.Flatpak",
         "--filesystem=home:ro",
         "--filesystem=/usr/share/gnome:ro",
@@ -74,6 +76,27 @@
                     "type": "git",
                     "url": "https://github.com/mate-desktop/mate-desktop",
                     "tag": "v1.24.0"
+                }
+            ]
+        },
+        {
+            "name": "cinnamon-desktop-background-gschema",
+            "buildsystem": "simple",
+            "build-commands": [
+                "install org.cinnamon.desktop.enums.xml /app/share/glib-2.0/schemas/",
+                "install org.cinnamon.desktop.background.gschema.xml /app/share/glib-2.0/schemas/",
+                "glib-compile-schemas /app/share/glib-2.0/schemas"
+            ],
+            "sources": [
+                {
+                    "type": "file",
+                    "path": "org.cinnamon.desktop.background.gschema.xml",
+                    "sha256": "051b7c05ba68c3ae2c22100a868879ed58bcea44d4f8c32caaac72091ca36a67"
+                },
+                {
+                    "type": "file",
+                    "path": "org.cinnamon.desktop.enums.xml",
+                    "sha256": "57c8358448effaeb65ff439d869d48da13ad90efa661852ff8fceacd2d3639a7"
                 }
             ]
         },
