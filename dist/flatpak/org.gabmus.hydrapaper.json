@@ -9,8 +9,6 @@
         "--socket=x11",
         "--socket=wayland",
         "--talk-name=org.gnome.SettingsDaemon",
-        "--talk-name=org.cinnamon.SettingsDaemon",
-        "--talk-name=org.Cinnamon",
         "--talk-name=org.freedesktop.Flatpak",
         "--filesystem=home:ro",
         "--filesystem=/usr/share/gnome:ro",
@@ -83,20 +81,17 @@
             "name": "cinnamon-desktop-background-gschema",
             "buildsystem": "simple",
             "build-commands": [
+                "glib-mkenums --comments '<!-- @comment@ -->' --fhead '<schemalist>' --vhead $'  <@type@ id=\\'org.cinnamon.desktop.@EnumName@\\'>' --vprod $'    <value nick=\\'@valuenick@\\' value=\\'@valuenum@\\'/>' --vtail '  </@type@>' --ftail '</schemalist>' libcinnamon-desktop/cdesktop-enums.h > org.cinnamon.desktop.enums.xml",
                 "install org.cinnamon.desktop.enums.xml /app/share/glib-2.0/schemas/",
+                "sed 's#@datadir@#\\/usr\\/share#g;s#_summary#summary#g;s#_description#description#g' schemas/org.cinnamon.desktop.background.gschema.xml.in.in > org.cinnamon.desktop.background.gschema.xml",
                 "install org.cinnamon.desktop.background.gschema.xml /app/share/glib-2.0/schemas/",
                 "glib-compile-schemas /app/share/glib-2.0/schemas"
             ],
             "sources": [
                 {
-                    "type": "file",
-                    "path": "org.cinnamon.desktop.background.gschema.xml",
-                    "sha256": "051b7c05ba68c3ae2c22100a868879ed58bcea44d4f8c32caaac72091ca36a67"
-                },
-                {
-                    "type": "file",
-                    "path": "org.cinnamon.desktop.enums.xml",
-                    "sha256": "57c8358448effaeb65ff439d869d48da13ad90efa661852ff8fceacd2d3639a7"
+                    "type": "git",
+                    "url": "https://github.com/linuxmint/cinnamon-desktop",
+                    "tag": "4.6.3"
                 }
             ]
         },
