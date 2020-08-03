@@ -29,8 +29,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://source.puri.sm/Librem5/libhandy",
-                    "tag": "v0.0.13"
+                    "url": "https://gitlab.gnome.org/GNOME/libhandy",
+                    "tag": "0.84.0"
                 }
             ]
         },
@@ -50,8 +50,7 @@
                 {
                     "type": "git",
                     "url": "https://github.com/python-pillow/Pillow",
-                    "tag": "7.0.0",
-                    "commit": "1cecf08d16509c20473766b4cdb7a65169844819"
+                    "tag": "7.2.0"
                 },
                 {
                     "type": "shell",
@@ -79,6 +78,24 @@
             ]
         },
         {
+            "name": "cinnamon-desktop-background-gschema",
+            "buildsystem": "simple",
+            "build-commands": [
+                "glib-mkenums --comments '<!-- @comment@ -->' --fhead '<schemalist>' --vhead $'  <@type@ id=\\'org.cinnamon.desktop.@EnumName@\\'>' --vprod $'    <value nick=\\'@valuenick@\\' value=\\'@valuenum@\\'/>' --vtail '  </@type@>' --ftail '</schemalist>' libcinnamon-desktop/cdesktop-enums.h > org.cinnamon.desktop.enums.xml",
+                "install org.cinnamon.desktop.enums.xml /app/share/glib-2.0/schemas/",
+                "sed 's#@datadir@#\\/usr\\/share#g;s#_summary#summary#g;s#_description#description#g' schemas/org.cinnamon.desktop.background.gschema.xml.in.in > org.cinnamon.desktop.background.gschema.xml",
+                "install org.cinnamon.desktop.background.gschema.xml /app/share/glib-2.0/schemas/",
+                "glib-compile-schemas /app/share/glib-2.0/schemas"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/linuxmint/cinnamon-desktop",
+                    "tag": "4.6.3"
+                }
+            ]
+        },
+        {
             "name": "hydrapaper",
             "buildsystem": "meson",
             "builddir": true,
@@ -88,8 +105,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.com/gabmus/HydraPaper",
-                    "tag": "1.10"
+                    "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
+                    "tag": "1.12"
                 }
             ]
         }
