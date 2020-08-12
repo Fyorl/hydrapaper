@@ -123,6 +123,21 @@ class ConfManager(metaclass=Singleton):
                             self.conf[k] = self.BASE_SCHEMA[k].copy()
                         else:
                             self.conf[k] = self.BASE_SCHEMA[k]
+
+                # verify that monitors is a dict of dicts
+                if len(self.conf['monitors']) > 0:
+                    for m_name in self.conf['monitors']:
+                        if not isinstance(self.conf['monitors'][m_name], dict):
+                            if isinstance(self.conf['monitors'][m_name], str):
+                                self.conf['monitors'][m_name] = {
+                                    'wallpaper': self.conf['monitors'][m_name],
+                                    'mode': 'zoom'
+                                }
+                            else:
+                                self.conf['monitors'][m_name] = {
+                                    'wallpaper': '',
+                                    'mode': 'zoom'
+                                }
             except:
                 self.conf = self.BASE_SCHEMA.copy()
                 self.save_conf()

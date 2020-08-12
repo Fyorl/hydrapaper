@@ -16,6 +16,7 @@ class Monitor:
             offset_y,
             index,
             name,
+            mode='zoom',
             primary=False,
             spanned=False
     ):
@@ -27,17 +28,20 @@ class Monitor:
         self.offset_y = int(offset_y)
         self.index = index
         self.name = name
+        self.mode = mode
         self.wallpaper = None
         self.spanned = spanned
 
     def __repr__(self):
         return f'''HydraPaper Monitor Object
-- Name: {self.name};
-- Resolution: {self.width} x {self.height};
+- Name: {self.name}
+- Resolution: {self.width} x {self.height}
 - Scaling: {self.scaling}
-- Offset: {self.offset_x} x {self.offset_y};
-- Wallpaper path: {self.wallpaper};
-- Spanned: {self.spanned};'''
+- Offset: {self.offset_x} x {self.offset_y}
+- Wallpaper path: {self.wallpaper}
+- Mode: {self.mode}
+- Spanned: {self.spanned}
+'''
 
 
 def build_monitors_from_swaymsg():

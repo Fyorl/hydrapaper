@@ -1,6 +1,7 @@
 from gi.repository import Gio
 from PIL import Image
 from PIL.ImageOps import fit
+from PIL.ImageFilter import GaussianBlur
 from os import environ as Env
 from subprocess import run
 import re
@@ -31,8 +32,49 @@ def get_combined_resolution(monitors):
     )
 
 
+def get_center_offset(img, bg):
+    return (
+        int((bg.width/2)-(img.width/2)),
+        int((bg.height/2)-(img.height/2))
+    )
+
+
+def resize_letterbox(img, sw, sh):
+    nw = 0
+    nh = 0
+    portrait = (img.width == img.height and sw > sh) or img.width < img.height
+    if portrait:
+        nh = sh
+        nw = int((sh * img.width) / img.height)
+    else:
+        nw = sw
+        nh = int((img.height * sw) / img.width)
+    return img.resize((nw, nh))
+
+
+def blur_img(img, sw, sh):
+    blur_filter = GaussianBlur(radius=20)
+    bg = fit(img.copy(), (sw, sh))
+    blur_bg = bg.filter(blur_filter)
+    return blur_bg
+
+
 def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
-    images = list(map(Image.open, [m.wallpaper for m in monitors]))
+    images = list()
+    for monitor in monitors:
+        n_img = Image.open(monitor.wallpaper)
+        if 'center' in monitor.mode:
+            if monitor.mode == 'center_black':
+                bg = Image.new('RGB', (monitor.width, monitor.height))
+            elif monitor.mode == 'center_blur':
+                bg = blur_img(n_img, monitor.width, monitor.height)
+            n_img = resize_letterbox(n_img, monitor.width, monitor.height)
+            bg.paste(
+                n_img,
+                get_center_offset(n_img, bg)
+            )
+            n_img = bg
+        images.append(n_img)
     resolutions = [
         (m.width * m.scaling, m.height * m.scaling) for m in monitors
     ]
