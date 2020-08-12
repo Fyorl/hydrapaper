@@ -1,5 +1,5 @@
 from threading import Thread
-from gi.repository import Gtk, GLib
+from gi.repository import GLib
 from hashlib import sha256
 from os.path import isfile
 from .wallpaper_merger import (
