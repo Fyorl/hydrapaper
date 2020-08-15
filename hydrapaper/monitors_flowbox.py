@@ -112,6 +112,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
             0, 0,
             0,
             _('Combined spanned monitor'),
+            'zoom',
             True,
             True
         )

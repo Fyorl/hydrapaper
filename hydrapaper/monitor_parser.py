@@ -60,6 +60,7 @@ def build_monitors_from_swaymsg():
             out['rect']['y'],
             i,
             out['name'],
+            'zoom',
             out['primary']
         ) for i, out in enumerate(outputs)
     ]
@@ -87,6 +88,7 @@ def build_monitors_from_gdk():
             get_monitor_rect(i).y,
             i,
             f'Monitor {i} ({display.get_monitor(i).get_model()})',
+            'zoom',
             display.get_monitor(i).is_primary()
         ) for i in range(0, num_monitors)
     ]
