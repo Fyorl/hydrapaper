@@ -63,12 +63,16 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
     images = list()
     for monitor in monitors:
         n_img = Image.open(monitor.wallpaper)
-        if 'center' in monitor.mode:
-            if monitor.mode == 'center_black':
+        if 'fit' in monitor.mode or 'center' in monitor.mode:
+            if 'black' in monitor.mode:
                 bg = Image.new('RGB', (monitor.width, monitor.height))
-            elif monitor.mode == 'center_blur':
+            elif 'blur' in monitor.mode:
                 bg = blur_img(n_img, monitor.width, monitor.height)
-            n_img = resize_letterbox(n_img, monitor.width, monitor.height)
+            if 'fit' in monitor.mode or (
+                n_img.height > monitor.height or
+                n_img.width > monitor.width
+            ):
+                n_img = resize_letterbox(n_img, monitor.width, monitor.height)
             bg.paste(
                 n_img,
                 get_center_offset(n_img, bg)

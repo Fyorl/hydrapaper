@@ -8,6 +8,11 @@ from os.path import isfile
 from gettext import gettext as _
 
 
+WALLPAPER_MODE_VALUES = [
+    'zoom', 'fit_black', 'fit_blur', 'center_black', 'center_blur'
+]
+
+
 class WallpaperModePopover(Gtk.PopoverMenu):
     def __init__(self, relative_to, **kwargs):
         super().__init__(**kwargs)
@@ -17,19 +22,18 @@ class WallpaperModePopover(Gtk.PopoverMenu):
             '/org/gabmus/hydrapaper/ui/wp_mode_popover_menu.glade'
         )
         self.radio_zoom = self.builder.get_object('radio_zoom')
+        self.radio_fit_black = self.builder.get_object('radio_fit_black')
+        self.radio_fit_blur = self.builder.get_object('radio_fit_blur')
         self.radio_center_black = self.builder.get_object('radio_center_black')
         self.radio_center_blur = self.builder.get_object('radio_center_blur')
-        self.radios = [
-            self.radio_zoom, self.radio_center_black, self.radio_center_blur
-        ]
-        self.radio_values = [
-            'zoom', 'center_black', 'center_blur'
-        ]
         self.radios_dict = {
             'zoom': self.radio_zoom,
+            'fit_black': self.radio_fit_black,
+            'fit_blur': self.radio_fit_blur,
             'center_black': self.radio_center_black,
             'center_blur': self.radio_center_blur
         }
+        self.radios = list(self.radios_dict.values())
         self.add(self.builder.get_object('menu_box'))
 
 
@@ -58,7 +62,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
 
         for radio, value in zip(
                 self.wp_mode_popover.radios,
-                self.wp_mode_popover.radio_values
+                WALLPAPER_MODE_VALUES
         ):
             radio.connect(
                 'toggled',

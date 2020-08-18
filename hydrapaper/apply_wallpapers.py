@@ -13,6 +13,7 @@ from .wallpaper_merger import (
 from .confManager import ConfManager
 from .get_desktop_environment import get_desktop_environment
 
+
 def widgets_set_sensitive(widgets, state: bool):
     for w in widgets:
         w.set_sensitive(state)
