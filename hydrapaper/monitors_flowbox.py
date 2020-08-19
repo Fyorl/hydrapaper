@@ -181,7 +181,8 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
     def load_from_config(self):
         for m in self.monitors:
             if m.name in self.confman.conf['monitors'].keys():
-                m.wallpaper = self.confman.conf['monitors'][m.name]['wallpaper']
+                m.wallpaper = \
+                    self.confman.conf['monitors'][m.name]['wallpaper']
                 m.mode = self.confman.conf['monitors'][m.name]['mode']
 
     def dump_to_config(self):

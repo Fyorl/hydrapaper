@@ -1,20 +1,3 @@
-# __main__.py
-#
-# Copyright (C) 2019 GabMus
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
 from gettext import gettext as _
 import sys
 import argparse
@@ -26,11 +9,12 @@ from .is_image import is_image
 from .monitor_parser import build_monitors_autodetect
 from .apply_wallpapers import apply_wallpapers
 
+
 class HydraPaperApplication(Gtk.Application):
     def __init__(self, **kwargs):
         super().__init__(
-            application_id = 'org.gabmus.hydrapaper',
-            flags = Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            application_id='org.gabmus.hydrapaper',
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             **kwargs
         )
         self.confman = ConfManager()
@@ -158,7 +142,7 @@ class HydraPaperApplication(Gtk.Application):
         all_wallpapers = self.confman.wallpapers
         wallpapers = [
             all_wallpapers[
-                randint(0,len(all_wallpapers)-1)
+                randint(0, len(all_wallpapers)-1)
             ] for i in range(len(monitors))
         ]
         self.apply_from_cli(wallpapers, lockscreen)
@@ -202,7 +186,10 @@ class HydraPaperApplication(Gtk.Application):
         )
         if self.args:
             if self.args.wallpaper_path:
-                self.apply_from_cli(self.args.wallpaper_path[0], self.args.set_lockscreen)
+                self.apply_from_cli(
+                    self.args.wallpaper_path[0],
+                    self.args.set_lockscreen
+                )
                 self.quit()
                 exit(0)
             if self.args.set_random:
@@ -218,17 +205,35 @@ class HydraPaperApplication(Gtk.Application):
         called if Gio.ApplicationFlags.HANDLES_COMMAND_LINE is set.
         must call the self.do_activate() to get the application up and running.
         """
-        Gtk.Application.do_command_line(self, args)  # call the default commandline handler
+        # call the default commandline handler
+        Gtk.Application.do_command_line(self, args)
         # make a command line parser
         parser = argparse.ArgumentParser()
-        parser.add_argument('-c', '--cli', dest='wallpaper_path', nargs='+', action='append', help=_('set wallpapers from command line'))
-        parser.add_argument('-r', '--random', dest='set_random', action='store_true', help=_('set wallpapers randomly'))
-        parser.add_argument('-l', '--lockscreen', dest='set_lockscreen', action='store_true', help=_('set lockscreen wallpapers instead of desktop ones'))
-        # parse the command line stored in args, but skip the first element (the filename)
+        parser.add_argument(
+            '-c', '--cli',
+            dest='wallpaper_path',
+            nargs='+', action='append',
+            help=_('set wallpapers from command line')
+        )
+        parser.add_argument(
+            '-r', '--random',
+            dest='set_random',
+            action='store_true',
+            help=_('set wallpapers randomly')
+        )
+        parser.add_argument(
+            '-l', '--lockscreen',
+            dest='set_lockscreen',
+            action='store_true',
+            help=_('set lockscreen wallpapers instead of desktop ones')
+        )
+        # parse the command line stored in args,
+        # but skip the first element (the filename)
         self.args = parser.parse_args(args.get_arguments()[1:])
         # call the main program do_activate() to start up the app
         self.do_activate()
         return 0
+
 
 def main():
     application = HydraPaperApplication()

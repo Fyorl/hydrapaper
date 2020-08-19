@@ -18,6 +18,7 @@ def widgets_set_sensitive(widgets, state: bool):
     for w in widgets:
         w.set_sensitive(state)
 
+
 def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
     confman = ConfManager()
     desktop_environment = get_desktop_environment()
@@ -39,8 +40,7 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
     save_path = '{0}/{1}{2}.png'.format(
         confman.cache_path,
         'lockscreen_'
-        if lockscreen
-        and not confman.conf['random_wallpapers_names']
+        if lockscreen and not confman.conf['random_wallpapers_names']
         else '',
         wp_fname
     )
@@ -51,9 +51,7 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
             save_path
         )
         set_wallpaper(
-            save_path,
-            'spanned' if monitors[0].spanned else 'zoom',
-            lockscreen
+            save_path, 'spanned' if monitors[0].spanned else 'zoom', lockscreen
         )
         GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
         return

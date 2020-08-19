@@ -10,9 +10,12 @@ import json
 pictures_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
 if not pictures_dir:
     system('xdg-user-dirs-update')
-    pictures_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
+    pictures_dir = GLib.get_user_special_dir(
+        GLib.UserDirectory.DIRECTORY_PICTURES
+    )
     if not pictures_dir:
         pictures_dir = f'{Env.get("HOME")}/Pictures'
+
 
 class ConfManagerSignaler(GObject.Object):
     __gsignals__ = {
@@ -52,6 +55,7 @@ class ConfManagerSignaler(GObject.Object):
             (str,)
         )
     }
+
 
 class ConfManager(metaclass=Singleton):
 
@@ -93,9 +97,12 @@ class ConfManager(metaclass=Singleton):
         )
 
         if self.is_flatpak:
-            self.path = Path(f'{Env.get("XDG_CONFIG_HOME")}/org.gabmus.hydrapaper.json')
+            self.path = Path(
+                f'{Env.get("XDG_CONFIG_HOME")}/org.gabmus.hydrapaper.json'
+            )
             self.cache_path = f'{Env.get("XDG_CACHE_HOME")}/hydrapaper'
-            self.gnome_version_path = '/run/host/usr/share/gnome/gnome-version.xml'
+            self.gnome_version_path = \
+                '/run/host/usr/share/gnome/gnome-version.xml'
         else:
             self.path = Path(f'{Env.get("HOME")}/.config/hydrapaper.json')
             self.cache_path = f'{Env.get("HOME")}/.cache/hydrapaper'
@@ -118,7 +125,7 @@ class ConfManager(metaclass=Singleton):
                     fd.close()
                 # verify that the file has all of the schema keys
                 for k in self.BASE_SCHEMA.keys():
-                    if not k in self.conf.keys():
+                    if k not in self.conf.keys():
                         if type(self.BASE_SCHEMA[k]) in [list, dict]:
                             self.conf[k] = self.BASE_SCHEMA[k].copy()
                         else:
@@ -138,7 +145,7 @@ class ConfManager(metaclass=Singleton):
                                     'wallpaper': '',
                                     'mode': 'zoom'
                                 }
-            except:
+            except Exception:
                 self.conf = self.BASE_SCHEMA.copy()
                 self.save_conf()
         else:

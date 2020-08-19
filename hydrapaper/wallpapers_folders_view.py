@@ -3,6 +3,7 @@ from .confManager import ConfManager
 from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
 from os.path import isdir
 
+
 class HydraPaperWallpapersFoldersView(Gtk.Bin):
     def __init__(self, window, **kwargs):
         super().__init__(**kwargs)
@@ -12,7 +13,9 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
             '/org/gabmus/hydrapaper/ui/wallpapers_folders_view.glade'
         )
 
-        self.container_box = self.builder.get_object('wallpapersFoldersContainer')
+        self.container_box = self.builder.get_object(
+            'wallpapersFoldersContainer'
+        )
         self.listbox = self.builder.get_object('wallpapersFoldersListbox')
 
         self.add_btn = self.builder.get_object('addWallpapersPath')
@@ -66,7 +69,9 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
         for i, p in enumerate(self.confman.conf['wallpapers_paths']):
             if p['path'] == folder_path:
                 self.confman.conf['wallpapers_paths'][i]['active'] = state
-                self.confman.emit('hydrapaper_show_hide_wallpapers', 'notimportant')
+                self.confman.emit(
+                    'hydrapaper_show_hide_wallpapers', 'notimportant'
+                )
                 self.confman.save_conf()
                 break
 
@@ -107,7 +112,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
                 self.confman.conf['favorites'].pop(i)
         self.confman.save_conf()
         self.populate()
-        
+
     def set_all_enabled(self, state):
         # This is a nice hack
         # The obvious thing to do would be to cycle the listbox rows and toggle

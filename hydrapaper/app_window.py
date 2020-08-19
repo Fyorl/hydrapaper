@@ -1,9 +1,10 @@
-from gi.repository import Gtk , Handy
+from gi.repository import Gtk, Handy
 from .confManager import ConfManager
 from .main_stack import HydraPapaerMainStack
 from .monitors_flowbox import HydraPaperMonitorsFlowbox
 from .apply_wallpapers import apply_wallpapers
 from .headerbar import HydraPaperHeaderbar
+
 
 class HydraPaperAppWindow(Handy.ApplicationWindow):
     def __init__(self, **kwargs):
@@ -12,7 +13,7 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
 
         self.set_title('HydraPaper')
         self.set_icon_name('org.gabmus.hydrapaper')
-        self.container_box = Gtk.Box(orientation = Gtk.Orientation.VERTICAL)
+        self.container_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.bottom_bar = Handy.ViewSwitcherBar()
         self.headerbar = HydraPaperHeaderbar(self, self.apply_handler)
         self.stack_switcher = self.headerbar.stack_switcher
@@ -71,7 +72,9 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
     def add_accelerator(self, shortcut, callback):
         if shortcut:
             key, mod = Gtk.accelerator_parse(shortcut)
-            self.accel_group.connect(key, mod, Gtk.AccelFlags.VISIBLE, callback)
+            self.accel_group.connect(
+                key, mod, Gtk.AccelFlags.VISIBLE, callback
+            )
 
     def emit_destroy(self, *args):
         self.emit('destroy')
@@ -83,14 +86,14 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         super().show_all(**kwargs)
         self.main_stack.main_flowbox.show_hide_wallpapers()
 
-    def apply_handler(self, btn, lockscreen = False):
+    def apply_handler(self, btn, lockscreen=False):
         apply_wallpapers(
-            monitors = self.monitors_flowbox.get_monitors(),
-            widgets_to_freeze = [
+            monitors=self.monitors_flowbox.get_monitors(),
+            widgets_to_freeze=[
                 btn,
                 self.folders_view
             ],
-            lockscreen = lockscreen
+            lockscreen=lockscreen
         )
         self.monitors_flowbox.dump_to_config()
 

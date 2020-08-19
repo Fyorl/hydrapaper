@@ -86,7 +86,9 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
 
     final_image_width, final_image_height = get_combined_resolution(monitors)
 
-    n_images = [fit(i, r, method=Image.LANCZOS) for i, r in zip(images, resolutions)]
+    n_images = [
+        fit(i, r, method=Image.LANCZOS) for i, r in zip(images, resolutions)
+    ]
     final_image = Image.new('RGB', (final_image_width, final_image_height))
     for i, o in zip(n_images, offsets):
         final_image.paste(i, o)
@@ -99,6 +101,7 @@ def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
     gsettings = Gio.Settings.new(gsettings_path)
     gsettings.set_string(wp_key, path)
     gsettings.set_string(mode_key, wp_mode)
+
 
 def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
     __set_wallpaper_gsettings(
@@ -150,7 +153,8 @@ def set_wallpaper_sway(monitors, lockscreen=False):
     if lockscreen:
         n_conf = re.sub(r'image=.*', '', conf).strip()
         n_conf += '\n' + '\n'.join([
-            f'image={m.name}:{m.wallpaper.replace(":", "::")}' for m in monitors
+            f'image={m.name}:{m.wallpaper.replace(":", "::")}'
+            for m in monitors
         ])
     else:
         n_conf = re.sub(r'output .* bg .*', '', conf).strip()

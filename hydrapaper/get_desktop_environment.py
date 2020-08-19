@@ -1,5 +1,6 @@
 from os import environ as Env
 
+
 def get_desktop_environment():
     desktop_environment = ''
     candidates = [

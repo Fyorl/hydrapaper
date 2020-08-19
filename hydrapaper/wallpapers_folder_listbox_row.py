@@ -1,6 +1,7 @@
 from gi.repository import Gtk, GObject
 from .confManager import ConfManager
 
+
 class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
     __gsignals__ = {
         'row_switch_state_set': (
@@ -9,6 +10,7 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
             (bool, str)
         )
     }
+
     def __init__(self, folder_path, folder_active):
         super().__init__()
 

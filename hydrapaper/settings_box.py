@@ -16,7 +16,10 @@ class PreferencesButtonRow(Handy.ActionRow):
     signal: an optional signal to let ConfManager emit when the
     button is pressed
     """
-    def __init__(self, title, button_label, onclick, button_style_class=None, signal=None, *args, **kwargs):
+    def __init__(
+            self, title, button_label, onclick, button_style_class=None,
+            signal=None, *args, **kwargs
+    ):
         super().__init__(*args, **kwargs)
         self.title = title
         self.button_label = button_label
@@ -51,7 +54,10 @@ class PreferencesToggleRow(Handy.ActionRow):
     signal: an optional signal to let ConfManager emit when the configuration
     is set
     """
-    def __init__(self, title, conf_key, signal=None, subtitle=None, *args, **kwargs):
+    def __init__(
+            self, title, conf_key, signal=None, subtitle=None,
+            *args, **kwargs
+    ):
         super().__init__(*args, **kwargs)
         self.title = title
         self.confman = ConfManager()

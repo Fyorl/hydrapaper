@@ -2,6 +2,7 @@ from gi.repository import Gtk, Handy
 from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
 from .confManager import ConfManager
 
+
 class HydraPaperHeaderbar(Handy.HeaderBar):
     def __init__(self, window, apply_handler, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -31,13 +32,8 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.wallpapers_folders_button = self.builder.get_object(
             'wallpapersFoldersBtn'
         )
-        left_widgets = [
-            self.wallpapers_folders_button
-        ]
-        right_widgets = [
-            self.menu_button,
-            self.apply_button
-        ]
+        left_widgets = [self.wallpapers_folders_button]
+        right_widgets = [self.menu_button, self.apply_button]
         for w in left_widgets:
             self.pack_start(w)
         for w in right_widgets:
@@ -54,7 +50,6 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.ww_popover.add(self.ww_container)
         self.ww_popover.set_modal(True)
         self.ww_popover.set_relative_to(self.apply_button)
-
 
         self.builder.connect_signals(self)
 
