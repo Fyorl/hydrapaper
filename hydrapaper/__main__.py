@@ -147,7 +147,7 @@ class HydraPaperApplication(Gtk.Application):
         ]
         self.apply_from_cli(wallpapers, lockscreen)
 
-    def apply_from_cli(self, wlist_cli, lockscreen=False):
+    def apply_from_cli(self, wlist_cli, modes=None, lockscreen=False):
         # check all the passed wallpapers to be correct
         monitors = build_monitors_autodetect()
         if len(wlist_cli) < len(monitors):
@@ -157,6 +157,27 @@ class HydraPaperApplication(Gtk.Application):
                 )
             )
             exit(1)
+        if modes is None:
+            modes = ['zoom' for i in range(len(monitors))]
+        elif len(modes) < len(wlist_cli):
+            print(
+                _('Error: you passed {0} modes for {1} wallpapers').format(
+                    len(modes), len(wlist_cli)
+                )
+            )
+            exit(1)
+        for monitor, mode in zip(monitors, modes):
+            if mode not in ('zoom', 'fit_black', 'fit_blur',
+                            'center_black', 'center_blur'):
+                print(
+                    _('Error: wallpaper mode {0} is not valid. '
+                      'Allowed values are: zoom, fit_black, fit_blur, '
+                      'center_black, center_blur').format(
+                       mode
+                    )
+                )
+                exit(1)
+            monitor.mode = mode
         for wpath in wlist_cli:
             if not is_image(wpath):
                 print(_('Error: {0} is not a valid image path').format(wpath))
@@ -188,6 +209,9 @@ class HydraPaperApplication(Gtk.Application):
             if self.args.wallpaper_path:
                 self.apply_from_cli(
                     self.args.wallpaper_path[0],
+                    self.args.wallpaper_modes[0]
+                    if self.args.wallpaper_modes
+                    else None,
                     self.args.set_lockscreen
                 )
                 self.quit()
@@ -214,6 +238,13 @@ class HydraPaperApplication(Gtk.Application):
             dest='wallpaper_path',
             nargs='+', action='append',
             help=_('set wallpapers from command line')
+        )
+        parser.add_argument(
+            '-m', '--modes',
+            dest='wallpaper_modes',
+            nargs='+', action='append',
+            help=_('specify the modes for the wallpapers (zoom, center_black, '
+                   'center_blur, fit_black, fit_blur)')
         )
         parser.add_argument(
             '-r', '--random',
