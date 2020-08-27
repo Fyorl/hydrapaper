@@ -3,13 +3,16 @@ data/org.gabmus.hydrapaper.desktop.in
 data/ui/choose_folder_dialog.glade
 data/ui/headerbar.glade
 data/ui/menu.xml
+data/ui/monitors_flowbox_item.glade
 data/ui/shortcutsWindow.xml
 data/ui/wallpapers_flowbox.glade
 data/ui/wallpapers_folders_view.glade
 data/ui/which_wallpaper_box.glade
+data/ui/wp_mode_popover_menu.glade
 hydrapaper/__main__.py
 hydrapaper/main_stack.py
 hydrapaper/monitor_parser.py
+hydrapaper/monitors_flowbox.py
 hydrapaper/settings_box.py
 hydrapaper/wallpaper_flowbox_item.py
 hydrapaper/wallpapers_flowbox.py
