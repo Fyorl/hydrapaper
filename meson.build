@@ -46,6 +46,7 @@ install_subdir(meson.project_name(), install_dir: pythondir)
 subdir('data')
 subdir('bin')
 subdir('po')
+subdir('docs')
 
 
 meson.add_install_script('meson_post_install.py')

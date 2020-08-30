@@ -3,6 +3,8 @@ __pycache__
 *.glade\~
 *.glade\#
 *.o
+*.1
+*.5
 .deps
 /**/*.swp
 /*.bak
