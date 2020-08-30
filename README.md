@@ -12,7 +12,10 @@ HydraPaper officially supports the following desktop environments:
 
 - GNOME 3
 - MATE
+- Cinnamon
 - Budgie
+
+Experimental support for the sway window manager/Wayland compositor is also present.
 
 ### Flatpak universal package
 
@@ -42,9 +45,10 @@ HydraPaper has these dependencies:
 
 - `python3` (>=3.5)
 - `python-pillow`
-- `libwnck3`
-- `libhandy` (>=0.10)
+- `libhandy` (>=0.83)
 - `gtk`
+
+Additionally, if you want to build the man page you need `pandoc`.
 
 ### Building for testing
 
