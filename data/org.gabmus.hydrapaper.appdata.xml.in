@@ -6,11 +6,11 @@
     <summary>Wallpaper manager with multi monitor support</summary>
     <metadata_license>CC0-1.0</metadata_license>
     <project_license>GPL-3.0+</project_license>
-    <recommends>
+    <!--<recommends>
         <control>pointing</control>
         <control>keyboard</control>
         <control>touch</control>
-    </recommends>
+    </recommends>-->
     <description>
         <p>HydraPaper is a wallpaper manager, specifically designed to work around the lack of functionality of many desktop environments to set a different wallpaper for each monitor in a multi monitor setup. It accomplishes this by scaling and merging different wallpapers into a single one and setting it as spanned.</p>
         <p>It currently supports various desktop environments, including GNOME, MATE, Cinnamon and Budgie. Experimental support is included for the sway window manager.</p>
@@ -18,25 +18,39 @@
     <launchable type="desktop-id">org.gabmus.hydrapaper.desktop</launchable>
     <screenshots>
         <screenshot type="default">
-            <image>https://gitlab.com/gabmus/hydrapaper/raw/website/website/screenshots/mainwindow.png</image>
+            <image>https://gitlab.gnome.org/gabmus/hydrapaper/raw/website/website/screenshots/mainwindow.png</image>
         </screenshot>
         <screenshot>
-            <image>https://gitlab.com/gabmus/hydrapaper/raw/website/website/screenshots/folders.png</image>
+            <image>https://gitlab.gnome.org/gabmus/hydrapaper/raw/website/website/screenshots/folders.png</image>
         </screenshot>
         <screenshot>
-            <image>https://gitlab.com/gabmus/hydrapaper/raw/website/website/screenshots/favorites.png</image>
+            <image>https://gitlab.gnome.org/gabmus/hydrapaper/raw/website/website/screenshots/favorites.png</image>
         </screenshot>
         <screenshot>
-            <image>https://gitlab.com/gabmus/hydrapaper/raw/website/website/screenshots/random.png</image>
+            <image>https://gitlab.gnome.org/gabmus/hydrapaper/raw/website/website/screenshots/random.png</image>
         </screenshot>
         <screenshot>
-            <image>https://gitlab.com/gabmus/hydrapaper/raw/website/website/screenshots/preferences.png</image>
+            <image>https://gitlab.gnome.org/gabmus/hydrapaper/raw/website/website/screenshots/preferences.png</image>
+        </screenshot>
+        <screenshot>
+            <image>https://gitlab.gnome.org/gabmus/hydrapaper/raw/website/website/screenshots/modes.png</image>
         </screenshot>
     </screenshots>
-    <url type="homepage">https://gabmus.gitlab.io/HydraPaper/</url>
-    <url type="bugtracker">https://gitlab.com/gabmus/hydrapaper/issues</url>
+    <url type="homepage">https://hydrapaper.gabmus.org</url>
+    <url type="bugtracker">https://gitlab.gnome.org/gabmus/hydrapaper/issues</url>
     <update_contact>gabmus@disroot.org</update_contact>
     <releases>
+        <release version="2.0" timestamp="1598946612">
+            <description>
+                <ul>
+                    <li>Updated to the latest version of libhandy</li>
+                    <li>New option to set a single wallpaper as spanned across all the monitors</li>
+                    <li>Added Cinnamon support</li>
+                    <li>New wallpaper modes: set your wallpapers as zoomed, centered or fitted, with the choice of either a black or a blurred background</li>
+                    <li>Various improvements and bug fixes</li>
+                </ul>
+            </description>
+        </release>
         <release version="1.12" timestamp="1595150857">
             <description>
                 <ul>
