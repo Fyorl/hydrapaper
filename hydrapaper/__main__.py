@@ -145,7 +145,7 @@ class HydraPaperApplication(Gtk.Application):
                 randint(0, len(all_wallpapers)-1)
             ] for i in range(len(monitors))
         ]
-        self.apply_from_cli(wallpapers, lockscreen)
+        self.apply_from_cli(wallpapers, lockscreen=lockscreen)
 
     def apply_from_cli(self, wlist_cli, modes=None, lockscreen=False):
         # check all the passed wallpapers to be correct
