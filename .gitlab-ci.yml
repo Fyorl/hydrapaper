@@ -9,18 +9,18 @@ test:
         - pip install pyflakes
         - pyflakes hydrapaper
 
-flatpak-readroot:
-    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.36'
-    variables:
-        MANIFEST_PATH: "dist/flatpak/org.gabmus.hydrapaper-readroot.json"
-        MESON_ARGS: "-Dprofile=Devel"
-        FLATPAK_MODULE: "hydrapaper"
-        RUNTIME_REPO: "https://flathub.org/repo/flathub.flatpakrepo"
-        APP_ID: "org.gabmus.hydrapaper"
-    extends: .flatpak
+# flatpak-readroot:
+#     image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.38'
+#     variables:
+#         MANIFEST_PATH: "dist/flatpak/org.gabmus.hydrapaper-readroot.json"
+#         MESON_ARGS: "-Dprofile=Devel"
+#         FLATPAK_MODULE: "hydrapaper"
+#         RUNTIME_REPO: "https://flathub.org/repo/flathub.flatpakrepo"
+#         APP_ID: "org.gabmus.hydrapaper"
+#     extends: .flatpak
 
 flatpak:
-    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.36'
+    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:3.38'
     variables:
         MANIFEST_PATH: "dist/flatpak/org.gabmus.hydrapaper.json"
         MESON_ARGS: "-Dprofile=Devel"
