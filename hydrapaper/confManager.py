@@ -112,7 +112,9 @@ class ConfManager(metaclass=Singleton):
             with open(self.gnome_version_path, 'r') as fd:
                 for line in fd.readlines():
                     if '<minor>' in line:
-                        self.has_lockscreen_wallpaper = '36' not in line
+                        self.has_lockscreen_wallpaper = (
+                            '36' not in line or '38' not in line
+                        )
                         break
         else:
             self.has_lockscreen_wallpaper = True
