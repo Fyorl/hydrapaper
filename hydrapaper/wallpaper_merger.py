@@ -107,7 +107,7 @@ def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
     __set_wallpaper_gsettings(
         gsettings_path=(
             'org.gnome.desktop.screensaver' if lockscreen
-            else'org.gnome.desktop.background'
+            else 'org.gnome.desktop.background'
         ),
         wp_key='picture-uri',
         mode_key='picture-options',
