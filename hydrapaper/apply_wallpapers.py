@@ -44,17 +44,17 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
         else '',
         wp_fname
     )
-    if len(monitors) == 1:
-        cut_image(
-            monitors[0].wallpaper,
-            (monitors[0].width, monitors[0].height),
-            save_path
-        )
-        set_wallpaper(
-            save_path, 'spanned' if monitors[0].spanned else 'zoom', lockscreen
-        )
-        GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
-        return
+    # if len(monitors) == 1:
+    #     cut_image(
+    #         monitors[0].wallpaper,
+    #         (monitors[0].width, monitors[0].height),
+    #         save_path
+    #     )
+    #     set_wallpaper(
+    #         save_path, 'spanned' if monitors[0].spanned else 'zoom', lockscreen
+    #     )
+    #     GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
+    #     return
     if not confman.conf['random_wallpapers_names'] or not isfile(save_path):
         multi_setup_pillow(monitors, save_path)
     set_wallpaper(save_path, lockscreen=lockscreen)
