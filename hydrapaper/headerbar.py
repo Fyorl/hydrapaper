@@ -58,12 +58,6 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
             self.squeezer.get_visible_child() == self.nobox
         )
 
-    def on_menuBtn_clicked(self, btn):
-        self.menu_popover.popup()
-
-    def on_wallpapersFoldersBtn_clicked(self, btn):
-        self.wallpapers_folders_popover.popup()
-
     def on_applyButton_clicked(self, btn):
         if self.confman.has_lockscreen_wallpaper:
             self.ww_popover.popup()

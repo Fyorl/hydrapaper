@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.22.2 -->
+<!-- Generated with glade 3.38.1 -->
 <interface>
   <requires lib="gtk+" version="3.20"/>
   <object class="GtkButton" id="applyButton">
     <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="receives_default">True</property>
-    <property name="tooltip_text" translatable="yes">Apply</property>
+    <property name="can-focus">True</property>
+    <property name="receives-default">True</property>
+    <property name="tooltip-text" translatable="yes">Apply</property>
     <signal name="clicked" handler="on_applyButton_clicked" swapped="no"/>
     <child>
       <object class="GtkImage">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">object-select-symbolic</property>
+        <property name="can-focus">False</property>
+        <property name="icon-name">object-select-symbolic</property>
       </object>
     </child>
     <style>
@@ -20,52 +20,52 @@
     </style>
   </object>
   <object class="GtkSpinner" id="applySpinner">
-    <property name="width_request">32</property>
+    <property name="width-request">32</property>
     <property name="visible">True</property>
-    <property name="can_focus">False</property>
-  </object>
-  <object class="GtkButton" id="menuBtn">
-    <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="receives_default">True</property>
-    <property name="tooltip_text" translatable="yes">Menu</property>
-    <signal name="clicked" handler="on_menuBtn_clicked" swapped="no"/>
-    <child>
-      <object class="GtkImage">
-        <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">open-menu-symbolic</property>
-      </object>
-    </child>
+    <property name="can-focus">False</property>
   </object>
   <object class="GtkPopoverMenu" id="menuPopover">
-    <property name="can_focus">False</property>
-    <property name="relative_to">menuBtn</property>
+    <property name="can-focus">False</property>
     <property name="position">bottom</property>
     <child>
       <placeholder/>
     </child>
   </object>
-  <object class="GtkButton" id="wallpapersFoldersBtn">
+  <object class="GtkMenuButton" id="menuBtn">
     <property name="visible">True</property>
-    <property name="can_focus">True</property>
-    <property name="receives_default">True</property>
-    <property name="tooltip_text" translatable="yes">Wallpapers Folders</property>
-    <signal name="clicked" handler="on_wallpapersFoldersBtn_clicked" swapped="no"/>
+    <property name="can-focus">True</property>
+    <property name="focus-on-click">False</property>
+    <property name="receives-default">True</property>
+    <property name="tooltip-text" translatable="yes">Menu</property>
+    <property name="popover">menuPopover</property>
     <child>
       <object class="GtkImage">
         <property name="visible">True</property>
-        <property name="can_focus">False</property>
-        <property name="icon_name">folder-symbolic</property>
+        <property name="can-focus">False</property>
+        <property name="icon-name">open-menu-symbolic</property>
       </object>
     </child>
   </object>
   <object class="GtkPopover" id="wallpapersFoldersPopover">
-    <property name="height_request">350</property>
-    <property name="can_focus">False</property>
-    <property name="relative_to">wallpapersFoldersBtn</property>
+    <property name="height-request">350</property>
+    <property name="can-focus">False</property>
     <child>
       <placeholder/>
+    </child>
+  </object>
+  <object class="GtkMenuButton" id="wallpapersFoldersBtn">
+    <property name="visible">True</property>
+    <property name="can-focus">True</property>
+    <property name="focus-on-click">False</property>
+    <property name="receives-default">True</property>
+    <property name="tooltip-text" translatable="yes">Wallpapers Folders</property>
+    <property name="popover">wallpapersFoldersPopover</property>
+    <child>
+      <object class="GtkImage">
+        <property name="visible">True</property>
+        <property name="can-focus">False</property>
+        <property name="icon-name">folder-symbolic</property>
+      </object>
     </child>
   </object>
 </interface>

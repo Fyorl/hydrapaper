@@ -53,10 +53,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
         self.overlay = self.builder.get_object('overlay')
         self.wp_mode_btn = self.builder.get_object('wp_mode_btn')
         self.wp_mode_popover = WallpaperModePopover(self.wp_mode_btn)
-        self.wp_mode_btn.connect(
-            'clicked',
-            lambda *args: self.wp_mode_popover.popup()
-        )
+        self.wp_mode_btn.set_popover(self.wp_mode_popover)
         self.image = self.builder.get_object('wp_preview')
         self.add(self.box)
 

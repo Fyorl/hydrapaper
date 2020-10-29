@@ -59,11 +59,7 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         shortcuts_l = [
             {
                 'combo': 'F10',
-                'cb': lambda *args: (
-                    self.headerbar.menu_popover.popup
-                    if not self.headerbar.menu_popover.is_visible()
-                    else self.headerbar.menu_popover.popdown
-                )()
+                'cb': lambda *args: self.headerbar.menu_button.clicked()
             }
         ]
         for s in shortcuts_l:
