@@ -8,7 +8,7 @@ from .wallpaper_merger import (
     set_wallpaper_mate,
     set_wallpaper_sway,
     multi_setup_pillow,
-    cut_image
+    # cut_image
 )
 from .confManager import ConfManager
 from .get_desktop_environment import get_desktop_environment
