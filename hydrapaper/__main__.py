@@ -17,6 +17,8 @@ class HydraPaperApplication(Gtk.Application):
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             **kwargs
         )
+        GLib.set_application_name('HydraPaper')
+        GLib.set_prgname('org.gabmus.hydrapaper')
         self.confman = ConfManager()
         self.window = HydraPaperAppWindow()
         self.window.connect('destroy', self.on_destroy_window)
