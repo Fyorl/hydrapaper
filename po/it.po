@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-08-27 11:27+0200\n"
-"PO-Revision-Date: 2020-08-27 11:31+0200\n"
+"POT-Creation-Date: 2020-11-09 12:17+0100\n"
+"PO-Revision-Date: 2020-11-09 12:23+0100\n"
 "Last-Translator: Gabriele Musco <gabmus@disroot.org>\n"
 "Language-Team: Italian\n"
 "Language: it\n"
@@ -26,17 +26,17 @@ msgstr "ERRORE: impossibile creare miniatura per il file"
 msgid "Error parsing monitors (Gdk)"
 msgstr "Errore nell'analisi dei monitor (Gdk)"
 
-#: ../hydrapaper/__main__.py:155
+#: ../hydrapaper/__main__.py:157
 #, python-brace-format
 msgid "Error: you passed {0} wallpapers for {1} monitors"
 msgstr "Errore: hai passato {0} sfondi per {1} monitor"
 
-#: ../hydrapaper/__main__.py:164
+#: ../hydrapaper/__main__.py:166
 #, python-brace-format
 msgid "Error: you passed {0} modes for {1} wallpapers"
 msgstr "Errore: hai passato {0} modalità per {1} monitor"
 
-#: ../hydrapaper/__main__.py:173
+#: ../hydrapaper/__main__.py:175
 #, python-brace-format
 msgid ""
 "Error: wallpaper mode {0} is not valid. Allowed values are: zoom, fit_black, "
@@ -45,16 +45,16 @@ msgstr ""
 "Errore: la modalità sfondo {0} non è valida. I valori permessi sono: zoom, "
 "fit_black, fit_blur, center_black, center_blur"
 
-#: ../hydrapaper/__main__.py:183
+#: ../hydrapaper/__main__.py:185
 #, python-brace-format
 msgid "Error: {0} is not a valid image path"
 msgstr "Errore: {0} non è il percorso di un'immagine valida"
 
-#: ../hydrapaper/__main__.py:240
+#: ../hydrapaper/__main__.py:242
 msgid "set wallpapers from command line"
 msgstr "imposta sfondi dalla linea di comando"
 
-#: ../hydrapaper/__main__.py:246
+#: ../hydrapaper/__main__.py:248
 msgid ""
 "specify the modes for the wallpapers (zoom, center_black, center_blur, "
 "fit_black, fit_blur)"
@@ -62,11 +62,11 @@ msgstr ""
 "specifica le modalità per gli sfondi (zoom, center_black, center_blur, "
 "fit_black, fit_blur)"
 
-#: ../hydrapaper/__main__.py:253
+#: ../hydrapaper/__main__.py:255
 msgid "set wallpapers randomly"
 msgstr "imposta sfondi casualmente"
 
-#: ../hydrapaper/__main__.py:259
+#: ../hydrapaper/__main__.py:261
 msgid "set lockscreen wallpapers instead of desktop ones"
 msgstr "imposta sfondi della schermata di blocco invece che della scrivania"
 
@@ -146,7 +146,7 @@ msgstr "Impostazioni della Vista"
 msgid "Use big thumbnails for the monitors previews"
 msgstr "Usa miniature grandi per le anteprime dei monitor"
 
-#: ../hydrapaper/monitors_flowbox.py:118
+#: ../hydrapaper/monitors_flowbox.py:115
 msgid "Combined spanned monitor"
 msgstr "Monitor esteso combinato"
 
@@ -207,7 +207,7 @@ msgid "Deactivate all folders"
 msgstr "Disattiva tutte le cartelle"
 
 #: ../data/ui/wp_mode_popover_menu.glade:19
-#: ../data/ui/monitors_flowbox_item.glade:34
+#: ../data/ui/monitors_flowbox_item.glade:35
 msgid "Wallpaper mode"
 msgstr "Modalità sfondo"
 
@@ -235,11 +235,11 @@ msgstr "Centra (sfocatura)"
 msgid "Apply"
 msgstr "Applica"
 
-#: ../data/ui/headerbar.glade:31
+#: ../data/ui/headerbar.glade:39
 msgid "Menu"
 msgstr "Menu"
 
-#: ../data/ui/headerbar.glade:53
+#: ../data/ui/headerbar.glade:61
 msgid "Wallpapers Folders"
 msgstr "Cartelle degli sfondi"
 
@@ -255,7 +255,7 @@ msgstr "Blocco schermo"
 msgid "Both"
 msgstr "Entrambi"
 
-#: ../data/ui/monitors_flowbox_item.glade:70
+#: ../data/ui/monitors_flowbox_item.glade:67
 msgid "label"
 msgstr ""
 
@@ -287,364 +287,420 @@ msgstr ""
 msgid "Gabriele Musco"
 msgstr ""
 
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:6
+msgid "Wallpaper manager with multi monitor support"
+msgstr "Gestore di sfondi con supporto per multi monitor"
+
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:15
 msgid ""
-"HydraPaper lets you set different wallpapers for each of your monitors in "
-"the GNOME desktop."
+"HydraPaper is a wallpaper manager, specifically designed to work around the "
+"lack of functionality of many desktop environments to set a different "
+"wallpaper for each monitor in a multi monitor setup. It accomplishes this by "
+"scaling and merging different wallpapers into a single one and setting it as "
+"spanned."
 msgstr ""
-"HydraPaper ti permette di impostare uno sfondo diverso per ognuno dei tuoi "
-"monitor nell'ambiente desktop GNOME."
+"HydraPaper è un gestore di sfondi, specificamente progettato per aggirare la "
+"mancanza di funzionalità di molti ambienti desktop di impostare uno sfondo "
+"diverso per ogni schermo in una postazione con più schermi. Questo è "
+"ottenuto tramite il ridimensionamento e l'unione di diversi sfondi in uno "
+"singolo, e impostandolo come esteso."
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:16
 msgid ""
-"It works around this lack of functionality by automatically merging multiple "
-"wallpapers into one, and setting it as your wallpaper with the \"Spanned\" "
-"option."
+"It currently supports various desktop environments, including GNOME, MATE, "
+"Cinnamon and Budgie. Experimental support is included for the sway window "
+"manager."
 msgstr ""
-"Risolve questa mancanza di funzionalità unendo automaticamente multipli "
-"sfondi in uno, e impostandolo come sfondo con l'opzione \"Spanned\"."
-
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:17
-msgid ""
-"HydraPaper also supports the MATE desktop, and should work on any desktop "
-"that is based on GNOME, like Budgie and Pantheon."
-msgstr ""
-"HydraPaper supporta anche il desktop MATE, e dovrebbe funzionare su "
-"qualunque desktop basato su GNOME, come Budgie e Pantheon."
-
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:44
-msgid "Added Brazilian Portuguese translation"
-msgstr "Aggiunta traduzione in portoghese brasiliano"
-
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:45
-msgid "Updated to support the latest version of libhandy"
-msgstr "Aggiornato per supportare l'ultima versione di libhandy"
+"Correntemente supporta vari ambienti desktop, inclusi GNOME, MATE, Cinnamon "
+"e Budgie. È incluso un supporto sperimentale per il gestore di finestre sway."
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:46
-msgid "Added more keyboard shortcuts"
-msgstr "Aggiunte ulteriori scorciatoie da tastiera"
+msgid "Fix for different wallpaper modes not working on single display setups"
+msgstr ""
+"Correzione per diverse modalità di sfondo non funzionanti su postazioni con "
+"un singolo schermo"
 
 #: ../data/org.gabmus.hydrapaper.appdata.xml.in:53
-msgid "New icon courtesy of Tobias Bernard"
-msgstr "Nuova icona per gentile concessione di Tobias Bernard"
+msgid "Fixed random wallpaper"
+msgstr "Corretta la funzione sfondi casuali"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:54
-msgid "New minimal favorite wallpaper badge"
-msgstr "Nuovo stemma minimale per gli sfondi preferiti"
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:60
+msgid "Updated to the latest version of libhandy"
+msgstr "Aggiornato all'ultima versione di libhandy"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:55
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:61
+msgid "New option to set a single wallpaper as spanned across all the monitors"
+msgstr ""
+"Nuova opzione per impostare un singolo sfondo come esteso su più schermi"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:62
+msgid "Added Cinnamon support"
+msgstr "Aggiunto supporto per Cinnamon"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:63
+msgid ""
+"New wallpaper modes: set your wallpapers as zoomed, centered or fitted, with "
+"the choice of either a black or a blurred background"
+msgstr ""
+"Nuove modalità di sfondi: imposta il tuo sfondo come zoomato, centrato, "
+"adattato, con la scelta di uno sfondo nero o sfocato"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:64
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:82
 msgid "Various improvements and bug fixes"
 msgstr "Vari miglioramenti e correzioni di bug"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:63
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:71
+msgid "Added Brazilian Portuguese translation"
+msgstr "Aggiunta traduzione in portoghese brasiliano"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:72
+msgid "Updated to support the latest version of libhandy"
+msgstr "Aggiornato per supportare l'ultima versione di libhandy"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:73
+msgid "Added more keyboard shortcuts"
+msgstr "Aggiunte ulteriori scorciatoie da tastiera"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:80
+msgid "New icon courtesy of Tobias Bernard"
+msgstr "Nuova icona per gentile concessione di Tobias Bernard"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:81
+msgid "New minimal favorite wallpaper badge"
+msgstr "Nuovo stemma minimale per gli sfondi preferiti"
+
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:90
 msgid "New quick buttons to toggle on/off all wallpaper folders at once"
 msgstr ""
 "Nuovi bottoni veloci per attivare/disattivare tutte le cartelle degli sfondi "
 "allo stesso tempo"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:71
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:98
 msgid "Updated flatpak dependencies and GNOME runtime"
 msgstr "Aggiornate dipendenze di flatpak e runtime GNOME"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:72
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:99
 msgid ""
 "Removed libwnck dependency and functionalities (lower other windows toggle)"
 msgstr ""
 "Rimossa dipendenza e funzionalità di libwnck (alza/abbassa altre finestre)"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:79
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:109
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:263
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:278
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:106
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:136
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:290
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:305
 msgid "Various bug fixes"
 msgstr "Varie correzioni di bug"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:86
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:113
 msgid "You can now set lockscreen wallpapers from the command line"
 msgstr ""
 "Ora puoi impostare lo sfondo della schermata di blocco dalla linea di comando"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:87
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:114
 msgid "New preference to save wallpapers with random names"
 msgstr "Nuova preferenza per salvare gli sfondi con nomi randomici"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:88
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:234
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:115
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:261
 msgid "Various bug fixes and improvements"
 msgstr "Varie correzioni di bug e miglioramenti"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:95
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:122
 msgid "Ordering wallpapers folders alphabetically"
 msgstr "Ordinamento alfabetico delle cartelle degli sfondi"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:96
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:123
 msgid "Fixed folder adding"
 msgstr "Corretta l'aggiunta delle cartelle"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:103
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:130
 msgid "You can now add multiple folders at once!"
 msgstr "Puoi aggiungere più cartelle in una volta!"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:104
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:131
 msgid "Slight design overhaul"
 msgstr "Leggera revisione del design"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:105
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:132
 msgid "Added German and Russian translations (courtesy of Alessandra Gallia)"
 msgstr "Aggiunte traduzioni in tedesco e russo (grazie ad Alessandra Gallia)"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:106
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:133
 msgid "Redesigned symbolic icon"
 msgstr "Ridisegnata l'icona simbolica"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:107
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:134
 msgid "Initial support for sway (still broken in Flatpak)"
 msgstr "Supporto iniziale per sway (ancora non funzionante con Flatpak)"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:108
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:135
 msgid "Small performance improvements"
 msgstr "Piccoli miglioramenti di performance"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:116
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:143
 msgid "Fixed conflict between desktop and lockscreen wallpapers"
 msgstr "Corretto conflitto tra sfondi della scrivania e del blocco schermo"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:123
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:150
 msgid ""
 "Merged wallpapers aren't cached anymore. Just keep one and save lots of space"
 msgstr ""
 "Gli sfondi uniti non sono più salvati in cache. Mantienine uno solo e "
 "risparmia molto spazio"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:130
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:157
 msgid "Fixed path enable/disable bug"
 msgstr "Corretto un bug di attivazione/disattivazione dei percorsi"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:137
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:164
 msgid "Moved app menu to the far right"
 msgstr "Spostato il menu applicazione in fondo a destra"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:138
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:165
 msgid "Added view switcher bar when window is too small"
 msgstr "Aggiunta la barra di cambio vista quando la finestra è troppo piccola"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:145
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:172
 msgid "Added option to set lockscreen wallpapers in GNOME"
 msgstr "Aggiunta opzione per impostare sfondi per il blocco schermo su GNOME"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:152
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:179
 msgid "Internationalization support and Italian translation"
 msgstr "Supporto all'internazionalizzazione e traduzione italiana"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:153
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:180
 msgid "New widgets from Purism's libhandy"
 msgstr "Nuovi widget dalla libreria libhandy di Purism"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:154
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:181
 msgid "Removed animated spinner"
 msgstr "Rimosso lo spinner animato"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:155
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:182
 msgid "Paths in folders view show only the folder name by default"
 msgstr ""
 "I percorsi nella vista delle cartelle mostrano solo il nome della cartella "
 "come predefinito"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:156
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:183
 msgid "New website"
 msgstr "Nuovo sito web"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:163
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:190
 msgid "Properly implemented MATE support"
 msgstr "Implementato correttamente il supporto a MATE"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:164
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:191
 msgid "Added post-installation commands"
 msgstr "Aggiunti comandi post installazione"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:171
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:198
 msgid "Fixing wrong import"
 msgstr "Corretta un'importazione errata"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:178
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:205
 msgid "Fixed support for MATE under Flatpak"
 msgstr "Corretto il supporto per MATE sotto Flatpak"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:185
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:212
 msgid "New icon! Should be closer to GNOME HIG."
 msgstr "Nuova icona! Dovrebbe essere più vicina alle HIG di GNOME."
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:186
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:213
 msgid ""
 "Exposed random wallpaper functionality from the in-app menu and desktop file"
 msgstr ""
 "Esposta la funzionalità di sfondi casuali dal menu interno all'app e nel "
 "file desktop"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:193
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:220
 msgid "Added random wallpaper functionality from command line with -r option"
 msgstr ""
 "Aggiunta la funzionalità di sfondi casuali dalla linea di comando con "
 "l'opzione -r"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:200
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:227
 msgid "Fixing startup error when added folders get deleted"
 msgstr ""
 "Corretto l'errore d'avvio quando le cartelle aggiunte vengono cancellate"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:207
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:234
 msgid "Get correct localized Pictures folder on first startup"
 msgstr "Ottenuta la corretta cartella Immagini localizzata al primo avvio"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:208
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:235
 msgid "App doesn't crash anymore if a folder doesn't exist"
 msgstr "L'app non crasha più se una cartella non esiste"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:215
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:242
 msgid "Fixed wallpapers not hiding on startup"
 msgstr "Corretto che gli sfondi non si nascondano all'avvio"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:222
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:249
 msgid "Complete code refactoring"
 msgstr "Completo refactoring del codice"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:223
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:250
 msgid "Made the whole build system more modular"
 msgstr "Reso l'intero build system modulare"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:224
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:251
 msgid "Moved app menu to the headerbar"
 msgstr "Spostato il menu dell'app nella headerbar"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:225
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:252
 msgid "Initial support for keyboard shortcuts"
 msgstr "Supporto iniziale per scorciatoie da tastiera"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:232
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:259
 msgid "Fixed thumbnail creation for PNGs with alpha channel"
 msgstr "Corretta la creazione di thumbnail per PNG con canale alpha"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:233
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:260
 msgid "Added option to clear cache"
 msgstr "Aggiunta un'opzione per pulire la cache"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:241
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:268
 msgid "Improved thumbnail generation and caching for better performance"
 msgstr ""
 "Migliorata la generazione di miniature e caching per migliore performance"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:248
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:275
 msgid "Updated dependencies"
 msgstr "Aggiornate le dipendenze"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:249
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:276
 msgid "Added support for command line usage"
 msgstr "Aggiunto supporto per l'uso da linea di comando"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:250
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:277
 msgid "Implemented boilerplate for gtk via gmgtk (gitlab.com/gabmus/gmgtk)"
 msgstr ""
 "Implementato boilerplate per gtk tramite gmgtk (gitlab.com/gabmus/gmgtk)"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:251
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:278
 msgid ""
 "Migrated configuration management to gmconfig (gitlab.com/gabmus/gmconfig)"
 msgstr ""
 "Migrata la gestione della configurazione a gmconfig (gitlab.com/gabmus/"
 "gmconfig)"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:252
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:279
 msgid "Migrated to GitLab"
 msgstr "Migrazione a GitLab"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:259
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:286
 msgid "Better filename generation"
 msgstr "Migliore generazione di nomi di file"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:260
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:287
 msgid "Added support for vertical setups"
 msgstr "Aggiunto il supporto per disposizioni verticali"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:261
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:288
 msgid "Added symbolic icon"
 msgstr "Aggiunta icona simbolica"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:262
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:289
 msgid "Added support for MATE"
 msgstr "Aggiunto supporto per MATE"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:270
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:297
 msgid "Design makeover"
 msgstr "Design ristudiato"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:271
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:298
 msgid "Added longpress/rightclick menu"
 msgstr "Aggiunto un menu attivato con pressione prolungata o tasto destro"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:272
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:299
 msgid "Implemented favorites"
 msgstr "Implementati i preferiti"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:273
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:300
 msgid "Added option to temporarely disable paths"
 msgstr "Aggiunta un'opzione per disabilitare temporaneamente percorsi"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:274
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:301
 msgid "Added option to minimize/restore all other windows"
 msgstr ""
 "Aggiunta un'opzione per minimizzare/ripristinare tutte le altre finestre"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:275
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:302
 msgid "Improved performance"
 msgstr "Miglioramenti di performance"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:276
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:303
 msgid "Various optimizations for flatpak distribution"
 msgstr "Varie ottimizzazioni per la distribuzione via flatpak"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:277
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:304
 msgid "Removed the dependency on xmltodict"
 msgstr "Rimossa la dipendenza su xmltodict"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:285
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:312
 msgid "Changed icon"
 msgstr "Cambiata l'icona"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:286
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:313
 msgid "Added support for monitors.xml version 1"
 msgstr "Aggiunto il supporto per monitors.xml versione 1"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:293
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:320
 msgid "Improved 3+ monitors configuration"
 msgstr "Migliorata la configurazione con 3+ monitor"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:294
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:321
 msgid "Remember previously set wallpapers throughout sessions"
 msgstr "Ricorda lo sfondo impostato precedentemente attraverso le sessioni"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:295
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:322
 msgid "Implemented cache hitting"
 msgstr "Implementata la collisione con la cache"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:296
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:323
 msgid "Added checks and user friendly error messages for monitors.xml"
 msgstr "Aggiunti controlli e messaggi di errore amichevoli per monitors.xml"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:303
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:330
 msgid "Bug fixes"
 msgstr "Correzione bug"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:304
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:331
 msgid "Added settings window"
 msgstr "Aggiunta finestra impostazioni"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:311
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:338
 msgid "Port to pillow"
 msgstr "Port a pillow"
 
-#: ../data/org.gabmus.hydrapaper.appdata.xml.in:318
+#: ../data/org.gabmus.hydrapaper.appdata.xml.in:345
 msgid "First release"
 msgstr "Prima release"
+
+#~ msgid ""
+#~ "HydraPaper lets you set different wallpapers for each of your monitors in "
+#~ "the GNOME desktop."
+#~ msgstr ""
+#~ "HydraPaper ti permette di impostare uno sfondo diverso per ognuno dei "
+#~ "tuoi monitor nell'ambiente desktop GNOME."
+
+#~ msgid ""
+#~ "It works around this lack of functionality by automatically merging "
+#~ "multiple wallpapers into one, and setting it as your wallpaper with the "
+#~ "\"Spanned\" option."
+#~ msgstr ""
+#~ "Risolve questa mancanza di funzionalità unendo automaticamente multipli "
+#~ "sfondi in uno, e impostandolo come sfondo con l'opzione \"Spanned\"."
+
+#~ msgid ""
+#~ "HydraPaper also supports the MATE desktop, and should work on any desktop "
+#~ "that is based on GNOME, like Budgie and Pantheon."
+#~ msgstr ""
+#~ "HydraPaper supporta anche il desktop MATE, e dovrebbe funzionare su "
+#~ "qualunque desktop basato su GNOME, come Budgie e Pantheon."
 
 #~ msgid "Lower all other windows"
 #~ msgstr "Abbassa tutte le altre finestre"
