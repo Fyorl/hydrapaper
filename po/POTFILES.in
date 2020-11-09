@@ -3,7 +3,6 @@ data/org.gabmus.hydrapaper.desktop.in
 data/ui/choose_folder_dialog.glade
 data/ui/headerbar.glade
 data/ui/menu.xml
-data/ui/menu.xml
 data/ui/shortcutsWindow.xml
 data/ui/monitors_flowbox_item.glade
 data/ui/shortcutsWindow.xml
