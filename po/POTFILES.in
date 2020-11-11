@@ -17,3 +17,4 @@ hydrapaper/monitors_flowbox.py
 hydrapaper/settings_box.py
 hydrapaper/wallpaper_flowbox_item.py
 hydrapaper/wallpapers_flowbox.py
+hydrapaper/wallpapers_folders_view.py

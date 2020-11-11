@@ -40,6 +40,15 @@
     <url type="bugtracker">https://gitlab.gnome.org/gabmus/hydrapaper/issues</url>
     <update_contact>gabmus@disroot.org</update_contact>
     <releases>
+        <release version="2.0.3" timestamp="1605102372">
+            <description>
+                <ul>
+                    <li>Minor improvements to the UI</li>
+                    <li>Improved phone compatibility</li>
+                </ul>
+            </description>
+        </release>
+
         <release version="2.0.2" timestamp="1602758503">
             <description>
                 <ul>
