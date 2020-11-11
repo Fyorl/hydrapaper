@@ -1,3 +1,4 @@
+from gettext import gettext as _
 from gi.repository import Gtk, Gdk
 from .confManager import ConfManager
 from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
@@ -8,6 +9,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
     def __init__(self, window, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
+        self.parent_win = window
 
         self.builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/wallpapers_folders_view.glade'
@@ -25,19 +27,6 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
 
         self.builder.connect_signals(self)
         self.populate()
-
-        self.dialog_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/choose_folder_dialog.glade'
-        )
-        self.file_chooser_dialog = self.dialog_builder.get_object(
-            'addFolderFileChooserDialog'
-        )
-        self.file_chooser_dialog.set_skip_taskbar_hint(True)
-        self.file_chooser_dialog.set_skip_pager_hint(True)
-        self.file_chooser_dialog.set_type_hint(Gdk.WindowTypeHint.DIALOG)
-        self.file_chooser_dialog.set_modal(True)
-        self.file_chooser_dialog.set_transient_for(window)
-        self.dialog_builder.connect_signals(self)
         self.listbox.set_sort_func(self.listbox_sort_func, None, False)
         self.show_all()
 
@@ -76,23 +65,26 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
                 break
 
     def on_addWallpapersPath_clicked(self, btn):
-        self.file_chooser_dialog.present()
-
-    def on_addFolderFileChooserDialogCancelButton_clicked(self, btn):
-        self.file_chooser_dialog.hide()
-
-    def on_addFolderFileChooserDialogOpenButton_clicked(self, btn):
-        for fpath in self.file_chooser_dialog.get_filenames():
-            if isdir(fpath):
-                self.file_chooser_dialog.hide()
-                self.confman.conf['wallpapers_paths'].append({
-                    'path': fpath,
-                    'active': True
-                })
-        self.confman.save_conf()
-        self.populate()
-        self.confman.populate_wallpapers()
-        self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
+        dialog = Gtk.FileChooserNative.new(
+            _('Add wallpaper folders'),
+            self.parent_win,
+            Gtk.FileChooserAction.SELECT_FOLDER,
+            None, None
+        )
+        dialog.set_select_multiple(True)
+        dialog.set_transient_for(self.parent_win)
+        res = dialog.run()
+        if res == Gtk.ResponseType.ACCEPT:
+            for fpath in dialog.get_filenames():
+                if isdir(fpath):
+                    self.confman.conf['wallpapers_paths'].append({
+                        'path': fpath,
+                        'active': True
+                    })
+            self.confman.save_conf()
+            self.populate()
+            self.confman.populate_wallpapers()
+            self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
 
     def on_removeWallpapersPath_clicked(self, btn):
         row = self.listbox.get_selected_row()
