@@ -7,7 +7,6 @@
     <property name="can-focus">True</property>
     <property name="receives-default">True</property>
     <property name="tooltip-text" translatable="yes">Apply</property>
-    <signal name="clicked" handler="on_applyButton_clicked" swapped="no"/>
     <child>
       <object class="GtkImage">
         <property name="visible">True</property>

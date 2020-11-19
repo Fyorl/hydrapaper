@@ -17,7 +17,6 @@
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
         <property name="relief">none</property>
-        <signal name="clicked" handler="on_desktop_clicked" swapped="no"/>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
@@ -30,11 +29,6 @@
                 <property name="can_focus">False</property>
                 <property name="icon_name">preferences-desktop-display-symbolic</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkLabel">
@@ -42,31 +36,16 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Desktop</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <object class="GtkSeparator">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">1</property>
-      </packing>
     </child>
     <child>
       <object class="GtkButton" id="lockscreen_btn">
@@ -74,7 +53,6 @@
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
         <property name="relief">none</property>
-        <signal name="clicked" handler="on_lockscreen_clicked" swapped="no"/>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
@@ -87,11 +65,6 @@
                 <property name="can_focus">False</property>
                 <property name="icon_name">system-lock-screen-symbolic</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkLabel">
@@ -99,31 +72,16 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Lockscreen</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">2</property>
-      </packing>
     </child>
     <child>
       <object class="GtkSeparator">
         <property name="visible">True</property>
         <property name="can_focus">False</property>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">3</property>
-      </packing>
     </child>
     <child>
       <object class="GtkButton" id="both_btn">
@@ -131,7 +89,6 @@
         <property name="can_focus">True</property>
         <property name="receives_default">True</property>
         <property name="relief">none</property>
-        <signal name="clicked" handler="on_both_clicked" swapped="no"/>
         <child>
           <object class="GtkBox">
             <property name="visible">True</property>
@@ -144,11 +101,6 @@
                 <property name="can_focus">False</property>
                 <property name="icon_name">org.gabmus.hydrapaper-lockscreen-desktop-icon-symbolic</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">0</property>
-              </packing>
             </child>
             <child>
               <object class="GtkLabel">
@@ -156,20 +108,10 @@
                 <property name="can_focus">False</property>
                 <property name="label" translatable="yes">Both</property>
               </object>
-              <packing>
-                <property name="expand">False</property>
-                <property name="fill">True</property>
-                <property name="position">1</property>
-              </packing>
             </child>
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">False</property>
-        <property name="fill">True</property>
-        <property name="position">4</property>
-      </packing>
     </child>
   </object>
 </interface>

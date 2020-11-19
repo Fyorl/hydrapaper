@@ -16,6 +16,7 @@
         <property name="can_focus">True</property>
         <property name="hscrollbar_policy">never</property>
         <property name="shadow_type">in</property>
+        <property name="vexpand">True</property>
         <child>
           <object class="GtkViewport">
             <property name="visible">True</property>
@@ -24,17 +25,11 @@
               <object class="GtkListBox" id="wallpapersFoldersListbox">
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
-                <signal name="row-selected" handler="on_wallpapersFoldersListbox_row_selected" swapped="no"/>
               </object>
             </child>
           </object>
         </child>
       </object>
-      <packing>
-        <property name="expand">True</property>
-        <property name="fill">True</property>
-        <property name="position">0</property>
-      </packing>
     </child>
     <child>
       <object class="GtkActionBar" id="wallpapersFoldersActionbar">
@@ -54,7 +49,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Add</property>
-                <signal name="clicked" handler="on_addWallpapersPath_clicked" swapped="no"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
@@ -76,7 +70,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Remove</property>
-                <signal name="clicked" handler="on_removeWallpapersPath_clicked" swapped="no"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
@@ -108,7 +101,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Activate all folders</property>
-                <signal name="clicked" handler="on_wallpaperFoldersActivateAllButton_clicked" swapped="no"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>
@@ -129,7 +121,6 @@
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
                 <property name="tooltip_text" translatable="yes">Deactivate all folders</property>
-                <signal name="clicked" handler="on_wallpaperFoldersDeactivateAllButton_clicked" swapped="no"/>
                 <child>
                   <object class="GtkImage">
                     <property name="visible">True</property>

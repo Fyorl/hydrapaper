@@ -7,7 +7,6 @@
     <file preprocess="xml-stripblanks">ui/headerbar.glade</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_flowbox.glade</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_folders_view.glade</file>
-    <file preprocess="xml-stripblanks">ui/choose_folder_dialog.glade</file>
     <file preprocess="xml-stripblanks">ui/which_wallpaper_box.glade</file>
     <file preprocess="xml-stripblanks">ui/monitors_flowbox_item.glade</file>
     <file preprocess="xml-stripblanks">ui/wp_mode_popover_menu.glade</file>

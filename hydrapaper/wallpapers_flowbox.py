@@ -15,8 +15,17 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         )
 
         self.flowbox = self.builder.get_object('wallpapersFlowbox')
+        self.flowbox.connect(
+            'button-release-event',
+            self.on_wallpapersFlowbox_button_release_event
+        )
+        self.flowbox.connect(
+            'child-activated',
+            self.on_wallpapersFlowbox_child_activated
+        )
         self.popover = self.builder.get_object('flowboxItemPopover')
         self.favorite_btn = self.builder.get_object('favoriteBtn')
+        self.favorite_btn.connect('clicked', self.on_favoriteBtn_clicked)
         self.wallpaper_path_entry = self.builder.get_object(
             'wallpaperPathEntry'
         )
@@ -27,7 +36,6 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
 
         self.add(self.scrolled_win)
 
-        self.builder.connect_signals(self)
         self.child_at_pos = None
 
         self.longpress = Gtk.GestureLongPress.new(self.flowbox)

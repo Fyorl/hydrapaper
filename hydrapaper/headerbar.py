@@ -28,6 +28,7 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.wallpapers_folders_popover.add(self.folders_view)
         self.menu_popover = self.builder.get_object('menuPopover')
         self.apply_button = self.builder.get_object('applyButton')
+        self.apply_button.connect('clicked', self.on_applyButton_clicked)
         self.menu_button = self.builder.get_object('menuBtn')
         self.wallpapers_folders_button = self.builder.get_object(
             'wallpapersFoldersBtn'
@@ -46,12 +47,18 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.ww_container = self.ww_popover_content_builder.get_object(
             'ww_container'
         )
-        self.ww_popover_content_builder.connect_signals(self)
+        self.ww_popover_content_builder.get_object(
+            'desktop_btn'
+        ).connect('clicked', self.on_desktop_clicked)
+        self.ww_popover_content_builder.get_object(
+            'lockscreen_btn'
+        ).connect('clicked', self.on_lockscreen_clicked)
+        self.ww_popover_content_builder.get_object(
+            'both_btn'
+        ).connect('clicked', self.on_both_clicked)
         self.ww_popover.add(self.ww_container)
         self.ww_popover.set_modal(True)
         self.ww_popover.set_relative_to(self.apply_button)
-
-        self.builder.connect_signals(self)
 
     def on_squeeze(self, *args):
         self.bottom_bar.set_reveal(

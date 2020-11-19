@@ -19,9 +19,27 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
             'wallpapersFoldersContainer'
         )
         self.listbox = self.builder.get_object('wallpapersFoldersListbox')
+        self.listbox.connect(
+            'row-selected', self.on_wallpapersFoldersListbox_row_selected
+        )
 
         self.add_btn = self.builder.get_object('addWallpapersPath')
+        self.add_btn.connect('clicked', self.on_addWallpapersPath_clicked)
         self.del_btn = self.builder.get_object('removeWallpapersPath')
+        self.del_btn.connect('clicked', self.on_removeWallpapersPath_clicked)
+
+        self.builder.get_object(
+            'wallpaperFoldersActivateAllButton'
+        ).connect(
+            'clicked',
+            self.on_wallpaperFoldersActivateAllButton_clicked
+        )
+        self.builder.get_object(
+            'wallpaperFoldersDeactivateAllButton'
+        ).connect(
+            'clicked',
+            self.on_wallpaperFoldersDeactivateAllButton_clicked
+        )
 
         self.add(self.container_box)
 
