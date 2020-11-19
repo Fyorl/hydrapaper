@@ -51,7 +51,8 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
     #         save_path
     #     )
     #     set_wallpaper(
-    #         save_path, 'spanned' if monitors[0].spanned else 'zoom', lockscreen
+    #         save_path, 'spanned' if monitors[0].spanned else 'zoom',
+    #         lockscreen
     #     )
     #     GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
     #     return

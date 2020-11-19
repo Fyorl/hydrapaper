@@ -1,5 +1,5 @@
 from gettext import gettext as _
-from gi.repository import Gtk, Gdk
+from gi.repository import Gtk
 from .confManager import ConfManager
 from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
 from os.path import isdir
