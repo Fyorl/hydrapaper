@@ -34,7 +34,7 @@ class PreferencesButtonRow(Handy.ActionRow):
         if button_style_class:
             self.button.get_style_context().add_class(button_style_class)
         self.button.connect('clicked', self.on_button_clicked)
-        self.add(self.button)
+        self.add_suffix(self.button)
         # You need to press the actual button
         # Avoids accidental presses
         # self.set_activatable_widget(self.button)
@@ -76,7 +76,7 @@ class PreferencesToggleRow(Handy.ActionRow):
         else:
             self.toggle.set_active(self.confman.conf[self.conf_key])
         self.toggle.connect('state-set', self.on_toggle_state_set)
-        self.add(self.toggle)
+        self.add_suffix(self.toggle)
         self.set_activatable_widget(self.toggle)
 
     def on_toggle_state_set(self, toggle, state):
@@ -99,11 +99,6 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
         self.general_preferences_group = Handy.PreferencesGroup()
         self.general_preferences_group.set_title(_('General Settings'))
         toggle_settings = [
-            {
-                'title': _('Select wallpapers with a double click'),
-                'conf_key': 'selection_mode',
-                'signal': 'hydrapaper_flowbox_selection_mode_changed'
-            },
             {
                 'title': _('Show full path in folder view'),
                 'conf_key': 'folders_popover_full_path',
@@ -157,7 +152,7 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
             self.caches_favs_preferences_group.add(row)
         self.add(self.caches_favs_preferences_group)
 
-        self.show_all()
+        self.show()
 
     def clear_favorites(self, confman, *args):
         confman.conf['favorites'] = []
@@ -192,7 +187,7 @@ class ViewPreferencesPage(Handy.PreferencesPage):
             self.view_preferences_group.add(row)
         self.add(self.view_preferences_group)
 
-        self.show_all()
+        self.show()
 
 
 class HydraPaperSettingsWindow(Handy.PreferencesWindow):
@@ -205,13 +200,5 @@ class HydraPaperSettingsWindow(Handy.PreferencesWindow):
         ]
         for p in self.pages:
             self.add(p)
-        # values copied from libhandy demo
-        # https://source.puri.sm/Librem5/libhandy/blob/master/examples/hdy-demo-preferences-window.ui
-        self.set_default_size(640, 700)
 
-        self.accel_group = Gtk.AccelGroup()
-        self.accel_group.connect(
-            *Gtk.accelerator_parse('Escape'), Gtk.AccelFlags.VISIBLE,
-            lambda *args: self.close()
-        )
-        self.add_accel_group(self.accel_group)
+        self.set_default_size(640, 700)

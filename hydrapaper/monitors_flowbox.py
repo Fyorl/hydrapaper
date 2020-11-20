@@ -16,8 +16,8 @@ WALLPAPER_MODE_VALUES = [
 class WallpaperModePopover(Gtk.PopoverMenu):
     def __init__(self, relative_to, **kwargs):
         super().__init__(**kwargs)
-        self.set_modal(True)
-        self.set_relative_to(relative_to)
+        self.set_autohide(True)
+        # self.set_pointing_to(relative_to.get_allocation())
         self.builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/wp_mode_popover_menu.glade'
         )
@@ -34,7 +34,7 @@ class WallpaperModePopover(Gtk.PopoverMenu):
             'center_blur': self.radio_center_blur
         }
         self.radios = list(self.radios_dict.values())
-        self.add(self.builder.get_object('menu_box'))
+        self.set_child(self.builder.get_object('menu_box'))
 
 
 class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
@@ -55,7 +55,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
         self.wp_mode_popover = WallpaperModePopover(self.wp_mode_btn)
         self.wp_mode_btn.set_popover(self.wp_mode_popover)
         self.image = self.builder.get_object('wp_preview')
-        self.add(self.box)
+        self.set_child(self.box)
 
         for radio, value in zip(
                 self.wp_mode_popover.radios,
@@ -68,7 +68,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
             )
 
         self.set_picture()
-        self.show_all()
+        self.show()
 
     def on_wp_mode_changed(self, radio, value):
         # check that the signal is sent from a radio that has been turned on
@@ -78,6 +78,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
 
     def set_picture(self, n_wp=None):
         wp_size = 256 if self.confman.conf['big_monitor_thumbnails'] else 64
+        self.image.set_pixel_size(wp_size)
         if n_wp and is_image(n_wp):
             self.monitor.wallpaper = n_wp
         if self.monitor.wallpaper and is_image(self.monitor.wallpaper):
@@ -95,8 +96,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
             self.image.set_from_pixbuf(pixbuf)
         else:
             self.image.set_from_icon_name(
-                'image-x-generic-symbolic',
-                Gtk.IconSize.DIALOG
+                'image-x-generic-symbolic'
             )
         self.wp_mode_popover.radios_dict[self.monitor.mode].set_active(True)
 
@@ -149,20 +149,20 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
             else:
                 break
         if self.confman.conf['spanned_mode']:
-            self.add(
+            self.insert(
                 HydraPaperMonitorsFlowboxItem(
                     self.spanned_monitor
-                )
+                ), -1
             )
             self.set_max_children_per_line(1)
         else:
             self.load_from_config()
             for m in self.monitors:
-                self.add(
-                    HydraPaperMonitorsFlowboxItem(m)
+                self.insert(
+                    HydraPaperMonitorsFlowboxItem(m), -1
                 )
             self.set_max_children_per_line(len(self.monitors))
-        self.select_child(self.get_children()[0])
+        self.select_child(self.get_child_at_index(0))
 
     def get_monitors(self):
         return (
@@ -172,8 +172,12 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
         )
 
     def reload_children_pictures(self, *args):
-        for c in self.get_children():
-            c.set_picture()
+        i = 0
+        child = self.get_child_at_index(i)
+        while child is not None:
+            child.set_picture()
+            i += 1
+            child = self.get_child_at_index(i)
 
     def load_from_config(self):
         for m in self.monitors:

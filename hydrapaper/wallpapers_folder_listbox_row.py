@@ -22,22 +22,23 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
         self.switch = Gtk.Switch()
 
         self.set_label_text()
-        self.label.set_margin_left(12)
-        self.label.set_margin_right(6)
+        self.label.set_margin_start(12)
+        self.label.set_margin_end(6)
         self.label.set_halign(Gtk.Align.START)
 
         self.switch.set_active(folder_active)
-        self.switch.set_margin_left(6)
-        self.switch.set_margin_right(12)
+        self.switch.set_margin_start(6)
+        self.switch.set_margin_end(12)
 
-        self.box.pack_start(self.label, True, True, 0)
-        self.box.pack_start(self.switch, False, False, 0)
+        self.box.append(self.label)
+        self.label.set_hexpand(True)
+        self.box.append(self.switch)
         self.box.set_margin_top(6)
         self.box.set_margin_bottom(6)
 
         self.value = folder_path
 
-        self.add(self.box)
+        self.set_child(self.box)
         self.switch.connect('state-set', self.on_switch_state_set)
         self.confman.connect(
             'hydrapaper_set_folders_popover_labels',

@@ -68,9 +68,11 @@ def build_monitors_from_swaymsg():
 
 
 def build_monitors_from_gdk():
+    monitors = []
     try:
         display = Gdk.Display.get_default()
-        num_monitors = display.get_n_monitors()
+        monitors = list(display.get_monitors())
+        num_monitors = len(monitors)
     except Exception:
         print(_('Error parsing monitors (Gdk)'))
         import traceback
@@ -78,18 +80,19 @@ def build_monitors_from_gdk():
         monitors = None
 
     def get_monitor_rect(i):
-        return display.get_monitor(i).get_geometry()
+        return monitors[i].get_geometry()
+
     monitors = [
         Monitor(
             get_monitor_rect(i).width,
             get_monitor_rect(i).height,
-            display.get_monitor(i).get_scale_factor(),
+            monitors[i].get_scale_factor(),
             get_monitor_rect(i).x,
             get_monitor_rect(i).y,
             i,
-            f'Monitor {i} ({display.get_monitor(i).get_model()})',
+            f'Monitor {i} ({monitors[i].get_model()})',
             'zoom',
-            display.get_monitor(i).is_primary()
+            i == 0  # is_primary is no more, I'll considered first primary now
         ) for i in range(0, num_monitors)
     ]
     return monitors

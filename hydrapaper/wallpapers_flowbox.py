@@ -5,7 +5,7 @@ from .wallpaper_flowbox_item import WallpaperBox
 import pathlib
 
 
-class HydraPaperWallpapersFlowbox(Gtk.Bin):
+class HydraPaperWallpapersFlowbox(Gtk.Box):
     def __init__(self, is_favorites=False, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
@@ -16,43 +16,13 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
 
         self.flowbox = self.builder.get_object('wallpapersFlowbox')
         self.flowbox.connect(
-            'button-release-event',
-            self.on_wallpapersFlowbox_button_release_event
-        )
-        self.flowbox.connect(
             'child-activated',
             self.on_wallpapersFlowbox_child_activated
         )
-        self.popover = self.builder.get_object('flowboxItemPopover')
-        self.favorite_btn = self.builder.get_object('favoriteBtn')
-        self.favorite_btn.connect('clicked', self.on_favoriteBtn_clicked)
-        self.wallpaper_path_entry = self.builder.get_object(
-            'wallpaperPathEntry'
-        )
-        self.wallpaper_name_label = self.builder.get_object(
-            'wallpaperNameLabel'
-        )
         self.scrolled_win = self.builder.get_object('scrolledWin')
 
-        self.add(self.scrolled_win)
-
-        self.child_at_pos = None
-
-        self.longpress = Gtk.GestureLongPress.new(self.flowbox)
-        self.longpress.set_propagation_phase(Gtk.PropagationPhase.TARGET)
-        self.longpress.set_touch_only(False)
-        self.longpress.connect(
-            'pressed',
-            self.on_wallpapersFlowbox_rightclick_or_longpress,
-            self.flowbox
-        )
-        self.flowbox.set_activate_on_single_click(
-            self.confman.conf['selection_mode'] == 'single'
-        )
-        self.confman.connect(
-            'hydrapaper_flowbox_selection_mode_changed',
-            self.change_selection_mode
-        )
+        self.append(self.scrolled_win)
+        self.flowbox.set_activate_on_single_click(True)
         self.confman.connect(
             'hydrapaper_populate_wallpapers',
             self.populate
@@ -74,11 +44,6 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             f'ERROR: wallpaper `{fb_item.wallpaper_path}` is not in any path'
         )
 
-    def change_selection_mode(self, *args):
-        self.flowbox.set_activate_on_single_click(
-            self.confman.conf['selection_mode'] == 'single'
-        )
-
     def populate(self, *args):
         # this while empties self before filling
         while True:
@@ -91,11 +56,11 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
         if self.is_favorites:
             for wp in self.confman.wallpapers:
                 if wp in self.confman.conf['favorites']:
-                    self.flowbox.add(WallpaperBox(wp))
+                    self.flowbox.insert(WallpaperBox(wp), -1)
         else:
             for wp in self.confman.wallpapers:
-                self.flowbox.add(WallpaperBox(wp))
-        self.show_all()
+                self.flowbox.insert(WallpaperBox(wp), -1)
+        self.show()
         self.show_hide_wallpapers()
 
     def show_hide_wallpapers(self, *args):
@@ -106,42 +71,3 @@ class HydraPaperWallpapersFlowbox(Gtk.Bin):
             'hydrapaper_flowbox_wallpaper_selected',
             child.wallpaper_path
         )
-
-    def on_wallpapersFlowbox_rightclick_or_longpress(
-            self,
-            gesture_or_event,
-            x,
-            y,
-            *args
-    ):
-        self.child_at_pos = self.flowbox.get_child_at_pos(x, y)
-        if not self.child_at_pos:
-            return
-        self.popover.set_relative_to(self.child_at_pos)
-        self.flowbox.select_child(self.child_at_pos)
-        if self.is_favorites or self.child_at_pos.is_fav:
-            self.favorite_btn.set_label(_('Remove favorite'))
-        else:
-            self.favorite_btn.set_label(_('Add favorite'))
-        wp_path = self.child_at_pos.get_child().wallpaper_path
-        self.wallpaper_path_entry.set_text(wp_path)
-        self.wallpaper_name_label.set_text(pathlib.Path(wp_path).name)
-        self.on_wallpapersFlowbox_child_activated(
-                self.flowbox, self.child_at_pos)
-        self.popover.popup()
-
-    def on_wallpapersFlowbox_button_release_event(self, flowbox, event):
-        if event.button == 3:  # 3 is the right mouse button
-            self.on_wallpapersFlowbox_rightclick_or_longpress(
-                event,
-                event.x,
-                event.y
-            )
-
-    def on_favoriteBtn_clicked(self, btn):
-        child = self.flowbox.get_selected_children()[0]
-        if not child:
-            return
-        child.set_fav(not child.is_fav)
-        self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
-        self.popover.popdown()

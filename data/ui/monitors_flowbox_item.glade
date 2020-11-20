@@ -23,8 +23,8 @@
         </child>
         <child type="overlay">
           <object class="GtkMenuButton" id="wp_mode_btn">
-            <property name="width-request">34</property>
-            <property name="height-request">34</property>
+            <!--property name="width-request">34</property>
+            <property name="height-request">34</property-->
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="focus-on-click">False</property>
@@ -32,16 +32,7 @@
             <property name="tooltip-text" translatable="yes">Wallpaper mode</property>
             <property name="halign">end</property>
             <property name="valign">end</property>
-            <child>
-              <object class="GtkImage">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <property name="icon-name">view-more-horizontal</property>
-                <style>
-                  <class name="circular"/>
-                </style>
-              </object>
-            </child>
+            <property name="icon-name">view-more-horizontal</property>
             <style>
               <class name="circular"/>
             </style>

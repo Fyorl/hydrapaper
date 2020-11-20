@@ -25,61 +25,61 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         # self.separator = Gtk.Separator()
         # self.separator.get_style_context().add_class('sidebar')
 
-        self.window_handle = Handy.WindowHandle()
-        self.window_handle.add(self.headerbar)
-        self.container_box.pack_start(self.window_handle, False, False, 0)
+        self.window_handle = Gtk.WindowHandle()
+        self.window_handle.set_child(self.headerbar)
+        self.container_box.append(self.window_handle)
         self.window_handle.set_vexpand(False)
-        self.container_box.pack_start(self.monitors_flowbox, False, False, 0)
+        self.container_box.append(self.monitors_flowbox)
         # self.container_box.pack_start(self.separator, False, False, 0)
-        self.container_box.pack_start(self.main_stack, True, True, 0)
-        self.container_box.pack_start(self.bottom_bar, False, False, 0)
-        self.add(self.container_box)
-        # Why this -52?
-        # because every time a new value is saved, for some reason
-        # it's the actual value +52 out of nowhere
-        # this makes the window ACTUALLY preserve its old size
+        self.container_box.append(self.main_stack)
+        self.main_stack.set_vexpand(True)
+        self.container_box.append(self.bottom_bar)
+        self.set_child(self.container_box)
         self.resize(
-            self.confman.conf['windowsize']['width']-52,
-            self.confman.conf['windowsize']['height']-52
+            self.confman.conf['windowsize']['width'],
+            self.confman.conf['windowsize']['height']
         )
-        self.size_allocation = self.get_allocation()
-        self.connect('size-allocate', self.update_size_allocation)
 
         self.menu_popover = self.headerbar.menu_popover
         self.menu_builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/menu.xml'
         )
         self.menu = self.menu_builder.get_object('generalMenu')
-        self.menu_popover.bind_model(self.menu)
+        self.menu_popover.set_menu_model(self.menu)
 
-        # most shortcuts are in __main__
-        # accel_group is for keyboard shortcuts
-        self.accel_group = Gtk.AccelGroup()
-        self.add_accel_group(self.accel_group)
         shortcuts_l = [
             {
                 'combo': 'F10',
-                'cb': lambda *args: self.headerbar.menu_button.clicked()
+                'cb': self.toggle_menu
             }
         ]
+        self.shortcut_controller = Gtk.ShortcutController()
+        self.shortcut_controller.set_scope(Gtk.ShortcutScope.GLOBAL)
         for s in shortcuts_l:
             self.add_accelerator(s['combo'], s['cb'])
+        self.add_controller(self.shortcut_controller)
 
     def add_accelerator(self, shortcut, callback):
         if shortcut:
-            key, mod = Gtk.accelerator_parse(shortcut)
-            self.accel_group.connect(
-                key, mod, Gtk.AccelFlags.VISIBLE, callback
-            )
+            # res is bool, don't know what it is
+            res, key, mod = Gtk.accelerator_parse(shortcut)
+            trigger = Gtk.KeyvalTrigger.new(key, mod)
+            cb = Gtk.CallbackAction.new(callback)
+            shortcut = Gtk.Shortcut.new(trigger, cb)
+            self.shortcut_controller.add_shortcut(shortcut)
+
+    def toggle_menu(self, *args):
+        popover = self.headerbar.menu_btn.get_popover()
+        if popover.get_visible():
+            popover.popdown()
+        else:
+            popover.popup()
 
     def emit_destroy(self, *args):
         self.emit('destroy')
 
-    def update_size_allocation(self, *args):
-        self.size_allocation = self.get_allocation()
-
-    def show_all(self, **kwargs):
-        super().show_all(**kwargs)
+    def show(self, **kwargs):
+        super().show(**kwargs)
         self.main_stack.main_flowbox.show_hide_wallpapers()
 
     def apply_handler(self, btn, lockscreen=False):
@@ -94,8 +94,9 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         self.monitors_flowbox.dump_to_config()
 
     def on_destroy(self, *args):
+        alloc = self.get_allocation()
         self.confman.conf['windowsize'] = {
-            'width': self.size_allocation.width,
-            'height': self.size_allocation.height
+            'width': alloc.width,
+            'height': alloc.height
         }
         self.confman.save_conf()

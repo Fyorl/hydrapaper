@@ -20,12 +20,109 @@ class HydraPaperApplication(Gtk.Application):
         GLib.set_application_name('HydraPaper')
         GLib.set_prgname('org.gabmus.hydrapaper')
         self.confman = ConfManager()
-        self.window = HydraPaperAppWindow()
-        self.window.connect('destroy', self.on_destroy_window)
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
         Handy.init()
+
+    def show_about_dialog(self, *args):
+        about_builder = Gtk.Builder.new_from_resource(
+            '/org/gabmus/hydrapaper/aboutdialog.glade'
+        )
+        dialog = about_builder.get_object('aboutdialog')
+        dialog.set_modal(True)
+        dialog.set_transient_for(self.window)
+        dialog.present()
+
+    def on_destroy_window(self, *args):
+        self.window.on_destroy()
+        self.quit()
+
+    def show_shortcuts_window(self, *args):
+        shortcuts_win = Gtk.Builder.new_from_resource(
+            '/org/gabmus/hydrapaper/ui/shortcutsWindow.xml'
+        ).get_object('shortcuts-hydrapaper')
+        shortcuts_win.props.section_name = 'shortcuts'
+        shortcuts_win.set_transient_for(self.window)
+        # shortcuts_win.set_attached_to(self.window)
+        shortcuts_win.set_modal(True)
+        shortcuts_win.present()
+        shortcuts_win.show()
+
+    def show_settings_window(self, *args):
+        settings_win = HydraPaperSettingsWindow()
+        settings_win.set_transient_for(self.window)
+        # settings_win.set_attached_to(self.window)
+        settings_win.set_modal(True)
+        settings_win.present()
+
+    def apply_random(self, lockscreen=False):
+        from random import randint
+        monitors = build_monitors_autodetect()
+        all_wallpapers = self.confman.wallpapers
+        wallpapers = [
+            all_wallpapers[
+                randint(0, len(all_wallpapers)-1)
+            ] for i in range(len(monitors))
+        ]
+        self.apply_from_cli(wallpapers, lockscreen=lockscreen)
+
+    def apply_from_cli(self, wlist_cli, modes=None, lockscreen=False):
+        # check all the passed wallpapers to be correct
+        monitors = build_monitors_autodetect()
+        if len(wlist_cli) < len(monitors):
+            print(
+                _('Error: you passed {0} wallpapers for {1} monitors').format(
+                    len(wlist_cli), len(monitors)
+                )
+            )
+            exit(1)
+        if modes is None:
+            modes = ['zoom' for i in range(len(monitors))]
+        elif len(modes) < len(wlist_cli):
+            print(
+                _('Error: you passed {0} modes for {1} wallpapers').format(
+                    len(modes), len(wlist_cli)
+                )
+            )
+            exit(1)
+        for monitor, mode in zip(monitors, modes):
+            if mode not in ('zoom', 'fit_black', 'fit_blur',
+                            'center_black', 'center_blur'):
+                print(
+                    _('Error: wallpaper mode {0} is not valid. '
+                      'Allowed values are: zoom, fit_black, fit_blur, '
+                      'center_black, center_blur').format(
+                       mode
+                    )
+                )
+                exit(1)
+            monitor.mode = mode
+        for wpath in wlist_cli:
+            if not is_image(wpath):
+                print(_('Error: {0} is not a valid image path').format(wpath))
+                exit(1)
+        for monitor, n_wp in zip(monitors, wlist_cli):
+            monitor.wallpaper = n_wp
+        n_monitors = {}
+        for m in monitors:
+            n_monitors[m.name] = m.wallpaper
+        self.confman.conf['monitors'] = n_monitors
+        self.confman.save_conf()
+        apply_wallpapers(monitors, lockscreen=lockscreen)
+
+    def do_activate(self):
+        provider = Gtk.CssProvider()
+        provider.load_from_data('''
+            .wallpapers-flowbox {
+                padding-top: 24px;
+            }
+        '''.encode())
+        Gtk.StyleContext.add_provider_for_display(
+            Gdk.Display.get_default(),
+            provider,
+            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+        )
         stateful_actions = [
             {
                 'name': 'spanned_mode',
@@ -99,114 +196,9 @@ class HydraPaperApplication(Gtk.Application):
                     f'app.{a["name"]}',
                     [a['accel']]
                 )
-
-    def toggle_spanned_mode(self, action: Gio.SimpleAction, *args):
-        action.change_state(
-            GLib.Variant.new_boolean(not action.get_state().get_boolean())
-        )
-        self.confman.conf['spanned_mode'] = action.get_state().get_boolean()
-        self.confman.emit('hydrapaper_spanned_mode_changed', '')
-
-    def show_about_dialog(self, *args):
-        about_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/aboutdialog.glade'
-        )
-        dialog = about_builder.get_object('aboutdialog')
-        dialog.set_modal(True)
-        dialog.set_transient_for(self.window)
-        dialog.present()
-
-    def on_destroy_window(self, *args):
-        self.window.on_destroy()
-        self.quit()
-
-    def show_shortcuts_window(self, *args):
-        shortcuts_win = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/shortcutsWindow.xml'
-        ).get_object('shortcuts-hydrapaper')
-        shortcuts_win.props.section_name = 'shortcuts'
-        shortcuts_win.set_transient_for(self.window)
-        # shortcuts_win.set_attached_to(self.window)
-        shortcuts_win.set_modal(True)
-        shortcuts_win.present()
-        shortcuts_win.show_all()
-
-    def show_settings_window(self, *args):
-        settings_win = HydraPaperSettingsWindow()
-        settings_win.set_transient_for(self.window)
-        # settings_win.set_attached_to(self.window)
-        settings_win.set_modal(True)
-        settings_win.present()
-
-    def apply_random(self, lockscreen=False):
-        from random import randint
-        monitors = build_monitors_autodetect()
-        all_wallpapers = self.confman.wallpapers
-        wallpapers = [
-            all_wallpapers[
-                randint(0, len(all_wallpapers)-1)
-            ] for i in range(len(monitors))
-        ]
-        self.apply_from_cli(wallpapers, lockscreen=lockscreen)
-
-    def apply_from_cli(self, wlist_cli, modes=None, lockscreen=False):
-        # check all the passed wallpapers to be correct
-        monitors = build_monitors_autodetect()
-        if len(wlist_cli) < len(monitors):
-            print(
-                _('Error: you passed {0} wallpapers for {1} monitors').format(
-                    len(wlist_cli), len(monitors)
-                )
-            )
-            exit(1)
-        if modes is None:
-            modes = ['zoom' for i in range(len(monitors))]
-        elif len(modes) < len(wlist_cli):
-            print(
-                _('Error: you passed {0} modes for {1} wallpapers').format(
-                    len(modes), len(wlist_cli)
-                )
-            )
-            exit(1)
-        for monitor, mode in zip(monitors, modes):
-            if mode not in ('zoom', 'fit_black', 'fit_blur',
-                            'center_black', 'center_blur'):
-                print(
-                    _('Error: wallpaper mode {0} is not valid. '
-                      'Allowed values are: zoom, fit_black, fit_blur, '
-                      'center_black, center_blur').format(
-                       mode
-                    )
-                )
-                exit(1)
-            monitor.mode = mode
-        for wpath in wlist_cli:
-            if not is_image(wpath):
-                print(_('Error: {0} is not a valid image path').format(wpath))
-                exit(1)
-        for monitor, n_wp in zip(monitors, wlist_cli):
-            monitor.wallpaper = n_wp
-        n_monitors = {}
-        for m in monitors:
-            n_monitors[m.name] = m.wallpaper
-        self.confman.conf['monitors'] = n_monitors
-        self.confman.save_conf()
-        apply_wallpapers(monitors, lockscreen=lockscreen)
-
-    def do_activate(self):
+        self.window = HydraPaperAppWindow()
+        self.window.connect('close-request', self.on_destroy_window)
         self.add_window(self.window)
-        stylecontext = Gtk.StyleContext()
-        provider = Gtk.CssProvider()
-        provider.load_from_data('''
-            .wallpapers-flowbox {
-                padding-top: 24px;
-            }
-        '''.encode())
-        stylecontext.add_provider_for_screen(
-            Gdk.Screen.get_default(),
-            provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
         if self.args:
             if self.args.wallpaper_path:
                 self.apply_from_cli(
@@ -223,7 +215,14 @@ class HydraPaperApplication(Gtk.Application):
                 self.quit()
                 exit(0)
         self.window.present()
-        self.window.show_all()
+        self.window.show()
+
+    def toggle_spanned_mode(self, action: Gio.SimpleAction, *args):
+        action.change_state(
+            GLib.Variant.new_boolean(not action.get_state().get_boolean())
+        )
+        self.confman.conf['spanned_mode'] = action.get_state().get_boolean()
+        self.confman.emit('hydrapaper_spanned_mode_changed', '')
 
     def do_command_line(self, args):
         """

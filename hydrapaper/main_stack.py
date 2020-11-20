@@ -11,14 +11,14 @@ class HydraPapaerMainStack(Gtk.Stack):
         self.main_flowbox = HydraPaperWallpapersFlowbox()
         self.favs_flowbox = HydraPaperWallpapersFlowbox(is_favorites=True)
 
-        self.add_titled(self.main_flowbox, 'Wallpapers', _('Wallpapers'))
-        self.child_set_property(
-            self.main_flowbox,
-            'icon-name',
+        self.add_titled(
+            self.main_flowbox, 'Wallpapers', _('Wallpapers')
+        ).set_icon_name(
             'preferences-desktop-wallpaper-symbolic'
         )
-        self.add_titled(self.favs_flowbox, 'Favorites', _('Favorites'))
-        self.child_set_property(
-            self.favs_flowbox, 'icon-name', 'emblem-favorite-symbolic'
+        self.add_titled(
+            self.favs_flowbox, 'Favorites', _('Favorites')
+        ).set_icon_name(
+            'emblem-favorite-symbolic'
         )
-        self.set_transition_type(Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
+        self.set_transition_type(Gtk.StackTransitionType.CROSSFADE)

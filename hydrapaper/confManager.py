@@ -19,11 +19,6 @@ if not pictures_dir:
 
 class ConfManagerSignaler(GObject.Object):
     __gsignals__ = {
-        'hydrapaper_flowbox_selection_mode_changed': (
-            GObject.SIGNAL_RUN_FIRST,
-            None,
-            (str,)
-        ),
         'hydrapaper_flowbox_wallpaper_selected': (
             GObject.SIGNAL_RUN_FIRST,
             None,
@@ -66,7 +61,6 @@ class ConfManager(metaclass=Singleton):
                 'active': True
             }
         ],
-        'selection_mode': 'single',
         'monitors': {},
         'favorites': [],
         'folders_popover_full_path': False,

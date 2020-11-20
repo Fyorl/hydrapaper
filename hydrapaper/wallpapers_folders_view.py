@@ -5,7 +5,7 @@ from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
 from os.path import isdir
 
 
-class HydraPaperWallpapersFoldersView(Gtk.Bin):
+class HydraPaperWallpapersFoldersView(Gtk.Box):
     def __init__(self, window, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
@@ -41,12 +41,11 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
             self.on_wallpaperFoldersDeactivateAllButton_clicked
         )
 
-        self.add(self.container_box)
+        self.append(self.container_box)
 
-        self.builder.connect_signals(self)
         self.populate()
         self.listbox.set_sort_func(self.listbox_sort_func, None, False)
-        self.show_all()
+        self.show()
 
     def listbox_sort_func(self, row1, row2, data, notify_destroy):
         return row1.label.get_text().lower() > row2.label.get_text().lower()
@@ -63,9 +62,9 @@ class HydraPaperWallpapersFoldersView(Gtk.Bin):
                 folder['path'],
                 folder['active']
             )
-            self.listbox.add(row)
+            self.listbox.append(row)
             row.connect('row_switch_state_set', self.on_row_switch_state_set)
-        self.listbox.show_all()
+        self.listbox.show()
 
     def on_wallpapersFoldersListbox_row_selected(self, listbox, row):
         self.del_btn.set_sensitive(

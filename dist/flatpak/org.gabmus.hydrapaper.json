@@ -2,12 +2,13 @@
     "app-id": "org.gabmus.hydrapaper",
     "command": "hydrapaper",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "3.36",
+    "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "finish-args": [
         "--share=ipc",
         "--socket=x11",
         "--socket=wayland",
+        "--device=dri",
         "--talk-name=org.gnome.SettingsDaemon",
         "--talk-name=org.freedesktop.Flatpak",
         "--filesystem=home:ro",
@@ -29,8 +30,8 @@
             "sources": [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libhandy",
-                    "tag": "1.0.2"
+                    "url": "https://gitlab.gnome.org/exalm/libhandy",
+                    "branch": "gtk4"
                 }
             ]
         },
