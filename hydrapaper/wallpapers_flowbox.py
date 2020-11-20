@@ -1,4 +1,3 @@
-from gettext import gettext as _
 from gi.repository import Gtk
 from .confManager import ConfManager
 from .wallpaper_flowbox_item import WallpaperBox

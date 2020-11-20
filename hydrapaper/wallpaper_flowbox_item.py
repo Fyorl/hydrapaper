@@ -6,7 +6,6 @@ from hashlib import sha256
 from .confManager import ConfManager
 from pathlib import Path
 from threading import Thread
-from pathlib import Path
 
 
 class WallpaperItemPopover(Gtk.Popover):
