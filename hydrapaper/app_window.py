@@ -69,7 +69,7 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
             self.shortcut_controller.add_shortcut(shortcut)
 
     def toggle_menu(self, *args):
-        popover = self.headerbar.menu_btn.get_popover()
+        popover = self.headerbar.menu_button.get_popover()
         if popover.get_visible():
             popover.popdown()
         else:
