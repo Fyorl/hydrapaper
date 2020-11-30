@@ -38,12 +38,7 @@
                 <property name="hexpand">1</property>
                 <property name="receives_default">1</property>
                 <property name="tooltip_text" translatable="yes">Add</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="can_focus">0</property>
-                    <property name="icon_name">list-add-symbolic</property>
-                  </object>
-                </child>
+                <property name="icon_name">list-add-symbolic</property>
               </object>
             </child>
             <child>
@@ -52,14 +47,12 @@
                 <property name="sensitive">0</property>
                 <property name="receives_default">1</property>
                 <property name="tooltip_text" translatable="yes">Remove</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="can_focus">0</property>
-                    <property name="icon_name">list-remove-symbolic</property>
-                  </object>
-                </child>
+                <property name="icon_name">list-remove-symbolic</property>
               </object>
             </child>
+            <style>
+              <class name="linked"/>
+            </style>
           </object>
         </child>
         <child type="end">
@@ -71,12 +64,7 @@
                 <property name="hexpand">1</property>
                 <property name="receives_default">1</property>
                 <property name="tooltip_text" translatable="yes">Activate all folders</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="can_focus">0</property>
-                    <property name="icon_name">emblem-ok-symbolic</property>
-                  </object>
-                </child>
+                <property name="icon_name">emblem-ok-symbolic</property>
               </object>
             </child>
             <child>
@@ -84,14 +72,12 @@
                 <property name="hexpand">1</property>
                 <property name="receives_default">1</property>
                 <property name="tooltip_text" translatable="yes">Deactivate all folders</property>
-                <child>
-                  <object class="GtkImage">
-                    <property name="can_focus">0</property>
-                    <property name="icon_name">window-close-symbolic</property>
-                  </object>
-                </child>
+                <property name="icon_name">window-close-symbolic</property>
               </object>
             </child>
+            <style>
+              <class name="linked"/>
+            </style>
           </object>
         </child>
       </object>
