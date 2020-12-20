@@ -35,7 +35,7 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         self.main_stack.set_vexpand(True)
         self.container_box.append(self.bottom_bar)
         self.set_child(self.container_box)
-        self.resize(
+        self.set_default_size(
             self.confman.conf['windowsize']['width'],
             self.confman.conf['windowsize']['height']
         )

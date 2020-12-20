@@ -12,7 +12,7 @@
           <object class="GtkFlowBox" id="wallpapersFlowbox">
             <property name="visible">True</property>
             <property name="can_focus">False</property>
-            <property name="valign">fill</property>
+            <property name="valign">start</property>
             <property name="hexpand">True</property>
             <style>
               <class name="view"/>

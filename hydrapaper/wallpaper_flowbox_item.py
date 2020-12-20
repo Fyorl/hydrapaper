@@ -59,7 +59,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
 
         self.set_halign(Gtk.Align.FILL)
         self.set_valign(Gtk.Align.FILL)
-        self.set_size_request(270, 270)
+        self.set_size_request(250, 250)
 
         self.wallpaper_path = wp_path
         self.popover = WallpaperItemPopover(self.wallpaper_path, self)
@@ -72,8 +72,9 @@ class WallpaperBox(Gtk.FlowBoxChild):
         )
         self.is_fav = False
         self.container_box = Gtk.Overlay()
-        self.container_box.set_halign(Gtk.Align.FILL)
-        self.container_box.set_valign(Gtk.Align.FILL)
+        self.container_box.set_halign(Gtk.Align.CENTER)
+        self.container_box.set_valign(Gtk.Align.CENTER)
+        self.container_box.set_size_request(250, 250)
         self.wp_image = Gtk.Picture()
         self.wp_image.set_size_request(250, -1)
         self.wp_image.set_can_shrink(False)
@@ -82,11 +83,10 @@ class WallpaperBox(Gtk.FlowBoxChild):
         )
         self.heart_icon.set_icon_size(Gtk.IconSize.LARGE)
         self.heart_icon.hide()
-        self.heart_icon.set_halign(Gtk.Align.CENTER)
+        self.heart_icon.set_halign(Gtk.Align.START)
         self.heart_icon.set_valign(Gtk.Align.CENTER)
+        self.heart_icon.set_margin_start(12)
         self.container_box.add_overlay(self.wp_image)
-        self.container_box.set_margin_start(12)
-        self.container_box.set_margin_end(12)
         self.container_box.wallpaper_path = wp_path
 
         self.container_box.add_overlay(self.heart_icon)
