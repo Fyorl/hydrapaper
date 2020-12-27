@@ -70,6 +70,11 @@ class ConfManager(metaclass=Singleton):
         'windowsize': {
             'width': 600,
             'height': 400
+        },
+        'Daemon': {
+            'wallpaper_rotation_enabled': False,
+            'wallpaper_rotation_sleep_time': 30,
+            'rotating_wallpapers': []  # list of lists of rotating wallpapers
         }
     }
 
@@ -94,10 +99,16 @@ class ConfManager(metaclass=Singleton):
             self.path = Path(
                 f'{Env.get("XDG_CONFIG_HOME")}/org.gabmus.hydrapaper.json'
             )
-            self.cache_path = f'{Env.get("XDG_CACHE_HOME")}/hydrapaper'
+            self.cache_path = '{0}/org.gabmus.hydrapaper'.format(
+                Env.get('XDG_CACHE_HOME')
+            )
         else:
-            self.path = Path(f'{Env.get("HOME")}/.config/hydrapaper.json')
-            self.cache_path = f'{Env.get("HOME")}/.cache/hydrapaper'
+            self.path = Path(
+                f'{Env.get("HOME")}/.config/org.gabmus.hydrapaper.json'
+            )
+            self.cache_path = '{0}/.cache/org.gabmus.hydrapaper'.format(
+                Env.get('HOME')
+            )
         self.thumbs_cache_path = f'{self.cache_path}/thumbnails/'
         self.has_lockscreen_wallpaper = False
 
