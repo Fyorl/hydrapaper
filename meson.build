@@ -42,8 +42,11 @@ datadir = get_option('datadir') # should be /usr/share
 pkgdatadir = join_paths(prefix, datadir, meson.project_name())
 pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
 localedir = join_paths(prefix, get_option('localedir'))
+libexecdir = join_paths(prefix, get_option('libexecdir'), meson.project_name())
+etcdir = get_option('sysconfdir')
 
 install_subdir(meson.project_name(), install_dir: pythondir)
+subdir('hydrapaper_daemon')
 subdir('data')
 subdir('bin')
 subdir('po')

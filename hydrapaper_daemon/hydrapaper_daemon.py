@@ -1,6 +1,14 @@
-from gi.repository import GLib
+#!/usr/bin/env python3
+
+import gi
+gi.require_version('Gdk', '4.0')
+gi.require_version('Gtk', '4.0')
+from gi.repository import GLib, Gtk
 import dbus
-from os.path import isfile, environ as Env
+import dbus.service
+from dbus.mainloop.glib import DBusGMainLoop
+from os.path import isfile
+from os import environ as Env
 import json
 from hydrapaper.monitor_parser import build_monitors_autodetect
 from hydrapaper.apply_wallpapers import apply_wallpapers
@@ -23,12 +31,17 @@ PACKAGE = 'org.gabmus.hydrapaper.Daemon'
 
 class HydrapaperDaemon(dbus.service.Object):
     def __init__(self, bus_name):
-        super().__init__(bus_name, f'/{PACKAGE.replace(".", "/")}')
+        super().__init__(
+            bus_name,
+            f'/{PACKAGE.replace(".", "/")}'
+        )
         self.config = None
         self.thread = None
-        self.thread_wait_event = Event()
+        self.thread_wait_event = None
         self.cycling_wallpapers = None
         self.stop_thread = False
+        # dummy window to let Gdk detect the monitors
+        self.dummy_window = Gtk.Window()
         self.update_config()
 
     @dbus.service.method(
@@ -49,18 +62,16 @@ class HydrapaperDaemon(dbus.service.Object):
 
     def update_thread(self):
         if self.thread is not None:
-            if not self.config['Daemon']['wallpaper_rotation_enabled']:
-                self.stop_thread = True
-                self.thread_wait_event.set()
-                self.thread.join()
-                self.thread = None
-            else:
-                self.thread_wait_event.set()  # stop event.wait
+            self.stop_thread = True
+            self.thread_wait_event.set()  # stop event.wait
+            self.thread.join()
+            self.thread = None
         if self.config['Daemon']['wallpaper_rotation_enabled'] and \
                 len(self.config['Daemon']['rotating_wallpapers']) > 0:
             self.cycling_wallpapers = cycle(
                 self.config['Daemon']['rotating_wallpapers']
             )
+            self.thread_wait_event = Event()
             self.thread = Thread(target=self._thread_worker, daemon=True)
             self.stop_thread = False
             self.thread.start()
@@ -90,13 +101,11 @@ class HydrapaperDaemon(dbus.service.Object):
             else:
                 monitor.mode = mode
             monitor.wallpaper = wp
-        apply_wallpapers(monitors, lockscreen=False)
+        apply_wallpapers(monitors, lockscreen=False, force_random_name=True)
 
 
 if __name__ == '__main__':
-    daemon = HydrapaperDaemon()
-    dbus.mainloop.glib.DBusGMainLoop(set_as_default=True)
-    loop = GLib.MainLoop()
+    DBusGMainLoop(set_as_default=True)
     try:
         bus_name = dbus.service.BusName(
             PACKAGE, bus=dbus.SessionBus(), do_not_queue=True
@@ -104,6 +113,8 @@ if __name__ == '__main__':
     except dbus.exceptions.NameExistsException:
         print('HydrapaperDaemon: service is already running')
         exit(1)
+    loop = GLib.MainLoop()
+    daemon = HydrapaperDaemon(bus_name)
     try:
         loop.run()
     except KeyboardInterrupt:

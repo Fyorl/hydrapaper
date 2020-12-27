@@ -69,6 +69,7 @@ def build_monitors_from_swaymsg():
 
 def build_monitors_from_gdk():
     monitors = []
+    num_monitors = 0
     try:
         display = Gdk.Display.get_default()
         monitors = list(display.get_monitors())

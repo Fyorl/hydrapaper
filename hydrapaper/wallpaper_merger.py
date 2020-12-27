@@ -5,10 +5,13 @@ from PIL.ImageFilter import GaussianBlur
 from os import environ as Env
 from subprocess import run
 import re
+from .confManager import ConfManager
 
 TMP_DIR = '/tmp/HydraPaper/'
 SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
 SWAYLOCK_CONF_PATH = f'{Env.get("HOME")}/.swaylock/config'
+
+confman = ConfManager()
 
 
 def cut_image(image_path, resolution, save_path):
@@ -98,6 +101,22 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
 
 
 def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
+    cmd = 'gsettings set'
+    if confman.is_flatpak:
+        cmd = 'flatpak-spawn --host ' + cmd
+    run(
+        '{0} {1} {2} "{3}"'.format(
+            cmd, gsettings_path, wp_key, path
+        ),
+        shell=True
+    )
+    run(
+        '{0} {1} {2} "{3}"'.format(
+            cmd, gsettings_path, mode_key, wp_mode
+        ),
+        shell=True
+    )
+    return
     gsettings = Gio.Settings.new(gsettings_path)
     gsettings.set_string(wp_key, path)
     gsettings.set_string(mode_key, wp_mode)

@@ -33,6 +33,25 @@ i18n.merge_file(
     install_dir: join_paths(datadir, 'applications')
 )
 
+daemon_desktop_conf = configuration_data()
+daemon_desktop_conf.set('libexecdir', libexecdir)
+daemon_desktop_conf.set('appid', app_id)
+
+daemon_desktop_file = configure_file(
+    input: app_id + '.daemon.desktop.in',
+    output: app_id + '.daemon.desktop.i18n.in',
+    configuration: daemon_desktop_conf
+)
+
+i18n.merge_file(
+    input: daemon_desktop_file,
+    output: app_id + 'daemon.desktop',
+    po_dir: '../po',
+    type: 'desktop',
+    install: true,
+    install_dir: join_paths(etcdir, 'xdg', 'autostart')
+)
+
 message('Looking for dependencies')
 python_bin = python.find_python()
 if not python_bin.found()

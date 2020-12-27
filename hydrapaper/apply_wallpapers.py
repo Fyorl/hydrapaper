@@ -19,8 +19,10 @@ def widgets_set_sensitive(widgets, state: bool):
         w.set_sensitive(state)
 
 
-def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
+def _apply_wallpapers_worker(monitors,widgets_to_freeze=[], lockscreen=False,
+                             force_random_name=False):
     confman = ConfManager()
+    random_name = confman.conf['random_wallpapers_names'] or force_random_name
     desktop_environment = get_desktop_environment()
     set_wallpaper = set_wallpaper_gnome
     if desktop_environment == 'mate':
@@ -33,14 +35,14 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
         return
     # add other DE cases as `elif` here
     wp_fname = 'merged_wallpaper'
-    if confman.conf['random_wallpapers_names']:
+    if random_name:
         wp_fname = sha256(
             '_'.join([m.__repr__() for m in monitors]).encode()
         ).hexdigest()
     save_path = '{0}/{1}{2}.png'.format(
         confman.cache_path,
         'lockscreen_'
-        if lockscreen and not confman.conf['random_wallpapers_names']
+        if lockscreen and not random_name
         else '',
         wp_fname
     )
@@ -56,18 +58,19 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False):
     #     )
     #     GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
     #     return
-    if not confman.conf['random_wallpapers_names'] or not isfile(save_path):
+    if not random_name or not isfile(save_path):
         multi_setup_pillow(monitors, save_path)
     set_wallpaper(save_path, lockscreen=lockscreen)
     GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
 
 
-def apply_wallpapers(monitors, widgets_to_freeze=[], lockscreen=False):
+def apply_wallpapers(monitors, widgets_to_freeze=[], lockscreen=False,
+                     force_random_name=False):
     t = Thread(
         group=None,
         target=_apply_wallpapers_worker,
         name=None,
-        args=(monitors, widgets_to_freeze, lockscreen)
+        args=(monitors, widgets_to_freeze, lockscreen, force_random_name)
     )
     widgets_set_sensitive(widgets_to_freeze, False)
     t.start()
