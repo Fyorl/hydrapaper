@@ -44,6 +44,19 @@ pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
 localedir = join_paths(prefix, get_option('localedir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'), meson.project_name())
 etcdir = get_option('sysconfdir')
+systemd_user_unit_dir = join_paths(prefix, 'lib', 'systemd', 'user')
+
+app_id = '.'.join([
+    domain,
+    author,
+    meson.project_name()
+])
+app_id_aspath = '/'.join([
+    domain,
+    author,
+    meson.project_name()
+])
+
 
 install_subdir(meson.project_name(), install_dir: pythondir)
 subdir('hydrapaper_daemon')

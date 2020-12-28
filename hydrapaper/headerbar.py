@@ -107,7 +107,7 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
             '/org/gabmus/hydrapaper/Daemon'
         )
         iface = dbus.Interface(
-            d, dbus_interface='org.gabmus.hydrapaper.Daemon.update_config'
+            d, dbus_interface='org.gabmus.hydrapaper.Daemon'
         )
         iface.update_config()
 

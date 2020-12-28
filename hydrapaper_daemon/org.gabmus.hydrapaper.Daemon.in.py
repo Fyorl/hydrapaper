@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!@PYTHON@
 
 import gi
 gi.require_version('Gdk', '4.0')
@@ -45,7 +45,7 @@ class HydrapaperDaemon(dbus.service.Object):
         self.update_config()
 
     @dbus.service.method(
-            dbus_interface=PACKAGE+'.update_config',
+            dbus_interface=PACKAGE,
             in_signature='', out_signature='b'
     )
     def update_config(self) -> bool:

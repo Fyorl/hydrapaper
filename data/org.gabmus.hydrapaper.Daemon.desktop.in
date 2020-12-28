@@ -1,8 +1,8 @@
 [Desktop Entry]
-Name=HydraPaper Daemon
+Name=@appid@.Daemon
 Comment=Change your wallpapers periodically
 Icon=@appid@
-Exec=@libexecdir@/hydrapaper_daemon.py
+Exec=@libexecdir@/@appid@.Daemon
 X-GNOME-Autostart-Delay=10
 StartupNotify=false
 NoDisplay=true

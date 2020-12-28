@@ -1,27 +1,15 @@
-app_id = '.'.join([
-    domain,
-    author,
-    meson.project_name()
-])
-
-app_id_aspath = '/'.join([
-    domain,
-    author,
-    meson.project_name()
-])
-
-desktop_conf = configuration_data()
-desktop_conf.set('bindir', join_paths(prefix, bindir))
-desktop_conf.set('prettyname', prettyname)
-# .desktop comment now hardcoded for better i18n support
-#desktop_conf.set('description', description)
-desktop_conf.set('appid', app_id)
-desktop_conf.set('projectname', meson.project_name())
+conf = configuration_data()
+conf.set('bindir', join_paths(prefix, bindir))
+conf.set('prettyname', prettyname)
+conf.set('appid', app_id)
+conf.set('projectname', meson.project_name())
+conf.set('libexecdir', libexecdir)
+conf.set('apppath', app_id_aspath)
 
 desktop_file = configure_file(
     input: app_id + '.desktop.in',
     output: app_id + '.desktop.i18n.in',
-    configuration: desktop_conf
+    configuration: conf
 )
 
 i18n.merge_file(
@@ -33,14 +21,10 @@ i18n.merge_file(
     install_dir: join_paths(datadir, 'applications')
 )
 
-daemon_desktop_conf = configuration_data()
-daemon_desktop_conf.set('libexecdir', libexecdir)
-daemon_desktop_conf.set('appid', app_id)
-
 daemon_desktop_file = configure_file(
-    input: app_id + '.daemon.desktop.in',
-    output: app_id + '.daemon.desktop.i18n.in',
-    configuration: daemon_desktop_conf
+    input: app_id + '.Daemon.desktop.in',
+    output: app_id + '.Daemon.desktop.i18n.in',
+    configuration: conf
 )
 
 i18n.merge_file(
@@ -50,6 +34,30 @@ i18n.merge_file(
     type: 'desktop',
     install: true,
     install_dir: join_paths(etcdir, 'xdg', 'autostart')
+    # install_dir: join_paths(datadir, 'applications')
+)
+
+configure_file(
+    input: app_id + '.service.in',
+    output: app_id + '.service',
+    configuration: conf,
+    install_dir: join_paths(datadir, 'dbus-1/services')
+)
+
+configure_file(
+    input: app_id + '.Daemon.service.in',
+    output: app_id + '.Daemon.service',
+    configuration: conf,
+    install: true,
+    install_dir: join_paths(datadir, 'dbus-1', 'services')
+)
+
+configure_file(
+    input: app_id + '.Daemon.service.systemd.in',
+    output: app_id + '.Daemon.service',
+    configuration: conf,
+    install: true,
+    install_dir: systemd_user_unit_dir
 )
 
 message('Looking for dependencies')
@@ -63,27 +71,10 @@ dependency('glib-2.0')
 dependency('gobject-introspection-1.0', version: '>=1.35.9')
 dependency('gtk+-3.0', version :'>=3.20')
 
-dbus_conf = configuration_data()
-dbus_conf.set('bindir', join_paths(prefix, bindir))
-dbus_conf.set('appid', app_id)
-dbus_conf.set('projectname', meson.project_name())
-
-configure_file(
-    input: app_id + '.service.in',
-    output: app_id + '.service',
-    configuration: dbus_conf,
-    install_dir: join_paths(datadir, 'dbus-1/services')
-)
-
-gschema_conf = configuration_data()
-gschema_conf.set('apppath', app_id_aspath)
-gschema_conf.set('appid', app_id)
-gschema_conf.set('projectname', meson.project_name())
-
 configure_file(
     input: app_id + '.gschema.xml.in',
     output: app_id + '.gschema.xml',
-    configuration: gschema_conf,
+    configuration: conf,
     install_dir: join_paths(datadir, 'glib-2.0/schemas')
 )
 
