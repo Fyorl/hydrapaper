@@ -6,6 +6,7 @@ from os import environ as Env
 from subprocess import run
 import re
 from .confManager import ConfManager
+# from .set_wallpaper_portal import set_wallpaper
 
 TMP_DIR = '/tmp/HydraPaper/'
 SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
@@ -101,25 +102,22 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
 
 
 def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
+    # set_wallpaper(path)
+    # return
     cmd = 'gsettings set'
     if confman.is_flatpak:
         cmd = 'flatpak-spawn --host ' + cmd
-    run(
-        '{0} {1} {2} "{3}"'.format(
-            cmd, gsettings_path, wp_key, path
-        ),
-        shell=True
-    )
-    run(
-        '{0} {1} {2} "{3}"'.format(
-            cmd, gsettings_path, mode_key, wp_mode
-        ),
-        shell=True
-    )
-    return
-    gsettings = Gio.Settings.new(gsettings_path)
-    gsettings.set_string(wp_key, path)
-    gsettings.set_string(mode_key, wp_mode)
+    for t in [(wp_key, path), (mode_key, wp_mode)]:
+        run(
+            '{0} {1} {2} "{3}"'.format(
+                cmd, gsettings_path, t[0], t[1]
+            ),
+            shell=True
+        )
+    # return
+    # gsettings = Gio.Settings.new(gsettings_path)
+    # gsettings.set_string(wp_key, path)
+    # gsettings.set_string(mode_key, wp_mode)
 
 
 def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
