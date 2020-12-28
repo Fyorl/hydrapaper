@@ -6,6 +6,7 @@ from .is_image import is_image
 from os import makedirs, listdir, system
 from os import environ as Env
 import json
+from threading import Thread
 
 pictures_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
 if not pictures_dir:
@@ -160,6 +161,9 @@ class ConfManager(metaclass=Singleton):
         with open(self.path, 'w') as fd:
             fd.write(json.dumps(self.conf))
             fd.close()
+
+    def save_conf_async(self):
+        Thread(target=self.save_conf).start()
 
     def populate_wallpapers(self):
         self.wallpapers = []

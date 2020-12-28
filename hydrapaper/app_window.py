@@ -11,6 +11,8 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         super().__init__(**kwargs)
         self.confman = ConfManager()
 
+        self.workaround_dark_theme_issue()
+
         self.set_title('HydraPaper')
         self.set_icon_name('org.gabmus.hydrapaper')
         self.container_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
@@ -58,6 +60,16 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         for s in shortcuts_l:
             self.add_accelerator(s['combo'], s['cb'])
         self.add_controller(self.shortcut_controller)
+
+    def workaround_dark_theme_issue(self):
+        settings = Gtk.Settings.get_default()
+        theme = settings.get_property('gtk-theme-name')
+        if theme.lower() == 'adwaita-dark':
+            settings.set_property('gtk-theme-name', 'Adwaita')
+            settings.set_property(
+                'gtk-application-prefer-dark-theme',
+                True
+            )
 
     def add_accelerator(self, shortcut, callback):
         if shortcut:

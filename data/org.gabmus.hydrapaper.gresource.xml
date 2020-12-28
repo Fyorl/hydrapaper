@@ -18,7 +18,8 @@
 
     <file preprocess="xml-stripblanks">icons/org.gabmus.hydrapaper.svg</file>
     <file preprocess="xml-stripblanks">icons/org.gabmus.hydrapaper-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/org.gabmus.hydrapaper-lockscreen-desktop-icon-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/status/org.gabmus.hydrapaper-lockscreen-desktop-icon-symbolic.svg</file>
+    <file preprocess="xml-stripblanks">icons/scalable/status/slideshowmode-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/favorite-badge.svg</file>
 
   </gresource>

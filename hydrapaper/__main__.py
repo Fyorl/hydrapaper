@@ -117,6 +117,16 @@ class HydraPaperApplication(Gtk.Application):
             .wallpapers-flowbox {
                 padding-top: 24px;
             }
+            .slideshow-btn-inactive > button > image {
+                color: @theme_unfocused_fg_color;
+            }
+            .slideshow-btn-active > button > image {
+                color: @success_color;
+            }
+            .linked button {
+                margin-top: 0;
+                margin-bottom: 0;
+            }
         '''.encode())
         Gtk.StyleContext.add_provider_for_display(
             Gdk.Display.get_default(),
