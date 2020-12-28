@@ -72,8 +72,8 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         right_widgets = [
             self.menu_button,
             self.apply_button,
-            self.slideshow_menu_btn,
-            self.add_to_slideshow_btn
+            self.add_to_slideshow_btn,
+            self.slideshow_menu_btn
         ]
         for w in left_widgets:
             self.pack_start(w)
@@ -148,9 +148,11 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         if n_state:
             sc.add_class('slideshow-btn-active')
             self.add_to_slideshow_btn.set_visible(True)
+            self.apply_button.set_visible(False)
         else:
             sc.add_class('slideshow-btn-inactive')
             self.add_to_slideshow_btn.set_visible(False)
+            self.apply_button.set_visible(True)
         self.signal_daemon()
 
     def on_squeeze(self, *args):
