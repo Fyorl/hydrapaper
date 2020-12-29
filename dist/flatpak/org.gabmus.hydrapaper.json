@@ -20,8 +20,7 @@
         "--talk-name=ca.desrt.dconf",
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--own-name=org.gabmus.hydrapaper",
-        "--own-name=org.gabmus.hydrapaper.Daemon",
-        "--own-name=org.gabmus.hydrapaper.Daemon.service"
+        "--own-name=org.gabmus.hydrapaper.Daemon"
     ],
     "modules": [
         {
