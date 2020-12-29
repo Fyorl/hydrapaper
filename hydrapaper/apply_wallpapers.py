@@ -19,7 +19,7 @@ def widgets_set_sensitive(widgets, state: bool):
         w.set_sensitive(state)
 
 
-def _apply_wallpapers_worker(monitors,widgets_to_freeze=[], lockscreen=False,
+def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False,
                              force_random_name=False):
     confman = ConfManager()
     random_name = confman.conf['random_wallpapers_names'] or force_random_name

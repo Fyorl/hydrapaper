@@ -1,4 +1,3 @@
-from gi.repository import Gio
 from PIL import Image
 from PIL.ImageOps import fit
 from PIL.ImageFilter import GaussianBlur
@@ -8,7 +7,6 @@ import re
 from .confManager import ConfManager
 # from .set_wallpaper_portal import set_wallpaper
 
-TMP_DIR = '/tmp/HydraPaper/'
 SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
 SWAYLOCK_CONF_PATH = f'{Env.get("HOME")}/.swaylock/config'
 
