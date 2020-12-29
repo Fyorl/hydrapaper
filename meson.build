@@ -42,9 +42,15 @@ datadir = get_option('datadir') # should be /usr/share
 pkgdatadir = join_paths(prefix, datadir, meson.project_name())
 pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
 localedir = join_paths(prefix, get_option('localedir'))
-libexecdir = join_paths(prefix, get_option('libexecdir'), meson.project_name())
+libexecdir = join_paths(prefix, get_option('libexecdir'))
 etcdir = get_option('sysconfdir')
 systemd_user_unit_dir = join_paths(prefix, 'lib', 'systemd', 'user')
+dbus_service_dir = dependency(
+    'dbus-1'
+).get_pkgconfig_variable(
+    'session_bus_services_dir',
+    define_variable: ['datadir', join_paths(prefix, datadir)]
+)
 
 app_id = '.'.join([
     domain,

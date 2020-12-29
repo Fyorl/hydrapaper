@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/gabmus/hydrapaper">
-    <file compressed="true">org.gabmus.hydrapaper.service.desktop</file>
-
     <file preprocess="xml-stripblanks">aboutdialog.ui</file>
     <file preprocess="xml-stripblanks">ui/headerbar.ui</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_flowbox.ui</file>

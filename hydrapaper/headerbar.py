@@ -101,15 +101,18 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.ww_popover.set_parent(self.apply_button)
 
     def signal_daemon(self):
-        bus = dbus.SessionBus()
-        d = bus.get_object(
-            'org.gabmus.hydrapaper.Daemon',
-            '/org/gabmus/hydrapaper/Daemon'
-        )
-        iface = dbus.Interface(
-            d, dbus_interface='org.gabmus.hydrapaper.Daemon'
-        )
-        iface.update_config()
+        try:
+            bus = dbus.SessionBus()
+            d = bus.get_object(
+                'org.gabmus.hydrapaper.Daemon',
+                '/org/gabmus/hydrapaper/Daemon'
+            )
+            iface = dbus.Interface(
+                d, dbus_interface='org.gabmus.hydrapaper.Daemon'
+            )
+            iface.update_config()
+        except dbus.exceptions.DBusException:
+            print('Failed to communicate with HydraPaper daemon')
 
     def on_slideshow_time_spinbutton_changed(self, *args):
         self.confman.conf['Daemon']['wallpaper_rotation_sleep_time'] = \

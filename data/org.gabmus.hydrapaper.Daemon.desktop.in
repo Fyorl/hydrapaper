@@ -2,7 +2,7 @@
 Name=@appid@.Daemon
 Comment=Change your wallpapers periodically
 Icon=@appid@
-Exec=@libexecdir@/@appid@.Daemon
+Exec=@libexecdir@/@projectname@d
 X-GNOME-Autostart-Delay=10
 StartupNotify=false
 NoDisplay=true

@@ -41,7 +41,7 @@ configure_file(
     input: app_id + '.service.in',
     output: app_id + '.service',
     configuration: conf,
-    install_dir: join_paths(datadir, 'dbus-1/services')
+    install_dir: dbus_service_dir
 )
 
 configure_file(
@@ -49,12 +49,12 @@ configure_file(
     output: app_id + '.Daemon.service',
     configuration: conf,
     install: true,
-    install_dir: join_paths(datadir, 'dbus-1', 'services')
+    install_dir: dbus_service_dir
 )
 
 configure_file(
     input: app_id + '.Daemon.service.systemd.in',
-    output: app_id + '.Daemon.service',
+    output: app_id + 'd.service',
     configuration: conf,
     install: true,
     install_dir: systemd_user_unit_dir
