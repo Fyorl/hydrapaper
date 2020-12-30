@@ -9,7 +9,7 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
     def __init__(self, window, apply_handler, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.confman = ConfManager()
-        self.apply_handler = apply_handler
+        self.apply_handler_func = apply_handler
         self.set_show_title_buttons(True)
         self.stack_switcher = Handy.ViewSwitcher()
         self.squeezer = Handy.Squeezer()
@@ -162,6 +162,11 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
         self.bottom_bar.set_reveal(
             self.squeezer.get_visible_child() == self.nobox
         )
+
+    def apply_handler(self, *args, **kwargs):
+        self.apply_handler_func(*args, **kwargs)
+        self.confman.save_conf()
+        self.signal_daemon()
 
     def on_applyButton_clicked(self, btn):
         if self.confman.has_lockscreen_wallpaper:

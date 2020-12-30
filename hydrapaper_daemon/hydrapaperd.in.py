@@ -15,6 +15,7 @@ from hydrapaper.apply_wallpapers import apply_wallpapers
 from itertools import cycle
 from threading import Thread, Event
 from sys import exit
+from time import sleep
 
 
 is_flatpak = (
@@ -42,7 +43,31 @@ class HydrapaperDaemon(dbus.service.Object):
         self.stop_thread = False
         # dummy window to let Gdk detect the monitors
         self.dummy_window = Gtk.Window()
+        self.monitors = None
+        self.connect_monitor_changes()
         self.update_config()
+
+    def connect_monitor_changes(self):
+        bus = dbus.SessionBus()
+        bus.add_signal_receiver(
+            self.on_monitors_changed, 'PropertiesChanged', None,
+            'org.gnome.Mutter.DisplayConfig', None
+        )
+
+    def on_monitors_changed(self, *args):
+
+        def af():
+            tries = 0
+            n_monitors = build_monitors_autodetect()
+            while not self.monitors_is_changed(n_monitors) and tries < 10:
+                sleep(1)
+                tries += 1
+                n_monitors = build_monitors_autodetect()
+            self.update_monitors(n_monitors)
+            self.set_wallpapers()
+            self.update_config()
+
+        Thread(target=af, daemon=True).start()
 
     @dbus.service.method(
             dbus_interface=PACKAGE,
@@ -87,21 +112,51 @@ class HydrapaperDaemon(dbus.service.Object):
                 timeout=self.config['Daemon']['wallpaper_rotation_sleep_time']
             )
 
-    def set_wallpapers(self, wp_paths, modes=None):
-        monitors = build_monitors_autodetect()
-        cycle_wps = cycle(wp_paths)
-        while len(wp_paths) < len(monitors):
-            wp_paths.append(next(cycle_wps))
-        if modes is None:
-            modes = ['zoom' for i in range(len(monitors))]
-        for monitor, mode, wp in zip(monitors, modes, wp_paths):
-            if mode not in ('zoom', 'fit_black', 'fit_blur',
-                            'center_black', 'center_blur'):
-                monitor.mode = 'zoom'
-            else:
-                monitor.mode = mode
-            monitor.wallpaper = wp
-        apply_wallpapers(monitors, lockscreen=False, force_random_name=True)
+    def monitor_to_comparable_str(self, m):
+        return f'{m.name}-{m.width}x{m.height}+{m.offset_x}+{m.offset_y}'
+
+    def monitors_is_changed(self, n_monitors):
+        return (
+            self.monitors is None or
+            len(self.monitors) != len(self.monitors) or
+            set(
+                [self.monitor_to_comparable_str(m) for m in self.monitors]
+            ) != set(
+                [self.monitor_to_comparable_str(m) for m in n_monitors]
+            )
+        )
+
+    def update_monitors(self, n_monitors):
+        if self.monitors is not None:
+            old = cycle([(m.wallpaper, m.mode) for m in self.monitors])
+            for i in range(len(n_monitors)):
+                n_monitors[i].wallpaper, n_monitors[i].mode = next(old)
+        self.monitors = n_monitors
+
+    def set_wallpapers(self, wp_paths=None, modes=None):
+        n_monitors = build_monitors_autodetect()
+        if self.monitors_is_changed(n_monitors):
+            self.update_monitors(n_monitors)
+        if wp_paths is not None:
+            cycle_wps = cycle(wp_paths)
+            while len(wp_paths) < len(self.monitors):
+                wp_paths.append(next(cycle_wps))
+            if modes is None:
+                modes = [m.mode for m in self.monitors]
+            for monitor, mode, wp in zip(self.monitors, modes, wp_paths):
+                if mode not in ('zoom', 'fit_black', 'fit_blur',
+                                'center_black', 'center_blur'):
+                    monitor.mode = 'zoom'
+                else:
+                    monitor.mode = mode
+                monitor.wallpaper = wp
+        elif None in [m.wallpaper for m in self.monitors]:
+                return
+        apply_wallpapers(
+            self.monitors,
+            lockscreen=False,
+            force_random_name=True
+        )
 
 
 if __name__ == '__main__':

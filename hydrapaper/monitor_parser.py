@@ -6,6 +6,9 @@ from .get_desktop_environment import get_desktop_environment
 from .confManager import ConfManager
 
 
+confman = ConfManager()
+
+
 class Monitor:
     def __init__(
             self,
@@ -32,8 +35,13 @@ class Monitor:
         self.wallpaper = None
         self.spanned = spanned
 
+        if self.name in confman.conf['monitors'].keys():
+            self.wallpaper = \
+                confman.conf['monitors'][self.name]['wallpaper']
+            self.mode = confman.conf['monitors'][self.name]['mode']
+
     def __repr__(self):
-        return f'''HydraPaper Monitor Object
+        return f'''\nHydraPaper Monitor Object
 - Name: {self.name}
 - Resolution: {self.width} x {self.height}
 - Scaling: {self.scaling}
@@ -45,7 +53,6 @@ class Monitor:
 
 
 def build_monitors_from_swaymsg():
-    confman = ConfManager()
     cmd = 'swaymsg -rt get_outputs'
     if confman.is_flatpak:
         cmd = 'flatpak-spawn --host ' + cmd

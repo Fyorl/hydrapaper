@@ -11,6 +11,7 @@
         "--device=dri",
         "--talk-name=org.gnome.SettingsDaemon",
         "--talk-name=org.freedesktop.Flatpak",
+        "--talk-name=org.gnome.Mutter.DisplayConfig",
         "--filesystem=home:ro",
         "--filesystem=/usr/share/gnome:ro",
         "--filesystem=xdg-run/dconf",
