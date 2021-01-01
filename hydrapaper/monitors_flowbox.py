@@ -2,13 +2,11 @@ from gi.repository import Gtk, GdkPixbuf
 from .confManager import ConfManager
 from .monitor_parser import (
     build_monitors_autodetect,
-    build_combined_spanned_monitor,
-    Monitor
+    build_combined_spanned_monitor
 )
 from .is_image import is_image
 from hashlib import sha256
 from os.path import isfile
-from gettext import gettext as _
 
 
 WALLPAPER_MODE_VALUES = [
