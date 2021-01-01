@@ -122,7 +122,11 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
 
     def on_add_to_slideshow(self, *args):
         monitors = self.get_root().monitors_flowbox.get_monitors()
-        pics = [m.wallpaper for m in monitors]
+        pics = [{
+            'wallpaper': m.wallpaper, 'mode': m.mode,
+            'single_spanned': self.confman.conf['spanned_mode']
+        } for m in monitors]
+        # pics = [m.wallpaper for m in monitors]
         if None in pics:
             return
         self.confman.conf['Daemon']['rotating_wallpapers'].append(pics)
@@ -137,7 +141,7 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
             child = self.slideshow_listbox.get_first_child()
         for pics in self.confman.conf['Daemon']['rotating_wallpapers']:
             self.slideshow_listbox.append(
-                SlideshowListboxRow(pics)
+                SlideshowListboxRow([pic['wallpaper'] for pic in pics])
             )
         self.signal_daemon()
 

@@ -58,7 +58,7 @@ class SlideshowListboxRow(Gtk.ListBoxRow):
         for i, pics in enumerate(
                 self.confman.conf['Daemon']['rotating_wallpapers']
         ):
-            if pics == self.pictures:
+            if [p['wallpaper'] for p in pics] == self.pictures:
                 return i
         return -1
 

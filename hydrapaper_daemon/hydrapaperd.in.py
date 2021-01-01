@@ -10,7 +10,10 @@ from dbus.mainloop.glib import DBusGMainLoop
 from os.path import isfile
 from os import environ as Env
 import json
-from hydrapaper.monitor_parser import build_monitors_autodetect
+from hydrapaper.monitor_parser import (
+    build_monitors_autodetect,
+    build_combined_spanned_monitor
+)
 from hydrapaper.apply_wallpapers import apply_wallpapers
 from itertools import cycle
 from threading import Thread, Event
@@ -64,8 +67,8 @@ class HydrapaperDaemon(dbus.service.Object):
                 tries += 1
                 n_monitors = build_monitors_autodetect()
             self.update_monitors(n_monitors)
-            self.set_wallpapers()
             self.update_config()
+            self.set_wallpapers()
 
         Thread(target=af, daemon=True).start()
 
@@ -107,7 +110,12 @@ class HydrapaperDaemon(dbus.service.Object):
                 self.stop_thread = False
                 break
             if self.cycling_wallpapers is not None:
-                self.set_wallpapers(next(self.cycling_wallpapers))
+                current = next(self.cycling_wallpapers)
+                self.set_wallpapers(
+                    [c['wallpaper'] for c in current],
+                    [c['mode'] for c in current],
+                    single_spanned=current[0]['single_spanned']
+                )
             self.thread_wait_event.wait(
                 timeout=self.config['Daemon']['wallpaper_rotation_sleep_time']
             )
@@ -129,15 +137,25 @@ class HydrapaperDaemon(dbus.service.Object):
     def update_monitors(self, n_monitors):
         if self.monitors is not None:
             old = cycle([(m.wallpaper, m.mode) for m in self.monitors])
-            for i in range(len(n_monitors)):
-                n_monitors[i].wallpaper, n_monitors[i].mode = next(old)
+            for m in n_monitors:
+                m.wallpaper, m.mode = next(old)
         self.monitors = n_monitors
 
-    def set_wallpapers(self, wp_paths=None, modes=None):
+    def set_wallpapers(self, wp_paths=None, modes=None, single_spanned=False):
         n_monitors = build_monitors_autodetect()
         if self.monitors_is_changed(n_monitors):
             self.update_monitors(n_monitors)
         if wp_paths is not None:
+            if single_spanned:
+                for m in self.monitors:
+                    m.wallpaper = wp_paths[0]
+                virt_monitor = build_combined_spanned_monitor(self.monitors)
+                virt_monitor.wallpaper = wp_paths[0]
+                apply_wallpapers(
+                    [virt_monitor],
+                    lockscreen=False, force_random_name=True
+                )
+                return
             cycle_wps = cycle(wp_paths)
             while len(wp_paths) < len(self.monitors):
                 wp_paths.append(next(cycle_wps))
@@ -153,9 +171,7 @@ class HydrapaperDaemon(dbus.service.Object):
         elif None in [m.wallpaper for m in self.monitors]:
                 return
         apply_wallpapers(
-            self.monitors,
-            lockscreen=False,
-            force_random_name=True
+            self.monitors, lockscreen=False, force_random_name=True
         )
 
 
