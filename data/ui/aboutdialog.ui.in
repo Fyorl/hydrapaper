@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Generated with glade 3.36.0 
-
+<!-- 
 Copyright (C) 
 
 This file is part of HydraPaper.
@@ -20,8 +19,6 @@ along with HydraPaper.  If not, see <http://www.gnu.org/licenses/>.
 
 -->
 <interface>
-  <!-- interface-license-type gplv3 -->
-  <!-- interface-name HydraPaper -->
   <object class="GtkAboutDialog" id="aboutdialog">
     <property name="can_focus">False</property>
     <property name="program_name">@prettyname@</property>

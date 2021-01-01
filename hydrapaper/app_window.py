@@ -42,7 +42,7 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
 
         self.menu_popover = self.headerbar.menu_popover
         self.menu_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/menu.xml'
+            '/org/gabmus/hydrapaper/ui/menu.ui'
         )
         self.menu = self.menu_builder.get_object('generalMenu')
         self.menu_popover.set_menu_model(self.menu)

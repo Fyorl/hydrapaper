@@ -12,7 +12,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
         self.parent_win = window
 
         self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wallpapers_folders_view.glade'
+            '/org/gabmus/hydrapaper/ui/wallpapers_folders_view.ui'
         )
 
         self.container_box = self.builder.get_object(

@@ -20,7 +20,7 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
 
         self.folders_view = HydraPaperWallpapersFoldersView(window)
         self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/headerbar.glade'
+            '/org/gabmus/hydrapaper/ui/headerbar.ui'
         )
         self.wallpapers_folders_popover = self.builder.get_object(
             'wallpapersFoldersPopover'
@@ -42,7 +42,7 @@ class HydraPaperHeaderbar(Handy.HeaderBar):
 
         self.ww_popover = Gtk.Popover()
         self.ww_popover_content_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/which_wallpaper_box.glade'
+            '/org/gabmus/hydrapaper/ui/which_wallpaper_box.ui'
         )
         self.ww_container = self.ww_popover_content_builder.get_object(
             'ww_container'

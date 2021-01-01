@@ -18,7 +18,7 @@ class WallpaperItemPopover(Gtk.Popover):
         self.set_position(Gtk.PositionType.BOTTOM)
         self.set_autohide(True)
         self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wallpaper_flowbox_item_popover.glade'
+            '/org/gabmus/hydrapaper/ui/wallpaper_flowbox_item_popover.ui'
         )
         self.content = self.builder.get_object('flowbox_item_popover_content')
         self.set_child(self.content)

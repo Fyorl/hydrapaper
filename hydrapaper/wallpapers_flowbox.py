@@ -10,7 +10,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Box):
         self.confman = ConfManager()
         self.is_favorites = is_favorites
         self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wallpapers_flowbox.glade'
+            '/org/gabmus/hydrapaper/ui/wallpapers_flowbox.ui'
         )
 
         self.flowbox = self.builder.get_object('wallpapersFlowbox')

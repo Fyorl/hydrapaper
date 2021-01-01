@@ -19,7 +19,7 @@ class WallpaperModePopover(Gtk.PopoverMenu):
         self.set_autohide(True)
         # self.set_pointing_to(relative_to.get_allocation())
         self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wp_mode_popover_menu.glade'
+            '/org/gabmus/hydrapaper/ui/wp_mode_popover_menu.ui'
         )
         self.radio_zoom = self.builder.get_object('radio_zoom')
         self.radio_fit_black = self.builder.get_object('radio_fit_black')
@@ -44,7 +44,7 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
         self.monitor = monitor
 
         self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/monitors_flowbox_item.glade'
+            '/org/gabmus/hydrapaper/ui/monitors_flowbox_item.ui'
         )
 
         self.box = self.builder.get_object('main_box')

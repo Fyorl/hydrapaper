@@ -27,7 +27,7 @@ class HydraPaperApplication(Gtk.Application):
 
     def show_about_dialog(self, *args):
         about_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/aboutdialog.glade'
+            '/org/gabmus/hydrapaper/aboutdialog.ui'
         )
         dialog = about_builder.get_object('aboutdialog')
         dialog.set_modal(True)
@@ -40,7 +40,7 @@ class HydraPaperApplication(Gtk.Application):
 
     def show_shortcuts_window(self, *args):
         shortcuts_win = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/shortcutsWindow.xml'
+            '/org/gabmus/hydrapaper/ui/shortcutsWindow.ui'
         ).get_object('shortcuts-hydrapaper')
         shortcuts_win.props.section_name = 'shortcuts'
         shortcuts_win.set_transient_for(self.window)
