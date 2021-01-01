@@ -169,7 +169,7 @@ class HydrapaperDaemon(dbus.service.Object):
                     monitor.mode = mode
                 monitor.wallpaper = wp
         elif None in [m.wallpaper for m in self.monitors]:
-                return
+            return
         apply_wallpapers(
             self.monitors, lockscreen=False, force_random_name=True
         )
