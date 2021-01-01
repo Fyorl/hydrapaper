@@ -1,8 +1,11 @@
 from gi.repository import Gtk, GdkPixbuf
 from .confManager import ConfManager
-from .monitor_parser import build_monitors_autodetect, Monitor
+from .monitor_parser import (
+    build_monitors_autodetect,
+    build_combined_spanned_monitor,
+    Monitor
+)
 from .is_image import is_image
-from .wallpaper_merger import get_combined_resolution
 from hashlib import sha256
 from os.path import isfile
 from gettext import gettext as _
@@ -107,16 +110,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
         self.confman = ConfManager()
 
         self.monitors = build_monitors_autodetect()
-        self.spanned_monitor = Monitor(
-            *get_combined_resolution(self.monitors),
-            1,
-            0, 0,
-            0,
-            _('Combined spanned monitor'),
-            'zoom',
-            True,
-            True
-        )
+        self.spanned_monitor = build_combined_spanned_monitor()
 
         self.set_min_children_per_line(1)
         self.set_max_children_per_line(len(self.monitors))
@@ -179,7 +173,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
             child = self.get_child_at_index(i)
 
     def dump_to_config(self):
-        n_monitors = {}
+        n_monitors = self.confman.conf['monitors'].copy()
         for m in self.monitors:
             n_monitors[m.name] = {
                 'wallpaper': m.wallpaper,

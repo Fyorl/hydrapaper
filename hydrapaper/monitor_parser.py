@@ -4,6 +4,7 @@ from subprocess import run, PIPE
 import json
 from .get_desktop_environment import get_desktop_environment
 from .confManager import ConfManager
+from .wallpaper_merger import get_combined_resolution
 
 
 confman = ConfManager()
@@ -112,3 +113,15 @@ def build_monitors_autodetect():
         return build_monitors_from_swaymsg()
     else:
         return build_monitors_from_gdk()
+
+
+def build_combined_spanned_monitor(monitors=None):
+    if monitors is None:
+        monitors = build_monitors_autodetect()
+    return Monitor(
+        *get_combined_resolution(monitors),
+        1, 0, 0, 0,
+        _('Combined spanned monitor'),
+        'zoom',
+        True, True
+    )
