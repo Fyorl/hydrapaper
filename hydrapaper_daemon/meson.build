@@ -1,5 +1,5 @@
 daemon_conf = configuration_data()
-daemon_conf.set('PYTHON', python.find_python().path())
+daemon_conf.set('PYTHON', py_installation.path())
 
 configure_file(
     input: meson.project_name() + 'd.in.py',

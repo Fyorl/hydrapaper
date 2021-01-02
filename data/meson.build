@@ -60,13 +60,6 @@ configure_file(
     install_dir: systemd_user_unit_dir
 )
 
-message('Looking for dependencies')
-python_bin = python.find_python()
-if not python_bin.found()
-    error('No valid python3 binary found')
-else
-    message('Found python3 binary')
-endif
 dependency('glib-2.0')
 dependency('gobject-introspection-1.0', version: '>=1.35.9')
 dependency('gtk+-3.0', version :'>=3.20')

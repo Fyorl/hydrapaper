@@ -34,13 +34,18 @@ designers = '\n'.join([
 ])
 
 i18n = import('i18n')
-python = import('python3')
+python = import('python')
+py_installation = python.find_installation('python3')
+if not py_installation.found()
+    error('No valid python3 binary found')
+endif
 gnome = import('gnome')
 prefix = get_option('prefix') # should be /usr
 bindir = get_option('bindir') # should be bin
 datadir = get_option('datadir') # should be /usr/share
 pkgdatadir = join_paths(prefix, datadir, meson.project_name())
-pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
+# pythondir = join_paths(prefix, python.sysconfig_path('purelib'))
+pythondir = py_installation.get_install_dir()
 localedir = join_paths(prefix, get_option('localedir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
 etcdir = get_option('sysconfdir')
