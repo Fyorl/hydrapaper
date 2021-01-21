@@ -38,6 +38,8 @@
     </screenshots>
     <url type="homepage">https://hydrapaper.gabmus.org</url>
     <url type="bugtracker">https://gitlab.gnome.org/gabmus/hydrapaper/issues</url>
+    <url type="translate">https://gitlab.gnome.org/gabmus/hydrapaper/-/tree/master/po</url>
+    <url type="donation">https://liberapay.com/gabmus/donate</url>
     <update_contact>gabmus@disroot.org</update_contact>
     <releases>
         <release version="2.0.3" timestamp="1605102372">
