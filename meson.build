@@ -25,7 +25,8 @@ contributors = '\n'.join([
 translators = '\n'.join([
     'German: Alessandra Gallia &lt;alessandragalliaaru@gmail.com&gt;',
     'Russian: Alessandra Gallia &lt;alessandragalliaaru@gmail.com&gt;',
-    'Italian: Gabriele Musco (GabMus) &lt;gabmus@disroot.org&gt;'
+    'Italian: Gabriele Musco (GabMus) &lt;gabmus@disroot.org&gt;',
+    'Swedish: Åke Engelbrektson &lt;eson@svenskasprakfiler.se&gt;'
 ])
 
 designers = '\n'.join([
