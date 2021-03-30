@@ -1,11 +1,11 @@
 from gettext import gettext as _
-from gi.repository import Gtk, Handy
+from gi.repository import Gtk, Adw
 from .confManager import ConfManager
 from os.path import isfile, abspath, join
 from os import remove, listdir
 
 
-class PreferencesButtonRow(Handy.ActionRow):
+class PreferencesButtonRow(Adw.ActionRow):
     """
     A preferences row with a title and a button
     title: the title shown
@@ -46,7 +46,7 @@ class PreferencesButtonRow(Handy.ActionRow):
         self.confman.save_conf()
 
 
-class PreferencesToggleRow(Handy.ActionRow):
+class PreferencesToggleRow(Adw.ActionRow):
     """
     A preferences row with a title and a toggle
     title: the title shown
@@ -90,13 +90,13 @@ class PreferencesToggleRow(Handy.ActionRow):
             self.confman.emit(self.signal, '')
 
 
-class GeneralPreferencesPage(Handy.PreferencesPage):
+class GeneralPreferencesPage(Adw.PreferencesPage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.set_title(_('General'))
         self.set_icon_name('preferences-other-symbolic')
 
-        self.general_preferences_group = Handy.PreferencesGroup()
+        self.general_preferences_group = Adw.PreferencesGroup()
         self.general_preferences_group.set_title(_('General Settings'))
         toggle_settings = [
             {
@@ -123,7 +123,7 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
             self.general_preferences_group.add(row)
         self.add(self.general_preferences_group)
 
-        self.caches_favs_preferences_group = Handy.PreferencesGroup()
+        self.caches_favs_preferences_group = Adw.PreferencesGroup()
         self.caches_favs_preferences_group.set_title(_('Caches and favorites'))
         button_settings = [
             {
@@ -167,13 +167,13 @@ class GeneralPreferencesPage(Handy.PreferencesPage):
                     remove(f)
 
 
-class ViewPreferencesPage(Handy.PreferencesPage):
+class ViewPreferencesPage(Adw.PreferencesPage):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.set_title(_('View'))
         self.set_icon_name('applications-graphics-symbolic')
 
-        self.view_preferences_group = Handy.PreferencesGroup()
+        self.view_preferences_group = Adw.PreferencesGroup()
         self.view_preferences_group.set_title(_('View Settings'))
         toggle_settings = [
             {
@@ -190,7 +190,7 @@ class ViewPreferencesPage(Handy.PreferencesPage):
         self.show()
 
 
-class HydraPaperSettingsWindow(Handy.PreferencesWindow):
+class HydraPaperSettingsWindow(Adw.PreferencesWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 

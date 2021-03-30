@@ -1,7 +1,7 @@
 from gettext import gettext as _
 import sys
 import argparse
-from gi.repository import Gtk, Gdk, Gio, GLib, Handy
+from gi.repository import Gtk, Gdk, Gio, GLib, Adw
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
 from .settings_box import HydraPaperSettingsWindow
@@ -23,7 +23,7 @@ class HydraPaperApplication(Gtk.Application):
 
     def do_startup(self):
         Gtk.Application.do_startup(self)
-        Handy.init()
+        Adw.init()
 
     def show_about_dialog(self, *args):
         about_builder = Gtk.Builder.new_from_resource(

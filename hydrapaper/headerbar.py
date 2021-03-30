@@ -1,18 +1,18 @@
-from gi.repository import Gtk, Handy
+from gi.repository import Gtk, Adw
 from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
 from .confManager import ConfManager
 from .slideshow_listbox_row import SlideshowListboxRow
 import dbus
 
 
-class HydraPaperHeaderbar(Handy.HeaderBar):
+class HydraPaperHeaderbar(Adw.HeaderBar):
     def __init__(self, window, apply_handler, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.confman = ConfManager()
         self.apply_handler_func = apply_handler
-        self.set_show_title_buttons(True)
-        self.stack_switcher = Handy.ViewSwitcher()
-        self.squeezer = Handy.Squeezer()
+        self.set_show_end_title_buttons(True)
+        self.stack_switcher = Adw.ViewSwitcher()
+        self.squeezer = Adw.Squeezer()
         self.nobox = Gtk.Label()
         self.bottom_bar = window.bottom_bar
         self.squeezer.add(self.stack_switcher)

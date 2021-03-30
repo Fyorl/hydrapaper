@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Handy
+from gi.repository import Gtk, Adw
 from .confManager import ConfManager
 from .main_stack import HydraPapaerMainStack
 from .monitors_flowbox import HydraPaperMonitorsFlowbox
@@ -6,7 +6,7 @@ from .apply_wallpapers import apply_wallpapers
 from .headerbar import HydraPaperHeaderbar
 
 
-class HydraPaperAppWindow(Handy.ApplicationWindow):
+class HydraPaperAppWindow(Adw.ApplicationWindow):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
@@ -16,7 +16,7 @@ class HydraPaperAppWindow(Handy.ApplicationWindow):
         self.set_title('HydraPaper')
         self.set_icon_name('org.gabmus.hydrapaper')
         self.container_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
-        self.bottom_bar = Handy.ViewSwitcherBar()
+        self.bottom_bar = Adw.ViewSwitcherBar()
         self.headerbar = HydraPaperHeaderbar(self, self.apply_handler)
         self.stack_switcher = self.headerbar.stack_switcher
         self.folders_view = self.headerbar.folders_view

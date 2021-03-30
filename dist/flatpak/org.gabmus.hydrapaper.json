@@ -2,7 +2,7 @@
     "app-id": "org.gabmus.hydrapaper",
     "command": "hydrapaper",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "master",
+    "runtime-version": "40",
     "sdk": "org.gnome.Sdk",
     "finish-args": [
         "--share=ipc",
@@ -25,28 +25,23 @@
     ],
     "modules": [
         {
-            "name": "libhandy",
+            "name" : "libadwaita",
             "buildsystem": "meson",
-            "config-opts": [
-                "--buildtype=release"
+            "config-opts" : [
+                "-Dexamples=false",
+                "-Dtests=false"
             ],
-            "sources": [
+            "sources" : [
                 {
                     "type": "git",
-                    "url": "https://gitlab.gnome.org/exalm/libhandy",
-                    "branch": "gtk4"
+                    "url": "https://gitlab.gnome.org/exalm/libadwaita.git",
+                    "commit": "77243b8a2b902e340a0845b10373589434b5d405"
                 }
             ]
         },
         {
             "name": "python-pillow",
             "buildsystem": "simple",
-            "ensure-writable": [
-                "/lib/python*/site-packages/easy-install.pth",
-                "/lib/python*/site-packages/setuptools.pth",
-                "/app/lib/python*/site-packages/easy-install.pth",
-                "/app/lib/python*/site-packages/setuptools.pth"
-            ],
             "build-commands": [
                 "python3 setup.py install --prefix=/app --root=/"
             ],
@@ -54,25 +49,13 @@
                 {
                     "type": "git",
                     "url": "https://github.com/python-pillow/Pillow",
-                    "tag": "7.2.0"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "sed -i 's/if not platform_/if not dirs/' setup.py"
-                    ]
+                    "tag": "8.1.2"
                 }
             ]
         },
         {
             "name": "python-dbus",
             "buildsystem": "simple",
-            "ensure-writable": [
-                "/lib/python*/site-packages/easy-install.pth",
-                "/lib/python*/site-packages/setuptools.pth",
-                "/app/lib/python*/site-packages/easy-install.pth",
-                "/app/lib/python*/site-packages/setuptools.pth"
-            ],
             "build-commands": [
                 "python3 setup.py install --prefix=/app --root=/"
             ],
@@ -81,12 +64,6 @@
                     "type": "git",
                     "url": "https://gitlab.freedesktop.org/dbus/dbus-python",
                     "tag": "dbus-python-1.2.16"
-                },
-                {
-                    "type": "shell",
-                    "commands": [
-                        "sed -i 's/if not platform_/if not dirs/' setup.py"
-                    ]
                 }
             ]
         },

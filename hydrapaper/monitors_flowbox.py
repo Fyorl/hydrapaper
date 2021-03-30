@@ -116,9 +116,7 @@ class HydraPaperMonitorsFlowbox(Gtk.FlowBox):
         self.set_hexpand(True)
         self.set_homogeneous(False)
         self.set_vexpand(False)
-        self.set_activate_on_single_click(
-            self.confman.conf['selection_mode']
-        )
+        self.set_activate_on_single_click(True)
         self.confman.connect(
             'hydrapaper_flowbox_wallpaper_selected',
             self.change_selected_wp
