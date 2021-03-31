@@ -33,6 +33,10 @@ CONFIG_PATH = '{0}/org.gabmus.hydrapaper.json'.format(
 PACKAGE = 'org.gabmus.hydrapaper.Daemon'
 
 
+class HydrapaperDaemonDisabledException(Exception):
+    pass
+
+
 class HydrapaperDaemon(dbus.service.Object):
     def __init__(self, bus_name):
         super().__init__(
@@ -84,6 +88,8 @@ class HydrapaperDaemon(dbus.service.Object):
         config = None
         with open(CONFIG_PATH, 'r') as fd:
             config = json.loads(fd.read())
+        if not config.get('enable_daemon', False):
+            raise HydrapaperDaemonDisabledException
         if 'Daemon' not in config.keys():
             return False
         self.config = config
@@ -126,11 +132,6 @@ class HydrapaperDaemon(dbus.service.Object):
         return f'{m.name}-{m.width}x{m.height}+{m.offset_x}+{m.offset_y}'
 
     def monitors_is_changed(self, n_monitors):
-        if self.monitors is not None:
-            old_ms = [self.monitor_to_comparable_str(m) for m in self.monitors]
-            new_ms = [self.monitor_to_comparable_str(m) for m in n_monitors]
-            print('old:', old_ms, '\nnew:', new_ms, '\nchanged?',
-                  set(old_ms) == set(new_ms))
         return (
             self.monitors is None or
             len(n_monitors) != len(self.monitors) or
@@ -177,7 +178,6 @@ class HydrapaperDaemon(dbus.service.Object):
                 monitor.wallpaper = wp
         elif None in [m.wallpaper for m in self.monitors]:
             return
-        print(self.monitors)
         apply_wallpapers(
             self.monitors, lockscreen=False, force_random_name=True
         )
@@ -198,6 +198,8 @@ if __name__ == '__main__':
         loop.run()
     except KeyboardInterrupt:
         print('HydrapaperDaemon: KeyboardInterrupt received')
+    except HydrapaperDaemonDisabledException:
+        print('HydrapaperDaemon: Daemon disabled, exiting...')
     except Exception as e:
         print('HydrapaperDaemon: Unhandled exception: `{}`'.format(str(e)))
     finally:

@@ -72,6 +72,7 @@ class ConfManager(metaclass=Singleton):
             'width': 600,
             'height': 400
         },
+        'enable_daemon': True,
         'Daemon': {
             'wallpaper_rotation_enabled': False,
             'wallpaper_rotation_sleep_time': 30,

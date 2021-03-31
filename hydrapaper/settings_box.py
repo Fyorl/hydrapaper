@@ -111,6 +111,13 @@ class GeneralPreferencesPage(Adw.PreferencesPage):
                     'Periodically clear the cache to mitigate this problem'
                 ),
                 'conf_key': 'random_wallpapers_names',
+            },
+            {
+                'title': _('Enable daemon'),
+                'subtitle': _(
+                    'Needed for slideshow mode and to detect display changes'
+                ),
+                'conf_key': 'enable_daemon',
             }
         ]
         for s in toggle_settings:
