@@ -74,9 +74,28 @@ class HydrapaperDaemon(dbus.service.Object):
                 n_monitors = build_monitors_autodetect()
             self.update_monitors(n_monitors)
             self.update_config()
-            self.set_wallpapers()
+            self.update_monitors_from_config_and_set_wallpapers()
+            # self.set_wallpapers()
 
         Thread(target=af, daemon=True).start()
+
+    def update_monitors_from_config_and_set_wallpapers(self):
+        last_wps = self.config.get('last_wps', None)
+        if last_wps is not None and len(last_wps.get('wps', {})) > 0:
+            if last_wps.get('spanned', False):
+                virt_monitor = build_combined_spanned_monitor(self.monitors)
+                fwp = list(last_wps['wps'].values())[0]
+                virt_monitor.wallpaper = fwp['wp']
+                virt_monitor.mode = fwp.get('mode', 'zoom')
+                apply_wallpapers([virt_monitor])
+                return
+            for m in self.monitors:
+                cm = last_wps['wps'].get(
+                    m.name, {'wp': m.wallpaper, 'mode': m.mode}
+                )
+                m.wallpaper = cm['wp']
+                m.mode = cm['mode']
+        apply_wallpapers(self.monitors)
 
     @dbus.service.method(
             dbus_interface=PACKAGE,

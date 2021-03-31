@@ -73,6 +73,10 @@ class ConfManager(metaclass=Singleton):
             'height': 400
         },
         'enable_daemon': True,
+        'last_wps': {
+            'spanned': False,
+            'wps': {}
+        },  # saved when applying wallpapers, retrieved by daemon
         'Daemon': {
             'wallpaper_rotation_enabled': False,
             'wallpaper_rotation_sleep_time': 30,
