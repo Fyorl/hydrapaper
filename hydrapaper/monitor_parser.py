@@ -42,15 +42,16 @@ class Monitor:
             self.mode = confman.conf['monitors'][self.name]['mode']
 
     def __repr__(self):
-        return f'''\nHydraPaper Monitor Object
-- Name: {self.name}
-- Resolution: {self.width} x {self.height}
-- Scaling: {self.scaling}
-- Offset: {self.offset_x} x {self.offset_y}
-- Wallpaper path: {self.wallpaper}
-- Mode: {self.mode}
-- Spanned: {self.spanned}
-'''
+        return (
+            'HydraPaper Monitor Object: '
+            f'Name: {self.name}; '
+            f'Resolution: {self.width} x {self.height}; '
+            f'Scaling: {self.scaling}; '
+            f'Offset: {self.offset_x} x {self.offset_y}; '
+            f'Wallpaper path: {self.wallpaper}; '
+            f'Mode: {self.mode}; '
+            f'Spanned: {self.spanned}.'
+        )
 
 
 def build_monitors_from_swaymsg():

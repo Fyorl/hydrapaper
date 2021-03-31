@@ -53,13 +53,15 @@ class HydrapaperDaemon(dbus.service.Object):
     def connect_monitor_changes(self):
         bus = dbus.SessionBus()
         bus.add_signal_receiver(
-            self.on_monitors_changed, 'PropertiesChanged', None,
+            self.on_monitors_changed, 'MonitorsChanged', None,
             'org.gnome.Mutter.DisplayConfig', None
         )
 
     def on_monitors_changed(self, *args):
+        print('Monitors change detected')
 
         def af():
+            sleep(2)
             tries = 0
             n_monitors = build_monitors_autodetect()
             while not self.monitors_is_changed(n_monitors) and tries < 10:
@@ -124,9 +126,14 @@ class HydrapaperDaemon(dbus.service.Object):
         return f'{m.name}-{m.width}x{m.height}+{m.offset_x}+{m.offset_y}'
 
     def monitors_is_changed(self, n_monitors):
+        if self.monitors is not None:
+            old_ms = [self.monitor_to_comparable_str(m) for m in self.monitors]
+            new_ms = [self.monitor_to_comparable_str(m) for m in n_monitors]
+            print('old:', old_ms, '\nnew:', new_ms, '\nchanged?',
+                  set(old_ms) == set(new_ms))
         return (
             self.monitors is None or
-            len(self.monitors) != len(self.monitors) or
+            len(n_monitors) != len(self.monitors) or
             set(
                 [self.monitor_to_comparable_str(m) for m in self.monitors]
             ) != set(
@@ -170,6 +177,7 @@ class HydrapaperDaemon(dbus.service.Object):
                 monitor.wallpaper = wp
         elif None in [m.wallpaper for m in self.monitors]:
             return
+        print(self.monitors)
         apply_wallpapers(
             self.monitors, lockscreen=False, force_random_name=True
         )

@@ -82,26 +82,35 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
                 break
 
     def on_addWallpapersPath_clicked(self, btn):
-        dialog = Gtk.FileChooserNative.new(
+        self.fc_dialog = Gtk.FileChooserNative.new(
             _('Add wallpaper folders'),
             self.parent_win,
             Gtk.FileChooserAction.SELECT_FOLDER,
             None, None
         )
-        dialog.set_select_multiple(True)
-        dialog.set_transient_for(self.parent_win)
-        res = dialog.run()
-        if res == Gtk.ResponseType.ACCEPT:
-            for fpath in dialog.get_filenames():
-                if isdir(fpath):
-                    self.confman.conf['wallpapers_paths'].append({
-                        'path': fpath,
-                        'active': True
-                    })
-            self.confman.save_conf()
-            self.populate()
-            self.confman.populate_wallpapers()
-            self.confman.emit('hydrapaper_populate_wallpapers', 'notimportant')
+        self.fc_dialog.set_select_multiple(True)
+        self.fc_dialog.set_transient_for(self.parent_win)
+
+        def on_response(dialog, res):
+            if res == Gtk.ResponseType.ACCEPT:
+                for fpath in dialog.get_files():
+                    fpath = fpath.get_path()
+                    if isdir(fpath):
+                        self.confman.conf['wallpapers_paths'].append({
+                            'path': fpath,
+                            'active': True
+                        })
+                self.confman.save_conf()
+                self.populate()
+                self.confman.populate_wallpapers()
+                self.confman.emit(
+                    'hydrapaper_populate_wallpapers', 'notimportant'
+                )
+            dialog.destroy()
+            self.fc_dialog = None
+
+        self.fc_dialog.connect('response', on_response)
+        self.fc_dialog.show()
 
     def on_removeWallpapersPath_clicked(self, btn):
         row = self.listbox.get_selected_row()
