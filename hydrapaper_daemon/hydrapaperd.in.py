@@ -80,10 +80,17 @@ class HydrapaperDaemon(dbus.service.Object):
         Thread(target=af, daemon=True).start()
 
     def update_monitors_from_config_and_set_wallpapers(self):
+        if (
+            self.config['Daemon']['wallpaper_rotation_enabled'] and
+            len(self.config['Daemon']['rotating_wallpapers']) > 0
+        ):
+            return
         last_wps = self.config.get('last_wps', None)
         if last_wps is not None and len(last_wps.get('wps', {})) > 0:
             if last_wps.get('spanned', False):
-                virt_monitor = build_combined_spanned_monitor(self.monitors)
+                virt_monitor = build_combined_spanned_monitor(
+                    self.monitors, skip_save=True
+                )
                 fwp = list(last_wps['wps'].values())[0]
                 virt_monitor.wallpaper = fwp['wp']
                 virt_monitor.mode = fwp.get('mode', 'zoom')
@@ -95,7 +102,7 @@ class HydrapaperDaemon(dbus.service.Object):
                 )
                 m.wallpaper = cm['wp']
                 m.mode = cm['mode']
-        apply_wallpapers(self.monitors)
+        apply_wallpapers(self.monitors, skip_save=True)
 
     @dbus.service.method(
             dbus_interface=PACKAGE,
@@ -180,7 +187,8 @@ class HydrapaperDaemon(dbus.service.Object):
                 virt_monitor.wallpaper = wp_paths[0]
                 apply_wallpapers(
                     [virt_monitor],
-                    lockscreen=False, force_random_name=True
+                    lockscreen=False, force_random_name=True,
+                    skip_save=True
                 )
                 return
             cycle_wps = cycle(wp_paths)
@@ -198,7 +206,8 @@ class HydrapaperDaemon(dbus.service.Object):
         elif None in [m.wallpaper for m in self.monitors]:
             return
         apply_wallpapers(
-            self.monitors, lockscreen=False, force_random_name=True
+            self.monitors, lockscreen=False, force_random_name=True,
+            skip_save=True
         )
 
 

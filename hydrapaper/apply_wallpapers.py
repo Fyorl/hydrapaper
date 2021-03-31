@@ -65,7 +65,7 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False,
 
 
 def apply_wallpapers(monitors, widgets_to_freeze=[], lockscreen=False,
-                     force_random_name=False):
+                     force_random_name=False, skip_save=False):
     t = Thread(
         group=None,
         target=_apply_wallpapers_worker,
@@ -74,11 +74,13 @@ def apply_wallpapers(monitors, widgets_to_freeze=[], lockscreen=False,
     )
     widgets_set_sensitive(widgets_to_freeze, False)
     t.start()
-    confman = ConfManager()
-    confman.conf['last_wps'] = {
+    last_wps = {
         'spanned': monitors[0].spanned,
         'wps': {
             m.name: {'wp': m.wallpaper, 'mode': m.mode} for m in monitors
         }
     }
-    confman.save_conf_async()
+    if not skip_save:
+        confman = ConfManager()
+        confman.conf['last_wps'] = last_wps
+        confman.save_conf_async()
