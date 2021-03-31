@@ -90,6 +90,7 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
         )
         self.fc_dialog.set_select_multiple(True)
         self.fc_dialog.set_transient_for(self.parent_win)
+        self.fc_dialog.set_modal(True)
 
         def on_response(dialog, res):
             if res == Gtk.ResponseType.ACCEPT:
