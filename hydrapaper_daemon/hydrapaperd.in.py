@@ -84,6 +84,7 @@ class HydrapaperDaemon(dbus.service.Object):
             self.config['Daemon']['wallpaper_rotation_enabled'] and
             len(self.config['Daemon']['rotating_wallpapers']) > 0
         ):
+            self.update_thread()
             return
         last_wps = self.config.get('last_wps', None)
         if last_wps is not None and len(last_wps.get('wps', {})) > 0:
