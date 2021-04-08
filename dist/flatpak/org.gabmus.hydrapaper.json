@@ -18,6 +18,7 @@
         "--filesystem=~/.config/dconf:ro",
         "--filesystem=~/.config/sway/config:rw",
         "--filesystem=~/.swaylock/config:rw",
+        "--filesystem=/usr/share/backgrounds",
         "--talk-name=ca.desrt.dconf",
         "--env=DCONF_USER_CONFIG_DIR=.config/dconf",
         "--own-name=org.gabmus.hydrapaper",

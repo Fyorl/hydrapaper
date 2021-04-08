@@ -1,6 +1,6 @@
 [Desktop Entry]
 Name=@appid@.Daemon
-Comment=Change your wallpapers periodically
+Comment=Daemon for HydraPaper
 Icon=@appid@
 Exec=@libexecdir@/@projectname@d
 X-GNOME-Autostart-Delay=10
