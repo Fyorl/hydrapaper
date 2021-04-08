@@ -29,12 +29,12 @@ daemon_desktop_file = configure_file(
 
 i18n.merge_file(
     input: daemon_desktop_file,
-    output: app_id + 'daemon.desktop',
+    output: app_id + '.Daemon.desktop',
     po_dir: '../po',
     type: 'desktop',
     install: true,
-    install_dir: join_paths(etcdir, 'xdg', 'autostart')
-    # install_dir: join_paths(datadir, 'applications')
+    # install_dir: join_paths(etcdir, 'xdg', 'autostart')
+    install_dir: join_paths(datadir, 'applications')
 )
 
 configure_file(
