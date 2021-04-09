@@ -80,7 +80,6 @@ class PreferencesToggleRow(Adw.ActionRow):
         self.set_activatable_widget(self.toggle)
 
     def on_toggle_state_set(self, toggle, state):
-        # TODO: rework selection_mode to use True/False
         if self.conf_key is not None:
             self.confman.conf[self.conf_key] = state
             self.confman.save_conf()
@@ -101,7 +100,15 @@ class AutostartToggleRow(PreferencesToggleRow):
             f'{Env.get("HOME")}/.config/autostart'
         self.target_file = \
             f'{self.autostart_dir}/org.gabmus.hydrapaper.Daemon.desktop'
-        self.toggle.set_active(isfile(self.target_file))
+        self.toggle.set_active(self.target_exists())
+
+    def target_exists(self):
+        if isfile(self.target_file):
+            with open(self.target_file, 'r') as fd:
+                if fd.read().strip() != self.get_daemon_desktop_file().strip():
+                    self.create_autostart()
+                return True
+        return False
 
     def get_daemon_desktop_file(self):
         res = ''
@@ -149,11 +156,6 @@ class GeneralPreferencesPage(Adw.PreferencesPage):
         self.general_preferences_group = Adw.PreferencesGroup()
         self.general_preferences_group.set_title(_('General Settings'))
         toggle_settings = [
-            {
-                'title': _('Show full path in folder view'),
-                'conf_key': 'folders_popover_full_path',
-                'signal': 'hydrapaper_set_folders_popover_labels'
-            },
             {
                 'title': _('Save each wallpaper separately'),
                 'subtitle': _(
@@ -238,6 +240,11 @@ class ViewPreferencesPage(Adw.PreferencesPage):
                 'title': _('Use big thumbnails for the monitors previews'),
                 'conf_key': 'big_monitor_thumbnails',
                 'signal': 'hydrapaper_reload_monitor_thumbs'
+            },
+            {
+                'title': _('Show full path in folder view'),
+                'conf_key': 'folders_popover_full_path',
+                'signal': 'hydrapaper_set_folders_popover_labels'
             }
         ]
         for s in toggle_settings:
