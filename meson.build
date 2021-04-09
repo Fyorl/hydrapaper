@@ -10,7 +10,7 @@ prettylicense = 'GPL-3.0+'
 
 author = 'gabmus'
 authorfullname = 'Gabriele Musco'
-authoremail = 'emaildigabry@gmail.com'
+authoremail = 'gabmus@disroot.org'
 domain = 'org'
 # app_id built as: domain.author.project_name
 gitrepo = 'https://gitlab.com/'+author+'/'+meson.project_name()

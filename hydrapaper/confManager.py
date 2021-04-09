@@ -102,19 +102,15 @@ class ConfManager(metaclass=Singleton):
         )
 
         if self.is_flatpak:
-            self.path = Path(
-                f'{Env.get("XDG_CONFIG_HOME")}/org.gabmus.hydrapaper.json'
-            )
-            self.cache_path = '{0}/org.gabmus.hydrapaper'.format(
-                Env.get('XDG_CACHE_HOME')
-            )
+            self.config_home = Env.get('XDG_CONFIG_HOME')
+            self.cache_home = Env.get('XDG_CACHE_HOME')
         else:
-            self.path = Path(
-                f'{Env.get("HOME")}/.config/org.gabmus.hydrapaper.json'
-            )
-            self.cache_path = '{0}/.cache/org.gabmus.hydrapaper'.format(
-                Env.get('HOME')
-            )
+            self.config_home = f'{Env.get("HOME")}/.config'
+            self.cache_home = f'{Env.get("HOME")}/.cache'
+        self.path = Path(
+            f'{self.config_home}/org.gabmus.hydrapaper.json'
+        )
+        self.cache_path = f'{self.cache_home}/org.gabmus.hydrapaper'
         self.thumbs_cache_path = f'{self.cache_path}/thumbnails/'
         self.has_lockscreen_wallpaper = False
 

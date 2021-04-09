@@ -66,5 +66,8 @@ if __name__ == '__main__':
     resource = Gio.Resource.load(os.path.join(pkgdatadir, '@appid@.gresource'))
     resource._register()
 
+    from hydrapaper import daemon_autostart_helper
+    daemon_autostart_helper.APPLICATIONS_DIR = '@applications_dir@'
+
     from @projectname@ import __main__
     __main__.main()

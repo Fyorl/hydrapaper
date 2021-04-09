@@ -3,6 +3,9 @@ from gi.repository import Gtk, Adw
 from .confManager import ConfManager
 from os.path import isfile, abspath, join
 from os import remove, listdir
+from os import environ as Env
+from subprocess import run
+from .daemon_autostart_helper import APPLICATIONS_DIR
 
 
 class PreferencesButtonRow(Adw.ActionRow):
@@ -70,10 +73,7 @@ class PreferencesToggleRow(Adw.ActionRow):
 
         self.toggle = Gtk.Switch()
         self.toggle.set_valign(Gtk.Align.CENTER)
-        if self.conf_key == 'selection_mode':
-            self.toggle.set_active(
-                self.confman.conf[self.conf_key] == 'double')
-        else:
+        if self.conf_key is not None:
             self.toggle.set_active(self.confman.conf[self.conf_key])
         self.toggle.connect('state-set', self.on_toggle_state_set)
         self.add_suffix(self.toggle)
@@ -81,13 +81,63 @@ class PreferencesToggleRow(Adw.ActionRow):
 
     def on_toggle_state_set(self, toggle, state):
         # TODO: rework selection_mode to use True/False
-        if self.conf_key == 'selection_mode':
-            self.confman.conf[self.conf_key] = 'double' if state else 'single'
-        else:
+        if self.conf_key is not None:
             self.confman.conf[self.conf_key] = state
-        self.confman.save_conf()
+            self.confman.save_conf()
         if self.signal:
             self.confman.emit(self.signal, '')
+
+
+class AutostartToggleRow(PreferencesToggleRow):
+    def __init__(self):
+        super().__init__(
+            _('Start daemon on login'),
+            None, None,
+            _('React to monitor changes and start slideshow mode')
+        )
+        self.source_file = \
+            f'{APPLICATIONS_DIR}/org.gabmus.hydrapaper.Daemon.desktop'
+        self.autostart_dir = \
+            f'{Env.get("HOME")}/.config/autostart'
+        self.target_file = \
+            f'{self.autostart_dir}/org.gabmus.hydrapaper.Daemon.desktop'
+        self.toggle.set_active(isfile(self.target_file))
+
+    def get_daemon_desktop_file(self):
+        res = ''
+        with open(self.source_file, 'r') as fd:
+            res = fd.read()
+        if self.confman.is_flatpak:
+            res = res.replace(
+                '/app/libexec/hydrapaperd',
+                '/usr/bin/flatpak run --command=/app/libexec/hydrapaperd '
+                'org.gabmus.hydrapaper'
+            )
+        return res
+
+    def create_autostart(self):
+        self.delete_autostart()
+        cmds = [
+            f'mkdir -p {self.autostart_dir}',
+            (
+                f"cat <<'EOF' >> {self.target_file}\n"
+                f"{self.get_daemon_desktop_file()}\nEOF"
+            )
+        ]
+        for cmd in cmds:
+            if self.confman.is_flatpak:
+                cmd = 'flatpak-spawn --host ' + cmd
+            run(cmd, shell=True)
+
+    def delete_autostart(self):
+        if isfile(self.target_file):
+            remove(self.target_file)
+
+    def on_toggle_state_set(self, toggle, state):
+        if state:
+            self.create_autostart()
+        else:
+            self.delete_autostart()
 
 
 class GeneralPreferencesPage(Adw.PreferencesPage):
@@ -128,6 +178,7 @@ class GeneralPreferencesPage(Adw.PreferencesPage):
                 subtitle=s.get('subtitle')
             )
             self.general_preferences_group.add(row)
+        self.general_preferences_group.add(AutostartToggleRow())
         self.add(self.general_preferences_group)
 
         self.caches_favs_preferences_group = Adw.PreferencesGroup()
