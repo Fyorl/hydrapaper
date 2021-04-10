@@ -44,13 +44,18 @@ def get_center_offset(img, bg):
 def resize_letterbox(img, sw, sh):
     nw = 0
     nh = 0
-    portrait = (img.width == img.height and sw > sh) or img.width < img.height
+    # old, weird and error prone
+    # portrait = (
+    #     img.width == img.height and sw > sh) or img.width < img.height
+    # )
+    portrait = img.width / img.height < sw / sh
     if portrait:
         nh = sh
         nw = int((sh * img.width) / img.height)
     else:
         nw = sw
         nh = int((img.height * sw) / img.width)
+    print(nw, nh)
     return img.resize((nw, nh))
 
 
