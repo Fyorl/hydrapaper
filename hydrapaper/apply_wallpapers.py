@@ -66,6 +66,9 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False,
 
 def apply_wallpapers(monitors, widgets_to_freeze=[], lockscreen=False,
                      force_random_name=False, skip_save=False):
+    for m in monitors:
+        if m.wallpaper is None:
+            return
     t = Thread(
         group=None,
         target=_apply_wallpapers_worker,
