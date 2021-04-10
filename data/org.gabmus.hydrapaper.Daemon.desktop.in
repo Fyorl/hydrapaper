@@ -5,6 +5,6 @@ Icon=@appid@
 Exec=@libexecdir@/@projectname@d
 X-GNOME-Autostart-Delay=10
 StartupNotify=false
-# NoDisplay=true
+NoDisplay=true
 Type=Application
 Categories=Utility;GTK;GNOME;
