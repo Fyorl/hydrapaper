@@ -72,9 +72,9 @@
         {
             "name": "hydrapaper",
             "buildsystem": "meson",
-            "builddir": true,
             "config-opts": [
-                "--buildtype=release"
+                "--buildtype=release",
+                "-Denabledaemon=false"
             ],
             "sources": [
                 {

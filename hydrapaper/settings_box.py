@@ -5,7 +5,7 @@ from os.path import isfile, abspath, join
 from os import remove, listdir
 from os import environ as Env
 from subprocess import run
-from .daemon_autostart_helper import APPLICATIONS_DIR
+from .daemon_helper import APPLICATIONS_DIR, DAEMON_BUILD_ENABLED
 
 
 class PreferencesButtonRow(Adw.ActionRow):
@@ -163,15 +163,19 @@ class GeneralPreferencesPage(Adw.PreferencesPage):
                     'Periodically clear the cache to mitigate this problem'
                 ),
                 'conf_key': 'random_wallpapers_names',
-            },
-            {
-                'title': _('Enable daemon'),
-                'subtitle': _(
-                    'Needed for slideshow mode and to detect display changes'
-                ),
-                'conf_key': 'enable_daemon',
             }
         ]
+        if DAEMON_BUILD_ENABLED:
+            toggle_settings.append(
+                {
+                    'title': _('Enable daemon'),
+                    'subtitle': _(
+                        'Needed for slideshow mode and to detect display '
+                        'changes'
+                    ),
+                    'conf_key': 'enable_daemon',
+                }
+            )
         for s in toggle_settings:
             row = PreferencesToggleRow(
                 s['title'],
@@ -180,7 +184,8 @@ class GeneralPreferencesPage(Adw.PreferencesPage):
                 subtitle=s.get('subtitle')
             )
             self.general_preferences_group.add(row)
-        self.general_preferences_group.add(AutostartToggleRow())
+        if DAEMON_BUILD_ENABLED:
+            self.general_preferences_group.add(AutostartToggleRow())
         self.add(self.general_preferences_group)
 
         self.caches_favs_preferences_group = Adw.PreferencesGroup()

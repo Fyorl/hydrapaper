@@ -2,6 +2,7 @@ from gi.repository import Gtk, Adw
 from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
 from .confManager import ConfManager
 from .slideshow_listbox_row import SlideshowListboxRow
+from .daemon_helper import DAEMON_BUILD_ENABLED
 import dbus
 
 
@@ -43,6 +44,8 @@ class HydraPaperHeaderbar(Adw.HeaderBar):
         self.slideshow_menu_btn = self.builder.get_object(
             'slideshow_menu_btn'
         )
+        if not DAEMON_BUILD_ENABLED:
+            self.slideshow_menu_btn.set_visible(False)
         self.slideshow_switch = self.builder.get_object(
             'slideshow_switch'
         )
@@ -101,6 +104,8 @@ class HydraPaperHeaderbar(Adw.HeaderBar):
         self.ww_popover.set_parent(self.apply_button)
 
     def signal_daemon(self):
+        if not DAEMON_BUILD_ENABLED:
+            return
         try:
             bus = dbus.SessionBus()
             d = bus.get_object(
@@ -147,6 +152,8 @@ class HydraPaperHeaderbar(Adw.HeaderBar):
 
     def on_slideshow_mode_changed(self, *args):
         n_state = self.slideshow_switch.get_active()
+        if not DAEMON_BUILD_ENABLED:
+            n_state = False
         self.confman.conf['Daemon']['wallpaper_rotation_enabled'] = n_state
         self.confman.save_conf_async()
         sc = self.slideshow_menu_btn.get_style_context()

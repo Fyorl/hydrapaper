@@ -21,22 +21,6 @@ i18n.merge_file(
     install_dir: join_paths(datadir, 'applications')
 )
 
-daemon_desktop_file = configure_file(
-    input: app_id + '.Daemon.desktop.in',
-    output: app_id + '.Daemon.desktop.i18n.in',
-    configuration: conf
-)
-
-i18n.merge_file(
-    input: daemon_desktop_file,
-    output: app_id + '.Daemon.desktop',
-    po_dir: '../po',
-    type: 'desktop',
-    install: true,
-    # install_dir: join_paths(etcdir, 'xdg', 'autostart')
-    install_dir: join_paths(datadir, 'applications')
-)
-
 configure_file(
     input: app_id + '.service.in',
     output: app_id + '.service',
@@ -44,21 +28,39 @@ configure_file(
     install_dir: dbus_service_dir
 )
 
-configure_file(
-    input: app_id + '.Daemon.service.in',
-    output: app_id + '.Daemon.service',
-    configuration: conf,
-    install: true,
-    install_dir: dbus_service_dir
-)
+if enable_daemon == true
+    configure_file(
+        input: app_id + '.Daemon.service.in',
+        output: app_id + '.Daemon.service',
+        configuration: conf,
+        install: true,
+        install_dir: dbus_service_dir
+    )
 
-configure_file(
-    input: app_id + '.Daemon.service.systemd.in',
-    output: app_id + 'd.service',
-    configuration: conf,
-    install: true,
-    install_dir: systemd_user_unit_dir
-)
+    configure_file(
+        input: app_id + '.Daemon.service.systemd.in',
+        output: app_id + 'd.service',
+        configuration: conf,
+        install: true,
+        install_dir: systemd_user_unit_dir
+    )
+
+    daemon_desktop_file = configure_file(
+        input: app_id + '.Daemon.desktop.in',
+        output: app_id + '.Daemon.desktop.i18n.in',
+        configuration: conf
+    )
+
+    i18n.merge_file(
+        input: daemon_desktop_file,
+        output: app_id + '.Daemon.desktop',
+        po_dir: '../po',
+        type: 'desktop',
+        install: true,
+        # install_dir: join_paths(etcdir, 'xdg', 'autostart')
+        install_dir: join_paths(datadir, 'applications')
+    )
+endif
 
 dependency('glib-2.0')
 dependency('gobject-introspection-1.0', version: '>=1.35.9')
