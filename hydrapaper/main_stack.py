@@ -4,9 +4,11 @@ from .wallpapers_flowbox import HydraPaperWallpapersFlowbox
 
 
 class HydraPapaerMainStack(Gtk.Stack):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
-        self.get_style_context().add_class('view')
+    def __init__(self):
+        super().__init__(
+            vexpand=True, hexpand=True,
+            transition_type=Gtk.StackTransitionType.CROSSFADE
+        )
 
         self.main_flowbox = HydraPaperWallpapersFlowbox()
         self.favs_flowbox = HydraPaperWallpapersFlowbox(is_favorites=True)
@@ -21,4 +23,3 @@ class HydraPapaerMainStack(Gtk.Stack):
         ).set_icon_name(
             'emblem-favorite-symbolic'
         )
-        self.set_transition_type(Gtk.StackTransitionType.CROSSFADE)
