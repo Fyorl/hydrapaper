@@ -1,5 +1,5 @@
 project('hydrapaper',
-    version: '2.0.3',
+    version: '3.0.0',
     meson_version: '>= 0.50.0',
     license: 'GPL3'
 )

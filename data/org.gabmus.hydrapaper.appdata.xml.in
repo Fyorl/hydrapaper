@@ -42,6 +42,15 @@
     <url type="donation">https://liberapay.com/gabmus/donate</url>
     <update_contact>gabmus@disroot.org</update_contact>
     <releases>
+        <release version="3.0.0" timestamp="1623351996">
+            <description>
+                <ul>
+                    <li>🚀 HydraPaper has been updated to GTK4 and libadwaita!</li>
+                    <li>Bug fixes for Fit and Center wallpaper modes</li>
+                </ul>
+            </description>
+        </release>
+
         <release version="2.0.3" timestamp="1605102372">
             <description>
                 <ul>

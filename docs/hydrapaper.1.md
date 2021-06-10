@@ -36,10 +36,6 @@ OPTIONS
 
 :   Set wallpapers randomly
 
-`-l, --lockscreen`
-
-:   Set lockscreen wallpapers instead of desktop ones (for supported desktop environments)
-
 BUGS
 ====
 

@@ -28,7 +28,9 @@
     "modules": [
         {
             "name": "sassc",
-            "cleanup": [ "*" ],
+            "cleanup": [
+                "*"
+            ],
             "sources": [
                 {
                     "type": "git",
@@ -38,13 +40,17 @@
                 {
                     "type": "script",
                     "dest-filename": "autogen.sh",
-                    "commands": [ "autoreconf -si" ]
+                    "commands": [
+                        "autoreconf -si"
+                    ]
                 }
             ],
             "modules": [
                 {
                     "name": "libsass",
-                    "cleanup": [ "*" ],
+                    "cleanup": [
+                        "*"
+                    ],
                     "sources": [
                         {
                             "type": "git",
@@ -54,19 +60,21 @@
                         {
                             "type": "script",
                             "dest-filename": "autogen.sh",
-                            "commands": [ "autoreconf -si" ]
+                            "commands": [
+                                "autoreconf -si"
+                            ]
                         }
                     ]
                 }
             ]
         },
         {
-            "name" : "gtk",
+            "name": "gtk",
             "buildsystem": "meson",
-            "config-opts" : [
+            "config-opts": [
                 "-Dtests=false"
             ],
-            "sources" : [
+            "sources": [
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/gtk",
@@ -75,12 +83,12 @@
             ]
         },
         {
-            "name" : "pygobject",
+            "name": "pygobject",
             "buildsystem": "meson",
-            "config-opts" : [
+            "config-opts": [
                 "-Dtests=false"
             ],
-            "sources" : [
+            "sources": [
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/pygobject",
@@ -94,13 +102,13 @@
             ]
         },
         {
-            "name" : "libadwaita",
+            "name": "libadwaita",
             "buildsystem": "meson",
-            "config-opts" : [
+            "config-opts": [
                 "-Dexamples=false",
                 "-Dtests=false"
             ],
-            "sources" : [
+            "sources": [
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/libadwaita.git",
@@ -148,7 +156,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
-                    "tag": "2.0.3"
+                    "tag": "3.0.0"
                 }
             ]
         }
