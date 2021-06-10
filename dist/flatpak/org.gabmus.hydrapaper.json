@@ -27,6 +27,73 @@
     ],
     "modules": [
         {
+            "name": "sassc",
+            "cleanup": [ "*" ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://github.com/sass/sassc.git",
+                    "tag": "3.6.1"
+                },
+                {
+                    "type": "script",
+                    "dest-filename": "autogen.sh",
+                    "commands": [ "autoreconf -si" ]
+                }
+            ],
+            "modules": [
+                {
+                    "name": "libsass",
+                    "cleanup": [ "*" ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://github.com/sass/libsass.git",
+                            "tag": "3.6.4"
+                        },
+                        {
+                            "type": "script",
+                            "dest-filename": "autogen.sh",
+                            "commands": [ "autoreconf -si" ]
+                        }
+                    ]
+                }
+            ]
+        },
+        {
+            "name" : "gtk",
+            "buildsystem": "meson",
+            "config-opts" : [
+                "-Dtests=false"
+            ],
+            "sources" : [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/gtk",
+                    "tag": "4.3.1"
+                }
+            ]
+        },
+        {
+            "name" : "pygobject",
+            "buildsystem": "meson",
+            "config-opts" : [
+                "-Dtests=false"
+            ],
+            "sources" : [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GNOME/pygobject",
+                    "commit": "b15e81fc1ed78ef9c4dc2ac890e1ff99c62e9ed0"
+                },
+                {
+                    "type": "patch",
+                    "path": "172.patch",
+                    "sha256": "369cdb693d0e93e6a08e6df807d34f40f3531f244b3ec1ec8965ae45dc0d7f13"
+                }
+            ]
+        },
+        {
             "name" : "libadwaita",
             "buildsystem": "meson",
             "config-opts" : [
@@ -37,7 +104,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GNOME/libadwaita.git",
-                    "commit": "a12ac7ad8b95569ab3671870a7e37444441824fb"
+                    "tag": "1.0.0-alpha.1"
                 }
             ]
         },
@@ -72,6 +139,7 @@
         {
             "name": "hydrapaper",
             "buildsystem": "meson",
+            "builddir": true,
             "config-opts": [
                 "--buildtype=release",
                 "-Denabledaemon=false"
