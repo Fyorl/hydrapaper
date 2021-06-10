@@ -1,7 +1,7 @@
 import dbus
 
 
-def set_wallpaper(path, lockscreen=False):
+def set_wallpaper(path):
     bus = dbus.SessionBus()
     portal_desktop = bus.get_object(
         'org.freedesktop.portal.Desktop',
@@ -14,5 +14,5 @@ def set_wallpaper(path, lockscreen=False):
     with open(path.replace('file://', ''), 'rb') as fd:
         interface_wp.SetWallpaperFile('', fd.fileno(), {
             'show-preview': False,
-            'set-on': 'lockscreen' if lockscreen else 'background'
+            'set-on': 'background'
         })

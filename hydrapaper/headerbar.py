@@ -83,26 +83,6 @@ class HydraPaperHeaderbar(Adw.HeaderBar):
         for w in right_widgets:
             self.pack_end(w)
 
-        self.ww_popover = Gtk.Popover()
-        self.ww_popover_content_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/which_wallpaper_box.ui'
-        )
-        self.ww_container = self.ww_popover_content_builder.get_object(
-            'ww_container'
-        )
-        self.ww_popover_content_builder.get_object(
-            'desktop_btn'
-        ).connect('clicked', self.on_desktop_clicked)
-        self.ww_popover_content_builder.get_object(
-            'lockscreen_btn'
-        ).connect('clicked', self.on_lockscreen_clicked)
-        self.ww_popover_content_builder.get_object(
-            'both_btn'
-        ).connect('clicked', self.on_both_clicked)
-        self.ww_popover.set_child(self.ww_container)
-        self.ww_popover.set_autohide(True)
-        self.ww_popover.set_parent(self.apply_button)
-
     def signal_daemon(self):
         if not DAEMON_BUILD_ENABLED:
             return
@@ -180,20 +160,4 @@ class HydraPaperHeaderbar(Adw.HeaderBar):
         self.signal_daemon()
 
     def on_applyButton_clicked(self, btn):
-        if self.confman.has_lockscreen_wallpaper:
-            self.ww_popover.popup()
-        else:
-            self.apply_handler(self.apply_button, lockscreen=False)
-
-    def on_desktop_clicked(self, btn):
-        self.ww_popover.popdown()
-        self.apply_handler(self.apply_button, lockscreen=False)
-
-    def on_lockscreen_clicked(self, btn):
-        self.ww_popover.popdown()
-        self.apply_handler(self.apply_button, lockscreen=True)
-
-    def on_both_clicked(self, btn):
-        self.ww_popover.popdown()
-        self.apply_handler(self.apply_button, lockscreen=False)
-        self.apply_handler(self.apply_button, lockscreen=True)
+        self.apply_handler(self.apply_button)

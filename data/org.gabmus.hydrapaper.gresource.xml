@@ -6,7 +6,6 @@
     <file preprocess="xml-stripblanks">ui/wallpapers_flowbox.ui</file>
     <file preprocess="xml-stripblanks">ui/wallpaper_flowbox_item_popover.ui</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_folders_view.ui</file>
-    <file preprocess="xml-stripblanks">ui/which_wallpaper_box.ui</file>
     <file preprocess="xml-stripblanks">ui/monitors_flowbox_item.ui</file>
     <file preprocess="xml-stripblanks">ui/wp_mode_popover_menu.ui</file>
     <file preprocess="xml-stripblanks">ui/menu.ui</file>
@@ -16,7 +15,6 @@
 
     <file preprocess="xml-stripblanks">icons/org.gabmus.hydrapaper.svg</file>
     <file preprocess="xml-stripblanks">icons/org.gabmus.hydrapaper-symbolic.svg</file>
-    <file preprocess="xml-stripblanks">icons/scalable/status/org.gabmus.hydrapaper-lockscreen-desktop-icon-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/scalable/status/slideshowmode-symbolic.svg</file>
     <file preprocess="xml-stripblanks">icons/favorite-badge.svg</file>
 

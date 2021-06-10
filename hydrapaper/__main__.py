@@ -56,7 +56,7 @@ class HydraPaperApplication(Gtk.Application):
         settings_win.set_modal(True)
         settings_win.present()
 
-    def apply_random(self, lockscreen=False):
+    def apply_random(self):
         from random import randint
         monitors = build_monitors_autodetect()
         all_wallpapers = self.confman.wallpapers
@@ -65,9 +65,9 @@ class HydraPaperApplication(Gtk.Application):
                 randint(0, len(all_wallpapers)-1)
             ] for i in range(len(monitors))
         ]
-        self.apply_from_cli(wallpapers, lockscreen=lockscreen)
+        self.apply_from_cli(wallpapers)
 
-    def apply_from_cli(self, wlist_cli, modes=None, lockscreen=False):
+    def apply_from_cli(self, wlist_cli, modes=None):
         # check all the passed wallpapers to be correct
         monitors = build_monitors_autodetect()
         if len(wlist_cli) < len(monitors):
@@ -109,7 +109,7 @@ class HydraPaperApplication(Gtk.Application):
             n_monitors[m.name] = m.wallpaper
         self.confman.conf['monitors'] = n_monitors
         self.confman.save_conf()
-        apply_wallpapers(monitors, lockscreen=lockscreen)
+        apply_wallpapers(monitors)
 
     def do_activate(self):
         provider = Gtk.CssProvider()
@@ -215,13 +215,12 @@ class HydraPaperApplication(Gtk.Application):
                     self.args.wallpaper_path[0],
                     self.args.wallpaper_modes[0]
                     if self.args.wallpaper_modes
-                    else None,
-                    self.args.set_lockscreen
+                    else None
                 )
                 self.quit()
                 exit(0)
             if self.args.set_random:
-                self.apply_random(self.args.set_lockscreen)
+                self.apply_random()
                 self.quit()
                 exit(0)
         self.window.present()
@@ -262,12 +261,6 @@ class HydraPaperApplication(Gtk.Application):
             dest='set_random',
             action='store_true',
             help=_('set wallpapers randomly')
-        )
-        parser.add_argument(
-            '-l', '--lockscreen',
-            dest='set_lockscreen',
-            action='store_true',
-            help=_('set lockscreen wallpapers instead of desktop ones')
         )
         # parse the command line stored in args,
         # but skip the first element (the filename)

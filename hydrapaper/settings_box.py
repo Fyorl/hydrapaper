@@ -242,6 +242,11 @@ class ViewPreferencesPage(Adw.PreferencesPage):
         self.view_preferences_group.set_title(_('View Settings'))
         toggle_settings = [
             {
+                'title': _('Dark mode'),
+                'conf_key': 'dark_mode',
+                'signal': 'dark_mode_changed'
+            },
+            {
                 'title': _('Use big thumbnails for the monitors previews'),
                 'conf_key': 'big_monitor_thumbnails',
                 'signal': 'hydrapaper_reload_monitor_thumbs'

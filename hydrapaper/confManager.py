@@ -20,6 +20,11 @@ if not pictures_dir:
 
 class ConfManagerSignaler(GObject.Object):
     __gsignals__ = {
+        'dark_mode_changed': (
+            GObject.SignalFlags.RUN_FIRST,
+            None,
+            (str,)
+        ),
         'hydrapaper_flowbox_wallpaper_selected': (
             GObject.SIGNAL_RUN_FIRST,
             None,
@@ -62,6 +67,7 @@ class ConfManager(metaclass=Singleton):
                 'active': True
             }
         ],
+        'dark_mode': False,
         'monitors': {},
         'favorites': [],
         'folders_popover_full_path': False,
@@ -112,7 +118,6 @@ class ConfManager(metaclass=Singleton):
         )
         self.cache_path = f'{self.cache_home}/org.gabmus.hydrapaper'
         self.thumbs_cache_path = f'{self.cache_path}/thumbnails/'
-        self.has_lockscreen_wallpaper = False
 
         self.conf = None
         if isfile(str(self.path)):

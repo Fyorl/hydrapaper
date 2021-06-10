@@ -59,6 +59,18 @@ class HydraPaperAppWindow(Adw.ApplicationWindow):
             self.add_accelerator(s['combo'], s['cb'])
         self.add_controller(self.shortcut_controller)
 
+        self.confman.connect('dark_mode_changed', self.on_dark_mode_changed)
+
+    def present(self, *args, **kwargs):
+        super().present(*args, **kwargs)
+        self.on_dark_mode_changed()
+
+    def on_dark_mode_changed(self, *args):
+        Gtk.Settings.get_default().set_property(
+            'gtk-application-prefer-dark-theme',
+            self.confman.conf['dark_mode']
+        )
+
     def add_accelerator(self, shortcut, callback):
         if shortcut:
             # res is bool, don't know what it is
@@ -82,14 +94,13 @@ class HydraPaperAppWindow(Adw.ApplicationWindow):
         super().show(**kwargs)
         self.main_stack.main_flowbox.show_hide_wallpapers()
 
-    def apply_handler(self, btn, lockscreen=False):
+    def apply_handler(self, btn):
         apply_wallpapers(
             monitors=self.monitors_flowbox.get_monitors(),
             widgets_to_freeze=[
                 btn,
                 self.folders_view
-            ],
-            lockscreen=lockscreen
+            ]
         )
         self.monitors_flowbox.dump_to_config()
 

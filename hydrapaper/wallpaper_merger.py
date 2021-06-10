@@ -55,7 +55,6 @@ def resize_letterbox(img, sw, sh):
     else:
         nw = sw
         nh = int((img.height * sw) / img.width)
-    print(nw, nh)
     return img.resize((nw, nh))
 
 
@@ -73,7 +72,7 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
         if 'fit' in monitor.mode or 'center' in monitor.mode:
             if 'black' in monitor.mode:
                 bg = Image.new('RGB', (monitor.width, monitor.height))
-            elif 'blur' in monitor.mode:
+            else:  # if 'blur' in monitor.mode:
                 bg = blur_img(n_img, monitor.width, monitor.height)
             if 'fit' in monitor.mode or (
                 n_img.height > monitor.height or
@@ -123,11 +122,10 @@ def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
     # gsettings.set_string(mode_key, wp_mode)
 
 
-def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
+def set_wallpaper_gnome(path, wp_mode='spanned'):
     __set_wallpaper_gsettings(
         gsettings_path=(
-            'org.gnome.desktop.screensaver' if lockscreen
-            else 'org.gnome.desktop.background'
+            'org.gnome.desktop.background'
         ),
         wp_key='picture-uri',
         mode_key='picture-options',
@@ -136,14 +134,10 @@ def set_wallpaper_gnome(path, wp_mode='spanned', lockscreen=False):
     )
 
 
-def set_wallpaper_cinnamon(path, wp_mode='spanned', lockscreen=False):
-    if lockscreen:
-        print('Lock screen wallpaper on Cinnamon unsupported')
-        return
+def set_wallpaper_cinnamon(path, wp_mode='spanned'):
     __set_wallpaper_gsettings(
         gsettings_path=(
-            'org.cinnamon.desktop.screensaver' if lockscreen
-            else'org.cinnamon.desktop.background'
+            'org.cinnamon.desktop.background'
         ),
         wp_key='picture-uri',
         mode_key='picture-options',
@@ -152,10 +146,7 @@ def set_wallpaper_cinnamon(path, wp_mode='spanned', lockscreen=False):
     )
 
 
-def set_wallpaper_mate(path, wp_mode='spanned', lockscreen=False):
-    if lockscreen:
-        print('Lock screen wallpaper on MATE unsupported')
-        return
+def set_wallpaper_mate(path, wp_mode='spanned'):
     __set_wallpaper_gsettings(
         gsettings_path='org.mate.background',
         wp_key='picture-filename',
@@ -165,22 +156,15 @@ def set_wallpaper_mate(path, wp_mode='spanned', lockscreen=False):
     )
 
 
-def set_wallpaper_sway(monitors, lockscreen=False):
-    conf_path = SWAYLOCK_CONF_PATH if lockscreen else SWAY_CONF_PATH
+def set_wallpaper_sway(monitors):
+    conf_path = SWAY_CONF_PATH
     with open(conf_path) as fd:
         conf = fd.read()
         fd.close()
-    if lockscreen:
-        n_conf = re.sub(r'image=.*', '', conf).strip()
-        n_conf += '\n' + '\n'.join([
-            f'image={m.name}:{m.wallpaper.replace(":", "::")}'
-            for m in monitors
-        ])
-    else:
-        n_conf = re.sub(r'output .* bg .*', '', conf).strip()
-        n_conf += '\n' + '\n'.join([
-            f'output {m.name} bg {m.wallpaper} fill' for m in monitors
-        ])
+    n_conf = re.sub(r'output .* bg .*', '', conf).strip()
+    n_conf += '\n' + '\n'.join([
+        f'output {m.name} bg {m.wallpaper} fill' for m in monitors
+    ])
     with open(conf_path, 'w') as fd:
         fd.write(n_conf)
         fd.close()

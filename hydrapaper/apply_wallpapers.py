@@ -19,7 +19,7 @@ def widgets_set_sensitive(widgets, state: bool):
         w.set_sensitive(state)
 
 
-def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False,
+def _apply_wallpapers_worker(monitors, widgets_to_freeze=[],
                              force_random_name=False):
     confman = ConfManager()
     random_name = confman.conf['random_wallpapers_names'] or force_random_name
@@ -30,7 +30,7 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False,
     elif desktop_environment == 'cinnamon':
         set_wallpaper = set_wallpaper_cinnamon
     elif desktop_environment == 'sway':
-        set_wallpaper_sway(monitors, lockscreen)
+        set_wallpaper_sway(monitors)
         GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
         return
     # add other DE cases as `elif` here
@@ -39,32 +39,14 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[], lockscreen=False,
         wp_fname = sha256(
             '_'.join([m.__repr__() for m in monitors]).encode()
         ).hexdigest()
-    save_path = '{0}/{1}{2}.png'.format(
-        confman.cache_path,
-        'lockscreen_'
-        if lockscreen and not random_name
-        else '',
-        wp_fname
-    )
-    # if len(monitors) == 1:
-    #     cut_image(
-    #         monitors[0].wallpaper,
-    #         (monitors[0].width, monitors[0].height),
-    #         save_path
-    #     )
-    #     set_wallpaper(
-    #         save_path, 'spanned' if monitors[0].spanned else 'zoom',
-    #         lockscreen
-    #     )
-    #     GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
-    #     return
+    save_path = '{0}/{1}.png'.format(confman.cache_path, wp_fname)
     if not random_name or not isfile(save_path):
         multi_setup_pillow(monitors, save_path)
-    set_wallpaper(save_path, lockscreen=lockscreen)
+    set_wallpaper(save_path)
     GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
 
 
-def apply_wallpapers(monitors, widgets_to_freeze=[], lockscreen=False,
+def apply_wallpapers(monitors, widgets_to_freeze=[],
                      force_random_name=False, skip_save=False):
     for m in monitors:
         if m.wallpaper is None:
@@ -73,7 +55,7 @@ def apply_wallpapers(monitors, widgets_to_freeze=[], lockscreen=False,
         group=None,
         target=_apply_wallpapers_worker,
         name=None,
-        args=(monitors, widgets_to_freeze, lockscreen, force_random_name)
+        args=(monitors, widgets_to_freeze, force_random_name)
     )
     widgets_set_sensitive(widgets_to_freeze, False)
     t.start()
