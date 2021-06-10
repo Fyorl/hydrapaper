@@ -21,12 +21,8 @@
                 <attribute name="action">app.shortcuts</attribute>
             </item>
             <item>
-                <attribute name="label" translatable="yes">About</attribute>
+                <attribute name="label" translatable="yes">About HydraPaper</attribute>
                 <attribute name="action">app.about</attribute>
-            </item>
-            <item>
-                <attribute name="label" translatable="yes">Quit</attribute>
-                <attribute name="action">app.quit</attribute>
             </item>
         </section>
     </menu>
