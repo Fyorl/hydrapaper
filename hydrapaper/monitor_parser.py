@@ -79,6 +79,7 @@ def build_monitors_from_swaymsg():
 def build_monitors_from_gdk():
     monitors = []
     num_monitors = 0
+    max_scale_factor = 0
     try:
         display = Gdk.Display.get_default()
         monitors = list(display.get_monitors())
@@ -89,6 +90,10 @@ def build_monitors_from_gdk():
         traceback.print_exc()
         monitors = None
 
+    # in case of heterogeneous scaling set the scaling to the highest one
+    for i in range(0, num_monitors):
+        max_scale_factor = max(max_scale_factor, monitors[i].get_scale_factor())
+
     def get_monitor_rect(i):
         return monitors[i].get_geometry()
 
@@ -96,7 +101,7 @@ def build_monitors_from_gdk():
         Monitor(
             get_monitor_rect(i).width,
             get_monitor_rect(i).height,
-            monitors[i].get_scale_factor(),
+            max_scale_factor,
             get_monitor_rect(i).x,
             get_monitor_rect(i).y,
             i,
