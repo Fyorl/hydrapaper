@@ -88,7 +88,9 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
     resolutions = [
         (m.width * m.scaling, m.height * m.scaling) for m in monitors
     ]
-    offsets = [(m.offset_x * m.scaling, m.offset_y * m.scaling) for m in monitors]
+    offsets = [
+        (m.offset_x * m.scaling, m.offset_y * m.scaling) for m in monitors
+    ]
 
     final_image_width, final_image_height = get_combined_resolution(monitors)
 

@@ -89,28 +89,24 @@ def build_monitors_from_gdk():
         import traceback
         traceback.print_exc()
         monitors = None
+        return
 
     # in case of heterogeneous scaling set the scaling to the highest one
-    for i in range(0, num_monitors):
-        max_scale_factor = max(max_scale_factor, monitors[i].get_scale_factor())
+    max_scale_factor = max(*[m.get_scale_factor() for m in monitors])
 
-    def get_monitor_rect(i):
-        return monitors[i].get_geometry()
-
-    monitors = [
-        Monitor(
-            get_monitor_rect(i).width,
-            get_monitor_rect(i).height,
+    res = list()
+    for i in range(num_monitors):
+        rect = monitors[i].get_geometry()
+        res.append(Monitor(
+            rect.width, rect.height,
             max_scale_factor,
-            get_monitor_rect(i).x,
-            get_monitor_rect(i).y,
+            rect.x, rect.y,
             i,
             f'Monitor {i} ({monitors[i].get_model()})',
             'zoom',
-            i == 0  # is_primary is no more, I'll considered first primary now
-        ) for i in range(0, num_monitors)
-    ]
-    return monitors
+            i == 0  # first monitor will be the primary, doesn't mean much
+        ))
+    return res
 
 
 def build_monitors_autodetect():
