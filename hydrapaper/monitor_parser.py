@@ -92,7 +92,7 @@ def build_monitors_from_gdk():
         return
 
     # in case of heterogeneous scaling set the scaling to the highest one
-    max_scale_factor = max(*[m.get_scale_factor() for m in monitors])
+    max_scale_factor = max([m.get_scale_factor() for m in monitors])
 
     res = list()
     for i in range(num_monitors):
