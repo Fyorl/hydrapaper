@@ -79,9 +79,10 @@ def build_monitors_from_swaymsg():
 
 
 def get_layout_mode():
+    desktop_environment = get_desktop_environment()
     if (Env.get('XDG_SESSION_TYPE') == 'x11'):
         return 1
-    elif get_desktop_environment() == 'gnome':
+    elif desktop_environment in ['gnome', 'ubuntu-wayland']:
         bus = dbus.SessionBus()
         object_display_config = bus.get_object(
             'org.gnome.Mutter.DisplayConfig',
