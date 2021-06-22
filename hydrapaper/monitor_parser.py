@@ -5,6 +5,8 @@ import json
 from .get_desktop_environment import get_desktop_environment
 from .confManager import ConfManager
 from .wallpaper_merger import get_combined_resolution
+import dbus
+from os import environ as Env
 
 
 confman = ConfManager()
@@ -76,6 +78,24 @@ def build_monitors_from_swaymsg():
     return monitors
 
 
+def get_layout_mode():
+    if (Env.get('XDG_SESSION_TYPE') == 'x11'):
+        return 1
+    elif get_desktop_environment() == 'gnome':
+        bus = dbus.SessionBus()
+        object_display_config = bus.get_object(
+            'org.gnome.Mutter.DisplayConfig',
+            '/org/gnome/Mutter/DisplayConfig'
+        )
+        interface_display_config = dbus.Interface(
+            object_display_config,
+            dbus_interface='org.gnome.Mutter.DisplayConfig'
+        )
+        state = interface_display_config.GetCurrentState()
+        return state[3].get('layout-mode')
+    else:
+        return 1
+
 def build_monitors_from_gdk():
     monitors = []
     num_monitors = 0
@@ -91,21 +111,28 @@ def build_monitors_from_gdk():
         monitors = None
         return
 
-    # in case of heterogeneous scaling set the scaling to the highest one
-    max_scale_factor = max([m.get_scale_factor() for m in monitors])
-
     res = list()
     for i in range(num_monitors):
         rect = monitors[i].get_geometry()
         res.append(Monitor(
             rect.width, rect.height,
-            max_scale_factor,
+            monitors[i].get_scale_factor(),
             rect.x, rect.y,
             i,
             f'Monitor {i} ({monitors[i].get_model()})',
             'zoom',
             i == 0  # first monitor will be the primary, doesn't mean much
         ))
+
+    layout_mode = get_layout_mode()
+
+    if layout_mode == 1:
+        max_scale_factor = max([r.scaling for r in res])
+        for r in res:
+            r.height *= max_scale_factor
+            r.width *= max_scale_factor
+            r.offset_x *= max_scale_factor
+            r.offset_y *= max_scale_factor
     return res
 
 
