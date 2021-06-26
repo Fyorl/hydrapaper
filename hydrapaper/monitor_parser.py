@@ -79,10 +79,16 @@ def build_monitors_from_swaymsg():
 
 
 def get_layout_mode():
+    """
+        Scale factor can be either 1 on X11, or another value if the whole
+        desktop on Wayland where it's treated as if every monitor has the
+        highest dpi mode available
+    """
     desktop_environment = get_desktop_environment()
-    if (Env.get('XDG_SESSION_TYPE') == 'x11'):
-        return 1
-    elif desktop_environment in ['gnome', 'ubuntu-wayland']:
+    if (
+            Env.get('XDG_SESSION_TYPE') != 'x11' and
+            desktop_environment in ['gnome', 'ubuntu-wayland']
+    ):
         bus = dbus.SessionBus()
         object_display_config = bus.get_object(
             'org.gnome.Mutter.DisplayConfig',
@@ -125,9 +131,7 @@ def build_monitors_from_gdk():
             i == 0  # first monitor will be the primary, doesn't mean much
         ))
 
-    layout_mode = get_layout_mode()
-
-    if layout_mode == 1:
+    if get_layout_mode() == 1:
         max_scale_factor = max([r.scaling for r in res])
         for r in res:
             r.height *= max_scale_factor
