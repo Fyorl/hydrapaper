@@ -26,10 +26,10 @@ def cut_image(image_path, resolution, save_path):
 def get_combined_resolution(monitors):
     return (
         max([
-            m.offset_x + m.width for m in monitors
+            (m.offset_x + m.width) * m.scaling for m in monitors
         ]),
         max([
-            m.offset_y + m.height for m in monitors
+            (m.offset_y + m.height) * m.scaling for m in monitors
         ])
     )
 
@@ -86,10 +86,10 @@ def multi_setup_pillow(monitors, save_path, wp_setter_func=None):
             n_img = bg
         images.append(n_img)
     resolutions = [
-        (m.width, m.height) for m in monitors
+        (m.width * m.scaling, m.height * m.scaling) for m in monitors
     ]
     offsets = [
-        (m.offset_x, m.offset_y) for m in monitors
+        (m.offset_x * m.scaling, m.offset_y * m.scaling) for m in monitors
     ]
 
     final_image_width, final_image_height = get_combined_resolution(monitors)
