@@ -118,26 +118,24 @@ def build_monitors_from_gdk():
         monitors = None
         return
 
+    if get_layout_mode() == 1:
+        max_scale_factor = max([m.get_scale_factor() for m in monitors])
+    else:
+        max_scale_factor = 1
+
     res = list()
+
     for i in range(num_monitors):
         rect = monitors[i].get_geometry()
         res.append(Monitor(
             rect.width, rect.height,
-            monitors[i].get_scale_factor(),
+            max_scale_factor,
             rect.x, rect.y,
             i,
             f'Monitor {i} ({monitors[i].get_model()})',
             'zoom',
             i == 0  # first monitor will be the primary, doesn't mean much
         ))
-
-    if get_layout_mode() == 1:
-        max_scale_factor = max([r.scaling for r in res])
-        for r in res:
-            r.height *= max_scale_factor
-            r.width *= max_scale_factor
-            r.offset_x *= max_scale_factor
-            r.offset_y *= max_scale_factor
     return res
 
 
