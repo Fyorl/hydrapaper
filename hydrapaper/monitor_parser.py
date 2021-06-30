@@ -99,7 +99,7 @@ def get_layout_mode():
             dbus_interface='org.gnome.Mutter.DisplayConfig'
         )
         state = interface_display_config.GetCurrentState()
-        return state[3].get('layout-mode')
+        return int(state[3].get('layout-mode'))
     else:
         return 1
 
@@ -124,7 +124,6 @@ def build_monitors_from_gdk():
         max_scale_factor = 1
 
     res = list()
-
     for i in range(num_monitors):
         rect = monitors[i].get_geometry()
         res.append(Monitor(
