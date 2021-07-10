@@ -1,13 +1,12 @@
 from gettext import gettext as _
-from gi.repository import Gtk
+from gi.repository import Gtk, Adw
 from .wallpapers_flowbox import HydraPaperWallpapersFlowbox
 
 
-class HydraPapaerMainStack(Gtk.Stack):
+class HydraPapaerMainStack(Adw.ViewStack):
     def __init__(self):
         super().__init__(
-            vexpand=True, hexpand=True,
-            transition_type=Gtk.StackTransitionType.CROSSFADE
+            vexpand=True, hexpand=True
         )
 
         self.main_flowbox = HydraPaperWallpapersFlowbox()
