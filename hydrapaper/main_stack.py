@@ -1,5 +1,5 @@
 from gettext import gettext as _
-from gi.repository import Gtk, Adw
+from gi.repository import Adw
 from .wallpapers_flowbox import HydraPaperWallpapersFlowbox
 
 
