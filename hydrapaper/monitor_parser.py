@@ -5,6 +5,8 @@ import json
 from .get_desktop_environment import get_desktop_environment
 from .confManager import ConfManager
 from .wallpaper_merger import get_combined_resolution
+import dbus
+from os import environ as Env
 
 
 confman = ConfManager()
@@ -76,6 +78,31 @@ def build_monitors_from_swaymsg():
     return monitors
 
 
+def get_layout_mode():
+    """
+        Scale factor can be either 1 on X11, or another value if the whole
+        desktop on Wayland where it's treated as if every monitor has the
+        highest dpi mode available
+    """
+    desktop_environment = get_desktop_environment()
+    if (
+            Env.get('XDG_SESSION_TYPE') != 'x11' and
+            desktop_environment in ['gnome', 'ubuntu-wayland']
+    ):
+        bus = dbus.SessionBus()
+        object_display_config = bus.get_object(
+            'org.gnome.Mutter.DisplayConfig',
+            '/org/gnome/Mutter/DisplayConfig'
+        )
+        interface_display_config = dbus.Interface(
+            object_display_config,
+            dbus_interface='org.gnome.Mutter.DisplayConfig'
+        )
+        state = interface_display_config.GetCurrentState()
+        return int(state[3].get('layout-mode'))
+    else:
+        return 1
+
 def build_monitors_from_gdk():
     monitors = []
     num_monitors = 0
@@ -91,8 +118,10 @@ def build_monitors_from_gdk():
         monitors = None
         return
 
-    # in case of heterogeneous scaling set the scaling to the highest one
-    max_scale_factor = max([m.get_scale_factor() for m in monitors])
+    if get_layout_mode() == 1:
+        max_scale_factor = max([m.get_scale_factor() for m in monitors])
+    else:
+        max_scale_factor = 1
 
     res = list()
     for i in range(num_monitors):
