@@ -63,8 +63,8 @@ if enable_daemon == true
 endif
 
 dependency('glib-2.0')
-dependency('gobject-introspection-1.0', version: '>=1.35.9')
-dependency('gtk+-3.0', version :'>=3.20')
+# dependency('gobject-introspection-1.0', version: '>=1.35.9')
+dependency('gtk4', version :'>=4.3.1')
 
 configure_file(
     input: app_id + '.gschema.xml.in',
