@@ -43,10 +43,10 @@ Alternatively ou can either run HydraPaper without installing it (refer to the [
 
 HydraPaper has these dependencies:
 
-- `python3` (>=3.5)
+- `python3` (>=3.8)
 - `python-pillow`
-- `libhandy` (>=0.83)
-- `gtk`
+- `libadwaita` (>=1.0.0alpha.2)
+- `gtk4`
 
 Additionally, if you want to build the man page you need `pandoc`.
 
