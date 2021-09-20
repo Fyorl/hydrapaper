@@ -80,6 +80,22 @@
                     "url": "https://gitlab.gnome.org/GNOME/gtk",
                     "tag": "4.4.0"
                 }
+            ],
+            "modules": [
+                {
+                    "name": "wayland-protocols",
+                    "buildsystem": "meson",
+                    "config-opts": [
+                        "-Dtests=false"
+                    ],
+                    "sources": [
+                        {
+                            "type": "git",
+                            "url": "https://gitlab.freedesktop.org/wayland/wayland-protocols",
+                            "tag": "1.23"
+                        }
+                    ]
+                }
             ]
         },
         {
@@ -151,7 +167,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
-                    "tag": "3.0.0"
+                    "tag": "3.1.0"
                 }
             ]
         }

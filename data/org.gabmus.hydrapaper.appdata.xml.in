@@ -42,6 +42,15 @@
     <url type="donation">https://liberapay.com/gabmus/donate</url>
     <update_contact>gabmus@disroot.org</update_contact>
     <releases>
+        <release version="3.1.0" timestamp="1632133948">
+            <description>
+                <ul>
+                    <li>Added support for heterogeneous DPI scaling</li>
+                    <li>Added support for libadwaita 1.0.0-alpha.2</li>
+                </ul>
+            </description>
+        </release>
+
         <release version="3.0.0" timestamp="1623351996">
             <description>
                 <ul>
