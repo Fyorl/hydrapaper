@@ -10,7 +10,7 @@ test:
         - pyflakes hydrapaper
 
 flatpak:
-    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:40'
+    image: 'registry.gitlab.gnome.org/gnome/gnome-runtime-images/gnome:41'
     variables:
         MANIFEST_PATH: "dist/flatpak/org.gabmus.hydrapaper.json"
         MESON_ARGS: "-Dprofile=Devel"
