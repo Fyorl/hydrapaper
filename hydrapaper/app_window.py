@@ -29,7 +29,7 @@ class HydraPaperAppWindow(Adw.ApplicationWindow):
         self.container_box.append(self.monitors_flowbox)
         self.container_box.append(self.main_stack)
         self.container_box.append(self.bottom_bar)
-        self.set_child(self.container_box)
+        self.set_content(self.container_box)
         self.set_default_size(
             self.confman.conf['windowsize']['width'],
             self.confman.conf['windowsize']['height']
@@ -61,9 +61,9 @@ class HydraPaperAppWindow(Adw.ApplicationWindow):
         self.on_dark_mode_changed()
 
     def on_dark_mode_changed(self, *args):
-        Gtk.Settings.get_default().set_property(
-            'gtk-application-prefer-dark-theme',
-            self.confman.conf['dark_mode']
+        Adw.StyleManager.get_default().set_color_scheme(
+            Adw.ColorScheme.FORCE_DARK if self.confman.conf['dark_mode']
+            else Adw.ColorScheme.DEFAULT
         )
 
     def add_accelerator(self, shortcut, callback):

@@ -119,7 +119,6 @@ class ConfManager(metaclass=Singleton):
         self.cache_path = f'{self.cache_home}/org.gabmus.hydrapaper'
         self.thumbs_cache_path = f'{self.cache_path}/thumbnails/'
 
-        self.conf = None
         if isfile(str(self.path)):
             try:
                 with open(self.path) as fd:
