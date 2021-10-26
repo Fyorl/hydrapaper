@@ -33,16 +33,19 @@ class HydraPaperAppWindow(BaseWindow):
         self.append(self.monitors_flowbox)
         self.append(self.main_stack)
         self.append(self.bottom_bar)
-        self.set_default_size(
-            self.confman.conf['windowsize']['width'],
-            self.confman.conf['windowsize']['height']
-        )
 
         self.confman.connect(
             'dark_mode_changed',
             lambda *args: self.set_dark_mode(self.confman.conf['dark_mode'])
         )
         self.set_dark_mode(self.confman.conf['dark_mode'])
+
+    def present(self):
+        super().present()
+        self.set_default_size(
+            self.confman.conf['windowsize']['width'],
+            self.confman.conf['windowsize']['height']
+        )
 
     def emit_destroy(self, *args):
         self.emit('destroy')
@@ -62,9 +65,8 @@ class HydraPaperAppWindow(BaseWindow):
         self.monitors_flowbox.dump_to_config()
 
     def on_destroy(self, *args):
-        alloc = self.get_allocation()
         self.confman.conf['windowsize'] = {
-            'width': alloc.width,
-            'height': alloc.height
+            'width': self.get_width(),
+            'height': self.get_height()
         }
         self.confman.save_conf()
