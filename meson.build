@@ -1,6 +1,6 @@
 project('hydrapaper',
     version: '3.1.0',
-    meson_version: '>= 0.50.0',
+    meson_version: '>= 0.58.0',
     license: 'GPL3'
 )
 
@@ -52,9 +52,9 @@ etcdir = get_option('sysconfdir')
 systemd_user_unit_dir = join_paths(prefix, 'lib', 'systemd', 'user')
 dbus_service_dir = dependency(
     'dbus-1'
-).get_pkgconfig_variable(
-    'session_bus_services_dir',
-    define_variable: ['datadir', join_paths(prefix, datadir)]
+).get_variable(
+    pkgconfig: 'session_bus_services_dir',
+    default_value: ['datadir', join_paths(prefix, datadir)]
 )
 
 app_id = '.'.join([
@@ -69,7 +69,7 @@ app_id_aspath = '/'.join([
 ])
 
 enable_daemon = get_option('enabledaemon')
-message('Daemon Enabled:', enable_daemon)
+message(f'Daemon Enabled: @enable_daemon@')
 
 install_subdir(meson.project_name(), install_dir: pythondir)
 if enable_daemon == true
