@@ -8,22 +8,52 @@ from .settings_box import HydraPaperSettingsWindow
 from .is_image import is_image
 from .monitor_parser import build_monitors_autodetect
 from .apply_wallpapers import apply_wallpapers
+from .base_app import BaseApp, AppAction
 
 
-class HydraPaperApplication(Gtk.Application):
+class HydraPaperApplication(BaseApp):
     def __init__(self, **kwargs):
-        super().__init__(
-            application_id='org.gabmus.hydrapaper',
-            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
-            **kwargs
-        )
-        GLib.set_application_name('HydraPaper')
-        GLib.set_prgname('org.gabmus.hydrapaper')
         self.confman = ConfManager()
-
-    def do_startup(self):
-        Gtk.Application.do_startup(self)
-        Adw.init()
+        super().__init__(
+            app_id='org.gabmus.hydrapaper',
+            app_name='HydraPaper',
+            app_actions=[
+                AppAction(
+                    name='spanned_mode',
+                    func=self.toggle_spanned_mode,
+                    accel=None,
+                    stateful=True,
+                    state_type = AppAction.StateType.BOOL,
+                    state_default=self.confman.conf['spanned_mode']
+                ),
+                AppAction(
+                    name='set_random_wallpaper',
+                    func=lambda *args: self.apply_random(),
+                    accel='<Primary><Shift>r'
+                ),
+                AppAction(
+                    name='settings',
+                    func=self.show_settings_window,
+                    accel='<Primary>comma'
+                ),
+                AppAction(
+                    name='shortcuts',
+                    func=self.show_shortcuts_window,
+                    accel='<Primary>question'
+                ),
+                AppAction(
+                    name='about',
+                    func=self.show_about_dialog
+                ),
+                AppAction(
+                    name='quit',
+                    func=self.on_destroy_window,
+                    accel='<Primary>q'
+                )
+            ],
+            flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
+            css_resource='/org/gabmus/hydrapaper/ui/gtk_style.css'
+        )
 
     def show_about_dialog(self, *args):
         about_builder = Gtk.Builder.new_from_resource(
@@ -112,100 +142,7 @@ class HydraPaperApplication(Gtk.Application):
         apply_wallpapers(monitors)
 
     def do_activate(self):
-        provider = Gtk.CssProvider()
-        provider.load_from_data('''
-            .wallpapers-flowbox {
-                padding-top: 24px;
-            }
-            .slideshow-btn-inactive > button > image {
-                color: @theme_unfocused_fg_color;
-            }
-            .slideshow-btn-active > button > image {
-                color: @success_color;
-            }
-            .linked button {
-                margin-top: 0;
-                margin-bottom: 0;
-            }
-        '''.encode())
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(),
-            provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
-        stateful_actions = [
-            {
-                'name': 'spanned_mode',
-                'func': self.toggle_spanned_mode,
-                'type': 'bool',
-                # 'accel': '<Control>h',
-                'confman_key': 'spanned_mode'
-            }
-        ]
-        actions = [
-            {
-                'name': 'set_random_wallpaper',
-                'func': lambda *args: self.apply_random(),
-                'accel': '<Primary><Shift>r'
-            },
-            {
-                'name': 'settings',
-                'func': self.show_settings_window,
-                'accel': '<Primary>comma'
-            },
-            {
-                'name': 'shortcuts',
-                'func': self.show_shortcuts_window,
-                'accel': '<Primary>question'
-            },
-            {
-                'name': 'about',
-                'func': self.show_about_dialog
-            },
-            {
-                'name': 'quit',
-                'func': self.on_destroy_window,
-                'accel': '<Primary>q'
-            }
-        ]
-
-        for sa in stateful_actions:
-            c_action = None
-            if sa['type'] == 'bool':
-                c_action = Gio.SimpleAction.new_stateful(
-                    sa['name'],
-                    None,
-                    GLib.Variant.new_boolean(
-                        self.confman.conf[sa['confman_key']]
-                    )
-                )
-            elif sa['type'] == 'radio':
-                c_action = Gio.SimpleAction.new_stateful(
-                    sa['name'],
-                    GLib.VariantType.new('s'),
-                    GLib.Variant('s', self.confman.conf[sa['confman_key']])
-                )
-            else:
-                raise ValueError(
-                    f'Stateful Action: unsupported type `{sa["type"]}`'
-                )
-            c_action.connect('activate', sa['func'])
-            self.add_action(c_action)
-            if 'accel' in sa.keys():
-                self.set_accels_for_action(
-                    f'app.{sa["name"]}',
-                    [sa['accel']]
-                )
-
-        for a in actions:
-            c_action = Gio.SimpleAction.new(a['name'], None)
-            c_action.connect('activate', a['func'])
-            self.add_action(c_action)
-            if 'accel' in a.keys():
-                self.set_accels_for_action(
-                    f'app.{a["name"]}',
-                    [a['accel']]
-                )
+        super().do_activate()
         self.window = HydraPaperAppWindow()
         self.window.connect('close-request', self.on_destroy_window)
         self.add_window(self.window)

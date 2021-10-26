@@ -4,16 +4,20 @@ from .main_stack import HydraPapaerMainStack
 from .monitors_flowbox import HydraPaperMonitorsFlowbox
 from .apply_wallpapers import apply_wallpapers
 from .headerbar import HydraPaperHeaderbar
+from .base_app import BaseWindow, AppShortcut
 
 
-class HydraPaperAppWindow(Adw.ApplicationWindow):
-    def __init__(self, **kwargs):
-        super().__init__(**kwargs)
+class HydraPaperAppWindow(BaseWindow):
+    def __init__(self):
+        super().__init__(
+            app_name='HydraPaper',
+            icon_name='org.gabmus.hydrapaper',
+            shortcuts=[AppShortcut(
+                'F10', lambda *args: self.headerbar.menu_button.popup()
+            )]
+        )
         self.confman = ConfManager()
 
-        self.set_title('HydraPaper')
-        self.set_icon_name('org.gabmus.hydrapaper')
-        self.container_box = Gtk.Box(orientation=Gtk.Orientation.VERTICAL)
         self.bottom_bar = Adw.ViewSwitcherBar()
         self.headerbar = HydraPaperHeaderbar(self, self.apply_handler)
         self.stack_switcher = self.headerbar.stack_switcher
@@ -25,62 +29,20 @@ class HydraPaperAppWindow(Adw.ApplicationWindow):
 
         self.window_handle = Gtk.WindowHandle(vexpand=False)
         self.window_handle.set_child(self.headerbar)
-        self.container_box.append(self.window_handle)
-        self.container_box.append(self.monitors_flowbox)
-        self.container_box.append(self.main_stack)
-        self.container_box.append(self.bottom_bar)
-        self.set_content(self.container_box)
+        self.append(self.window_handle)
+        self.append(self.monitors_flowbox)
+        self.append(self.main_stack)
+        self.append(self.bottom_bar)
         self.set_default_size(
             self.confman.conf['windowsize']['width'],
             self.confman.conf['windowsize']['height']
         )
 
-        self.menu_popover = self.headerbar.menu_popover
-        self.menu_builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/menu.ui'
+        self.confman.connect(
+            'dark_mode_changed',
+            lambda *args: self.set_dark_mode(self.confman.conf['dark_mode'])
         )
-        self.menu = self.menu_builder.get_object('generalMenu')
-        self.menu_popover.set_menu_model(self.menu)
-
-        shortcuts_l = [
-            {
-                'combo': 'F10',
-                'cb': self.toggle_menu
-            }
-        ]
-        self.shortcut_controller = Gtk.ShortcutController()
-        self.shortcut_controller.set_scope(Gtk.ShortcutScope.GLOBAL)
-        for s in shortcuts_l:
-            self.add_accelerator(s['combo'], s['cb'])
-        self.add_controller(self.shortcut_controller)
-
-        self.confman.connect('dark_mode_changed', self.on_dark_mode_changed)
-
-    def present(self, *args, **kwargs):
-        super().present(*args, **kwargs)
-        self.on_dark_mode_changed()
-
-    def on_dark_mode_changed(self, *args):
-        Adw.StyleManager.get_default().set_color_scheme(
-            Adw.ColorScheme.FORCE_DARK if self.confman.conf['dark_mode']
-            else Adw.ColorScheme.DEFAULT
-        )
-
-    def add_accelerator(self, shortcut, callback):
-        if shortcut:
-            # res is bool, don't know what it is
-            res, key, mod = Gtk.accelerator_parse(shortcut)
-            trigger = Gtk.KeyvalTrigger.new(key, mod)
-            cb = Gtk.CallbackAction.new(callback)
-            shortcut = Gtk.Shortcut.new(trigger, cb)
-            self.shortcut_controller.add_shortcut(shortcut)
-
-    def toggle_menu(self, *args):
-        popover = self.headerbar.menu_button.get_popover()
-        if popover.get_visible():
-            popover.popdown()
-        else:
-            popover.popup()
+        self.set_dark_mode(self.confman.conf['dark_mode'])
 
     def emit_destroy(self, *args):
         self.emit('destroy')

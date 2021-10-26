@@ -29,7 +29,6 @@ class HydraPaperHeaderbar(Adw.HeaderBar):
             'wallpapersFoldersPopover'
         )
         self.wallpapers_folders_popover.set_child(self.folders_view)
-        self.menu_popover = self.builder.get_object('menuPopover')
         self.apply_button = self.builder.get_object('applyButton')
         self.apply_button.connect('clicked', self.on_applyButton_clicked)
         self.menu_button = self.builder.get_object('menuBtn')

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <interface>
+  <requires lib="gtk" version="4.0"/>
   <object class="GtkButton" id="applyButton">
     <property name="visible">True</property>
     <property name="tooltip-text" translatable="yes">Apply</property>
@@ -8,14 +9,37 @@
       <class name="suggested-action"/>
     </style>
   </object>
-  <object class="GtkPopoverMenu" id="menuPopover">
-    <property name="position">bottom</property>
-  </object>
   <object class="GtkMenuButton" id="menuBtn">
     <property name="visible">True</property>
     <property name="tooltip-text" translatable="yes">Menu</property>
-    <property name="popover">menuPopover</property>
     <property name="icon-name">open-menu-symbolic</property>
+    <property name="menu-model">generalMenu</property>
+    <menu id="generalMenu">
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Single wallpaper spanned mode</attribute>
+          <attribute name="action">app.spanned_mode</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Set random wallpapers</attribute>
+          <attribute name="action">app.set_random_wallpaper</attribute>
+        </item>
+      </section>
+      <section>
+        <item>
+          <attribute name="label" translatable="yes">Preferences</attribute>
+          <attribute name="action">app.settings</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">Shortcuts</attribute>
+          <attribute name="action">app.shortcuts</attribute>
+        </item>
+        <item>
+          <attribute name="label" translatable="yes">About HydraPaper</attribute>
+          <attribute name="action">app.about</attribute>
+        </item>
+      </section>
+    </menu>
   </object>
   <object class="GtkPopover" id="wallpapersFoldersPopover">
     <property name="height-request">350</property>

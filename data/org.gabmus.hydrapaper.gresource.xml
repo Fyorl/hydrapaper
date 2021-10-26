@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <gresources>
   <gresource prefix="/org/gabmus/hydrapaper">
+    <file compressed="true">ui/gtk_style.css</file>
     <file preprocess="xml-stripblanks">aboutdialog.ui</file>
     <file preprocess="xml-stripblanks">ui/headerbar.ui</file>
     <file preprocess="xml-stripblanks">ui/wallpapers_flowbox.ui</file>
@@ -8,7 +9,6 @@
     <file preprocess="xml-stripblanks">ui/wallpapers_folders_view.ui</file>
     <file preprocess="xml-stripblanks">ui/monitors_flowbox_item.ui</file>
     <file preprocess="xml-stripblanks">ui/wp_mode_popover_menu.ui</file>
-    <file preprocess="xml-stripblanks">ui/menu.ui</file>
     <file preprocess="xml-stripblanks">ui/shortcutsWindow.ui</file>
     <!-- aboutdialog.glade is outside of ui/ on purpose. meson needs to configure ui/aboutdialog.glade.in,
          but refuses to put the output inside a subdir, so I just worked around this. -->
