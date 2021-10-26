@@ -103,6 +103,7 @@ def get_layout_mode():
     else:
         return 1
 
+
 def build_monitors_from_gdk():
     monitors = []
     num_monitors = 0

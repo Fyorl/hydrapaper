@@ -1,7 +1,7 @@
 from gettext import gettext as _
 import sys
 import argparse
-from gi.repository import Gtk, Gdk, Gio, GLib, Adw
+from gi.repository import Gtk, Gio, GLib
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
 from .settings_box import HydraPaperSettingsWindow
@@ -23,7 +23,7 @@ class HydraPaperApplication(BaseApp):
                     func=self.toggle_spanned_mode,
                     accel=None,
                     stateful=True,
-                    state_type = AppAction.StateType.BOOL,
+                    state_type=AppAction.StateType.BOOL,
                     state_default=self.confman.conf['spanned_mode']
                 ),
                 AppAction(
