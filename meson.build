@@ -33,6 +33,12 @@ designers = '\n'.join([
     'Icon by Tobias Bernard (bertob) &lt;hi@tobiasbernard.com&gt;'
 ])
 
+message('Looking for dependencies')
+dependency('glib-2.0')
+dependency('gobject-introspection-1.0', version: '>=1.35.9')
+dependency('gtk4', version :'>=4.3.1')
+dependency('libadwaita-1', version :'>=1.0.0.alpha.3')
+
 i18n = import('i18n')
 python = import('python')
 py_installation = python.find_installation('python3')
