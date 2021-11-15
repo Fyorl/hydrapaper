@@ -43,7 +43,9 @@
             "modules": [
                 {
                     "name": "sassc",
-                    "cleanup": [ "*" ],
+                    "cleanup": [
+                        "*"
+                    ],
                     "sources": [
                         {
                             "type": "git",
@@ -53,13 +55,17 @@
                         {
                             "type": "script",
                             "dest-filename": "autogen.sh",
-                            "commands": [ "autoreconf -si" ]
+                            "commands": [
+                                "autoreconf -si"
+                            ]
                         }
                     ],
                     "modules": [
                         {
                             "name": "libsass",
-                            "cleanup": [ "*" ],
+                            "cleanup": [
+                                "*"
+                            ],
                             "sources": [
                                 {
                                     "type": "git",
@@ -69,7 +75,9 @@
                                 {
                                     "type": "script",
                                     "dest-filename": "autogen.sh",
-                                    "commands": [ "autoreconf -si" ]
+                                    "commands": [
+                                        "autoreconf -si"
+                                    ]
                                 }
                             ]
                         }
@@ -117,7 +125,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
-                    "tag": "3.1.0"
+                    "tag": "3.2.0"
                 }
             ]
         }
