@@ -41,13 +41,9 @@
       </section>
     </menu>
   </object>
-  <object class="GtkPopover" id="wallpapersFoldersPopover">
-    <property name="height-request">350</property>
-  </object>
-  <object class="GtkMenuButton" id="wallpapersFoldersBtn">
+  <object class="GtkToggleButton" id="wallpapersFoldersBtn">
     <property name="visible">True</property>
     <property name="tooltip-text" translatable="yes">Wallpapers Folders</property>
-    <property name="popover">wallpapersFoldersPopover</property>
     <property name="icon-name">folder-symbolic</property>
   </object>
   <object class="GtkButton" id="add_to_slideshow_btn">

@@ -7,12 +7,13 @@ import dbus
 
 
 class HydraPaperHeaderbar(Adw.HeaderBar):
-    def __init__(self, window, apply_handler, *args, **kwargs):
-        super().__init__(*args, **kwargs)
+    def __init__(self, window, apply_handler, folders_flap):
+        super().__init__()
         self.confman = ConfManager()
         self.apply_handler_func = apply_handler
+        self.folders_flap = folders_flap
         self.set_show_end_title_buttons(True)
-        self.stack_switcher = Adw.ViewSwitcher()
+        self.stack_switcher = Adw.ViewSwitcher(width_request=250)
         self.squeezer = Adw.Squeezer()
         self.nobox = Gtk.Label()
         self.bottom_bar = window.bottom_bar
@@ -25,15 +26,22 @@ class HydraPaperHeaderbar(Adw.HeaderBar):
         self.builder = Gtk.Builder.new_from_resource(
             '/org/gabmus/hydrapaper/ui/headerbar.ui'
         )
-        self.wallpapers_folders_popover = self.builder.get_object(
-            'wallpapersFoldersPopover'
-        )
-        self.wallpapers_folders_popover.set_child(self.folders_view)
+        self.folders_flap.set_flap(self.folders_view)
         self.apply_button = self.builder.get_object('applyButton')
         self.apply_button.connect('clicked', self.on_applyButton_clicked)
         self.menu_button = self.builder.get_object('menuBtn')
         self.wallpapers_folders_button = self.builder.get_object(
             'wallpapersFoldersBtn'
+        )
+        self.wallpapers_folders_button.connect(
+            'toggled', lambda btn:
+                self.folders_flap.set_reveal_flap(btn.get_active())
+        )
+        self.folders_flap.connect(
+            'notify::reveal-flap', lambda *args:
+                self.wallpapers_folders_button.set_active(
+                    self.folders_flap.get_reveal_flap()
+                )
         )
 
         self.add_to_slideshow_btn = self.builder.get_object(

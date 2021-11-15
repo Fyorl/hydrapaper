@@ -18,11 +18,27 @@ class HydraPaperAppWindow(BaseWindow):
         )
         self.confman = ConfManager()
 
+        self.content_box = Gtk.Box(
+            orientation=Gtk.Orientation.VERTICAL, hexpand=True, vexpand=True
+        )
+
+        self.main_stack = HydraPapaerMainStack()
+
+        self.folders_flap = Adw.Flap(
+            flap_position=Gtk.PackType.START,
+            fold_policy=Adw.FlapFoldPolicy.ALWAYS,
+            modal=True,
+            reveal_flap=False,
+            swipe_to_open=True, swipe_to_close=True
+        )
+        self.folders_flap.set_content(self.content_box)
+
         self.bottom_bar = Adw.ViewSwitcherBar()
-        self.headerbar = HydraPaperHeaderbar(self, self.apply_handler)
+        self.headerbar = HydraPaperHeaderbar(
+            self, self.apply_handler, self.folders_flap
+        )
         self.stack_switcher = self.headerbar.stack_switcher
         self.folders_view = self.headerbar.folders_view
-        self.main_stack = HydraPapaerMainStack()
         self.stack_switcher.set_stack(self.main_stack)
         self.bottom_bar.set_stack(self.main_stack)
         self.monitors_flowbox = HydraPaperMonitorsFlowbox()
@@ -30,9 +46,10 @@ class HydraPaperAppWindow(BaseWindow):
         self.window_handle = Gtk.WindowHandle(vexpand=False)
         self.window_handle.set_child(self.headerbar)
         self.append(self.window_handle)
-        self.append(self.monitors_flowbox)
-        self.append(self.main_stack)
-        self.append(self.bottom_bar)
+        self.content_box.append(self.monitors_flowbox)
+        self.content_box.append(self.main_stack)
+        self.content_box.append(self.bottom_bar)
+        self.append(self.folders_flap)
 
         self.confman.connect(
             'dark_mode_changed',

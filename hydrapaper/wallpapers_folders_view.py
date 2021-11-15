@@ -82,7 +82,6 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
                 break
 
     def on_addWallpapersPath_clicked(self, btn):
-        self.get_parent().get_parent().popdown()
         self.fc_dialog = Gtk.FileChooserNative.new(
             _('Add wallpaper folders'),
             self.parent_win,
