@@ -28,7 +28,7 @@ configure_file(
     install_dir: dbus_service_dir
 )
 
-if enable_daemon == true
+if enable_daemon
     configure_file(
         input: app_id + '.Daemon.service.in',
         output: app_id + '.Daemon.service',

@@ -56,12 +56,14 @@ localedir = join_paths(prefix, get_option('localedir'))
 libexecdir = join_paths(prefix, get_option('libexecdir'))
 etcdir = get_option('sysconfdir')
 systemd_user_unit_dir = join_paths(prefix, 'lib', 'systemd', 'user')
-dbus_service_dir = dependency(
-    'dbus-1'
-).get_variable(
-    pkgconfig: 'session_bus_services_dir',
-    default_value: ['datadir', join_paths(prefix, datadir)]
-)
+dependency('dbus-1')
+dbus_service_dir = join_paths(datadir, 'dbus-1/services')
+# dbus_service_dir = dependency(
+#     'dbus-1'
+# ).get_variable(
+#     pkgconfig: 'session_bus_services_dir',
+#     default_value: ['datadir', join_paths(prefix, datadir)]
+# )
 
 app_id = '.'.join([
     domain,
