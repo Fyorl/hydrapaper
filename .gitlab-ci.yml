@@ -4,7 +4,7 @@ variables:
     BUNDLE: "hydrapaper.flatpak"
 
 test:
-    image: python:3.8
+    image: python:3.9
     script:
         - pip install pyflakes
         - pyflakes hydrapaper
