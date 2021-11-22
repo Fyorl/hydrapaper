@@ -19,7 +19,7 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
 
         self.box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.label = Gtk.Label()
-        self.switch = Gtk.Switch()
+        self.switch = Gtk.CheckButton()
 
         self.set_label_text()
         self.label.set_margin_start(12)
@@ -39,13 +39,14 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
         self.value = folder_path
 
         self.set_child(self.box)
-        self.switch.connect('state-set', self.on_switch_state_set)
+        self.switch.connect('toggled', self.on_switch_state_set)
         self.confman.connect(
             'hydrapaper_set_folders_popover_labels',
             self.set_label_text
         )
 
-    def on_switch_state_set(self, switch, state):
+    def on_switch_state_set(self, switch):
+        state = self.switch.get_active()
         self.emit('row_switch_state_set', state, self.value)
 
     def set_label_text(self, *args):
