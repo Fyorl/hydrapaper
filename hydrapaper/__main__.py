@@ -4,7 +4,7 @@ import argparse
 from gi.repository import Gtk, Gio, GLib
 from .confManager import ConfManager
 from .app_window import HydraPaperAppWindow
-from .settings_box import HydraPaperSettingsWindow
+from .preferences_window import PreferencesWindow
 from .is_image import is_image
 from .monitor_parser import build_monitors_autodetect
 from .apply_wallpapers import apply_wallpapers
@@ -33,7 +33,7 @@ class HydraPaperApplication(BaseApp):
                 ),
                 AppAction(
                     name='settings',
-                    func=self.show_settings_window,
+                    func=self.show_preferences_window,
                     accel='<Primary>comma'
                 ),
                 AppAction(
@@ -79,12 +79,9 @@ class HydraPaperApplication(BaseApp):
         shortcuts_win.present()
         shortcuts_win.show()
 
-    def show_settings_window(self, *args):
-        settings_win = HydraPaperSettingsWindow()
-        settings_win.set_transient_for(self.window)
-        # settings_win.set_attached_to(self.window)
-        settings_win.set_modal(True)
-        settings_win.present()
+    def show_preferences_window(self, *args):
+        preferences_win = PreferencesWindow(self.window)
+        preferences_win.present()
 
     def apply_random(self):
         from random import randint
