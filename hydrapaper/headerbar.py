@@ -6,13 +6,18 @@ from .daemon_helper import DAEMON_BUILD_ENABLED
 import dbus
 
 
-class HydraPaperHeaderbar(Adw.HeaderBar):
+class HydraPaperHeaderbar(Gtk.WindowHandle):
     def __init__(self, window, apply_handler, folders_flap):
         super().__init__()
+        self.headerbar = Adw.HeaderBar()
+        self.set_child(self.headerbar)
+        self.pack_start = self.headerbar.pack_start
+        self.pack_end = self.headerbar.pack_end
+        self.set_title_widget = self.headerbar.set_title_widget
         self.confman = ConfManager()
         self.apply_handler_func = apply_handler
         self.folders_flap = folders_flap
-        self.set_show_end_title_buttons(True)
+        self.headerbar.set_show_end_title_buttons(True)
         self.stack_switcher = Adw.ViewSwitcher(width_request=250)
         self.squeezer = Adw.Squeezer()
         self.nobox = Gtk.Label()

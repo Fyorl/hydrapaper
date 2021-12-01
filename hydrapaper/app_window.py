@@ -39,8 +39,8 @@ class HydraPaperAppWindow(BaseWindow):
         )
         self.stack_switcher = self.headerbar.stack_switcher
         self.folders_view = self.headerbar.folders_view
-        self.stack_switcher.set_stack(self.main_stack)
-        self.bottom_bar.set_stack(self.main_stack)
+        self.stack_switcher.set_stack(self.main_stack.stack)
+        self.bottom_bar.set_stack(self.main_stack.stack)
         self.monitors_flowbox = HydraPaperMonitorsFlowbox()
 
         self.window_handle = Gtk.WindowHandle(vexpand=False)
