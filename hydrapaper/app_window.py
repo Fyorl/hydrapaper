@@ -1,6 +1,6 @@
 from gi.repository import Gtk, Adw
 from .confManager import ConfManager
-from .main_stack import HydraPapaerMainStack
+from .main_stack import HydraPaperMainStack
 from .monitors_flowbox import HydraPaperMonitorsFlowbox
 from .apply_wallpapers import apply_wallpapers
 from .headerbar import HydraPaperHeaderbar
@@ -22,7 +22,7 @@ class HydraPaperAppWindow(BaseWindow):
             orientation=Gtk.Orientation.VERTICAL, hexpand=True, vexpand=True
         )
 
-        self.main_stack = HydraPapaerMainStack()
+        self.main_stack = HydraPaperMainStack()
 
         self.folders_flap = Adw.Flap(
             flap_position=Gtk.PackType.START,
