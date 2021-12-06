@@ -1,4 +1,4 @@
-from gi.repository import Gtk, Adw
+from gi.repository import Gtk
 from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
 from .confManager import ConfManager
 from .slideshow_listbox_row import SlideshowListboxRow
