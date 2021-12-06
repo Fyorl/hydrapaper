@@ -5,47 +5,22 @@ from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
 from os.path import isdir
 
 
+@Gtk.Template(
+    resource_path='/org/gabmus/hydrapaper/ui/wallpapers_folders_view.ui'
+)
 class HydraPaperWallpapersFoldersView(Gtk.Box):
+    __gtype_name__ = 'WallpapersFoldersView'
+    listbox = Gtk.Template.Child()
+    add_btn = Gtk.Template.Child()
+    del_btn = Gtk.Template.Child()
+
     def __init__(self, window, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
         self.parent_win = window
 
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wallpapers_folders_view.ui'
-        )
-
-        self.container_box = self.builder.get_object(
-            'wallpapersFoldersContainer'
-        )
-        self.listbox = self.builder.get_object('wallpapersFoldersListbox')
-        self.listbox.connect(
-            'row-selected', self.on_wallpapersFoldersListbox_row_selected
-        )
-
-        self.add_btn = self.builder.get_object('addWallpapersPath')
-        self.add_btn.connect('clicked', self.on_addWallpapersPath_clicked)
-        self.del_btn = self.builder.get_object('removeWallpapersPath')
-        self.del_btn.connect('clicked', self.on_removeWallpapersPath_clicked)
-
-        self.builder.get_object(
-            'wallpaperFoldersActivateAllButton'
-        ).connect(
-            'clicked',
-            self.on_wallpaperFoldersActivateAllButton_clicked
-        )
-        self.builder.get_object(
-            'wallpaperFoldersDeactivateAllButton'
-        ).connect(
-            'clicked',
-            self.on_wallpaperFoldersDeactivateAllButton_clicked
-        )
-
-        self.append(self.container_box)
-
         self.populate()
         self.listbox.set_sort_func(self.listbox_sort_func, None, False)
-        self.show()
 
     def listbox_sort_func(self, row1, row2, data, notify_destroy):
         return row1.label.get_text().lower() > row2.label.get_text().lower()
@@ -66,7 +41,8 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
             row.connect('row_switch_state_set', self.on_row_switch_state_set)
         self.listbox.show()
 
-    def on_wallpapersFoldersListbox_row_selected(self, listbox, row):
+    @Gtk.Template.Callback()
+    def on_listbox_row_selected(self, listbox, row):
         self.del_btn.set_sensitive(
             not not row and self.add_btn.get_sensitive()
         )
@@ -81,7 +57,8 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
                 self.confman.save_conf()
                 break
 
-    def on_addWallpapersPath_clicked(self, btn):
+    @Gtk.Template.Callback()
+    def on_add_btn_clicked(self, btn):
         self.fc_dialog = Gtk.FileChooserNative.new(
             _('Add wallpaper folders'),
             self.parent_win,
@@ -113,7 +90,8 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
         self.fc_dialog.connect('response', on_response)
         self.fc_dialog.show()
 
-    def on_removeWallpapersPath_clicked(self, btn):
+    @Gtk.Template.Callback()
+    def on_del_btn_clicked(self, btn):
         row = self.listbox.get_selected_row()
         if not row:
             return
@@ -147,8 +125,10 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
         self.confman.emit('hydrapaper_show_hide_wallpapers', 'notimportant')
         self.confman.save_conf()
 
-    def on_wallpaperFoldersActivateAllButton_clicked(self, btn):
+    @Gtk.Template.Callback()
+    def on_activate_all_btn_clicked(self, btn):
         self.set_all_enabled(True)
 
-    def on_wallpaperFoldersDeactivateAllButton_clicked(self, btn):
+    @Gtk.Template.Callback()
+    def on_deactivate_all_btn_clicked(self, btn):
         self.set_all_enabled(False)

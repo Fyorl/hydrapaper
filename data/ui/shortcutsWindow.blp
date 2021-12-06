@@ -1,0 +1,31 @@
+using Gtk 4.0;
+
+ShortcutsWindow shortcuts-hydrapaper {
+    ShortcutsSection {
+        visible: true;
+        section-name: 'shortcuts';
+        ShortcutsGroup {
+            title: _('General');
+            ShortcutsShortcut {
+                accelerator: '<ctrl>question';
+                title: _('Open Keyboard Shortcuts');
+            }
+            ShortcutsShortcut {
+                accelerator: 'F10';
+                title: _('Open Menu');
+            }
+            ShortcutsShortcut {
+                accelerator: '<ctrl>comma';
+                title: _('Open Preferences');
+            }
+            ShortcutsShortcut {
+                accelerator: '<ctrl>Q';
+                title: _('Quit');
+            }
+            ShortcutsShortcut {
+                accelerator: '<ctrl><shift>R';
+                title: _('Set Random Wallpapers');
+            }
+        }
+    }
+}

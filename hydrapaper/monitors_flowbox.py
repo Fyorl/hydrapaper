@@ -14,19 +14,19 @@ WALLPAPER_MODE_VALUES = [
 ]
 
 
-class WallpaperModePopover(Gtk.PopoverMenu):
-    def __init__(self, relative_to, **kwargs):
-        super().__init__(**kwargs)
-        self.set_autohide(True)
-        # self.set_pointing_to(relative_to.get_allocation())
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wp_mode_popover_menu.ui'
-        )
-        self.radio_zoom = self.builder.get_object('radio_zoom')
-        self.radio_fit_black = self.builder.get_object('radio_fit_black')
-        self.radio_fit_blur = self.builder.get_object('radio_fit_blur')
-        self.radio_center_black = self.builder.get_object('radio_center_black')
-        self.radio_center_blur = self.builder.get_object('radio_center_blur')
+@Gtk.Template(
+    resource_path='/org/gabmus/hydrapaper/ui/wp_mode_popover_menu.ui'
+)
+class WallpaperModePopoverContent(Gtk.ScrolledWindow):
+    __gtype_name__ = 'WallpaperModePopoverContent'
+    radio_zoom = Gtk.Template.Child()
+    radio_fit_black = Gtk.Template.Child()
+    radio_fit_blur = Gtk.Template.Child()
+    radio_center_black = Gtk.Template.Child()
+    radio_center_blur = Gtk.Template.Child()
+
+    def __init__(self):
+        super().__init__()
         self.radios_dict = {
             'zoom': self.radio_zoom,
             'fit_black': self.radio_fit_black,
@@ -35,28 +35,36 @@ class WallpaperModePopover(Gtk.PopoverMenu):
             'center_blur': self.radio_center_blur
         }
         self.radios = list(self.radios_dict.values())
-        self.set_child(self.builder.get_object('menu_box'))
 
 
+class WallpaperModePopover(Gtk.PopoverMenu):
+    def __init__(self):
+        super().__init__(autohide=True)
+        self.content = WallpaperModePopoverContent()
+        self.radios_dict = self.content.radios_dict
+        self.radios = self.content.radios
+        self.set_child(self.content)
+
+
+@Gtk.Template(
+    resource_path='/org/gabmus/hydrapaper/ui/monitors_flowbox_item.ui'
+)
 class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
+    __gtype_name__ = 'MonitorsFlowboxItem'
+    main_box = Gtk.Template.Child()
+    overlay = Gtk.Template.Child()
+    image = Gtk.Template.Child()
+    wp_mode_btn = Gtk.Template.Child()
+    label = Gtk.Template.Child()
+
     def __init__(self, monitor, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
         self.monitor = monitor
 
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/monitors_flowbox_item.ui'
-        )
-
-        self.box = self.builder.get_object('main_box')
-        self.label = self.builder.get_object('label')
         self.label.set_text(self.monitor.name)
-        self.overlay = self.builder.get_object('overlay')
-        self.wp_mode_btn = self.builder.get_object('wp_mode_btn')
-        self.wp_mode_popover = WallpaperModePopover(self.wp_mode_btn)
+        self.wp_mode_popover = WallpaperModePopover()
         self.wp_mode_btn.set_popover(self.wp_mode_popover)
-        self.image = self.builder.get_object('wp_preview')
-        self.set_child(self.box)
 
         for radio, value in zip(
                 self.wp_mode_popover.radios,
@@ -69,7 +77,6 @@ class HydraPaperMonitorsFlowboxItem(Gtk.FlowBoxChild):
             )
 
         self.set_picture()
-        self.show()
 
     def on_wp_mode_changed(self, radio, value):
         # check that the signal is sent from a radio that has been turned on

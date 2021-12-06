@@ -4,24 +4,16 @@ from .wallpaper_flowbox_item import WallpaperBox
 import pathlib
 
 
-class HydraPaperWallpapersFlowbox(Gtk.Box):
+@Gtk.Template(resource_path='/org/gabmus/hydrapaper/ui/wallpapers_flowbox.ui')
+class HydraPaperWallpapersFlowbox(Gtk.ScrolledWindow):
+    __gtype_name__ = 'WallpapersFlowbox'
+    flowbox = Gtk.Template.Child()
+
     def __init__(self, is_favorites=False, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
         self.is_favorites = is_favorites
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wallpapers_flowbox.ui'
-        )
 
-        self.flowbox = self.builder.get_object('wallpapersFlowbox')
-        self.flowbox.connect(
-            'child-activated',
-            self.on_wallpapersFlowbox_child_activated
-        )
-        self.scrolled_win = self.builder.get_object('scrolledWin')
-
-        self.append(self.scrolled_win)
-        self.flowbox.set_activate_on_single_click(True)
         self.confman.connect(
             'hydrapaper_populate_wallpapers',
             self.populate
@@ -44,7 +36,7 @@ class HydraPaperWallpapersFlowbox(Gtk.Box):
         )
 
     def populate(self, *args):
-        # this while empties self before filling
+        # empty before filling
         while True:
             c = self.flowbox.get_child_at_index(0)
             if c:
@@ -65,7 +57,8 @@ class HydraPaperWallpapersFlowbox(Gtk.Box):
     def show_hide_wallpapers(self, *args):
         self.flowbox.invalidate_filter()
 
-    def on_wallpapersFlowbox_child_activated(self, flowbox, child):
+    @Gtk.Template.Callback()
+    def on_flowbox_child_activated(self, flowbox, child):
         self.confman.emit(
             'hydrapaper_flowbox_wallpaper_selected',
             child.wallpaper_path

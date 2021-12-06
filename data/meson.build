@@ -81,14 +81,29 @@ install_data(
 
 subdir('ui')
 
+blueprints = custom_target('blueprints',
+    input: files(
+        'ui/headerbar.blp',
+        'ui/monitors_flowbox_item.blp',
+        'ui/shortcutsWindow.blp',
+        'ui/wallpaper_flowbox_item_popover.blp',
+        'ui/wallpapers_flowbox.blp',
+        'ui/wp_mode_popover_menu.blp',
+        'ui/wallpapers_folders_view.blp',
+    ),
+    output: '.',
+    command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']
+)
+
+
 app_resources = gnome.compile_resources(app_id,
     app_id + '.gresource.xml',
     gresource_bundle: true,
-    dependencies: configure_file(
+    dependencies: [blueprints, configure_file(
         input: 'ui/aboutdialog.ui.in',
         output: 'aboutdialog.ui',
         configuration: ui_conf
-    ),
+        )],
     install: true,
     install_dir: pkgdatadir
 )

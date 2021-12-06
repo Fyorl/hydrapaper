@@ -8,29 +8,20 @@ from pathlib import Path
 from threading import Thread
 
 
+@Gtk.Template(
+    resource_path='/org/gabmus/hydrapaper/ui/wallpaper_flowbox_item_popover.ui'
+)
 class WallpaperItemPopover(Gtk.Popover):
+    __gtype_name__ = 'WallpaperFlowboxItemPopover'
+    favorite_btn = Gtk.Template.Child()
+    wallpaper_path_entry = Gtk.Template.Child()
+    wallpaper_name_label = Gtk.Template.Child()
+
     def __init__(self, wp_path, parent_w, **kwargs):
         super().__init__(**kwargs)
         self.wp_path = wp_path
         self.parent_w = parent_w
         self.set_parent(self.parent_w)
-        # self.set_pointing_to(self.parent_w.get_allocation())
-        self.set_position(Gtk.PositionType.BOTTOM)
-        self.set_autohide(True)
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/wallpaper_flowbox_item_popover.ui'
-        )
-        self.content = self.builder.get_object('flowbox_item_popover_content')
-        self.set_child(self.content)
-
-        self.favorite_btn = self.builder.get_object('favoriteBtn')
-        self.favorite_btn.connect('clicked', self.on_favoriteBtn_clicked)
-        self.wallpaper_path_entry = self.builder.get_object(
-            'wallpaperPathEntry'
-        )
-        self.wallpaper_name_label = self.builder.get_object(
-            'wallpaperNameLabel'
-        )
 
     def popup(self, *args):
         if (
@@ -45,7 +36,8 @@ class WallpaperItemPopover(Gtk.Popover):
         self.wallpaper_name_label.set_text(Path(self.wp_path).name)
         super().popup(*args)
 
-    def on_favoriteBtn_clicked(self, btn):
+    @Gtk.Template.Callback()
+    def on_favorite_btn_clicked(self, btn):
         self.parent_w.set_fav(not self.parent_w.is_fav)
         self.parent_w.confman.emit('hydrapaper_populate_wallpapers', '')
         self.popdown()

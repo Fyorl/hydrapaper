@@ -6,94 +6,54 @@ from .daemon_helper import DAEMON_BUILD_ENABLED
 import dbus
 
 
+@Gtk.Template(resource_path='/org/gabmus/hydrapaper/ui/headerbar.ui')
 class HydraPaperHeaderbar(Gtk.WindowHandle):
+    __gtype_name__ = 'GHeaderbar'
+    headerbar = Gtk.Template.Child()
+    stack_switcher = Gtk.Template.Child()
+    squeezer = Gtk.Template.Child()
+    nobox = Gtk.Template.Child()
+    apply_btn = Gtk.Template.Child()
+    menu_btn = Gtk.Template.Child()
+    wallpaper_folders_btn = Gtk.Template.Child()
+    add_to_slideshow_btn = Gtk.Template.Child()
+    slideshow_menu_btn = Gtk.Template.Child()
+    slideshow_switch = Gtk.Template.Child()
+    slideshow_time_spinbutton = Gtk.Template.Child()
+    slideshow_listbox = Gtk.Template.Child()
+
     def __init__(self, window, apply_handler, folders_flap):
         super().__init__()
-        self.headerbar = Adw.HeaderBar()
-        self.set_child(self.headerbar)
+        self.confman = ConfManager()
         self.pack_start = self.headerbar.pack_start
         self.pack_end = self.headerbar.pack_end
         self.set_title_widget = self.headerbar.set_title_widget
-        self.confman = ConfManager()
         self.apply_handler_func = apply_handler
         self.folders_flap = folders_flap
-        self.headerbar.set_show_end_title_buttons(True)
-        self.stack_switcher = Adw.ViewSwitcher(width_request=250)
-        self.squeezer = Adw.Squeezer()
-        self.nobox = Gtk.Label()
         self.bottom_bar = window.bottom_bar
-        self.squeezer.add(self.stack_switcher)
-        self.squeezer.add(self.nobox)
-        self.squeezer.connect('notify::visible-child', self.on_squeeze)
-        self.set_title_widget(self.squeezer)
 
         self.folders_view = HydraPaperWallpapersFoldersView(window)
-        self.builder = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/headerbar.ui'
-        )
         self.folders_flap.set_flap(self.folders_view)
-        self.apply_button = self.builder.get_object('applyButton')
-        self.apply_button.connect('clicked', self.on_applyButton_clicked)
-        self.menu_button = self.builder.get_object('menuBtn')
-        self.wallpapers_folders_button = self.builder.get_object(
-            'wallpapersFoldersBtn'
-        )
-        self.wallpapers_folders_button.connect(
-            'toggled', lambda btn:
-                self.folders_flap.set_reveal_flap(btn.get_active())
-        )
         self.folders_flap.connect(
             'notify::reveal-flap', lambda *args:
-                self.wallpapers_folders_button.set_active(
+                self.wallpaper_folders_btn.set_active(
                     self.folders_flap.get_reveal_flap()
                 )
         )
 
-        self.add_to_slideshow_btn = self.builder.get_object(
-            'add_to_slideshow_btn'
-        )
-        self.add_to_slideshow_btn.connect('clicked', self.on_add_to_slideshow)
-        self.slideshow_menu_btn = self.builder.get_object(
-            'slideshow_menu_btn'
-        )
         if not DAEMON_BUILD_ENABLED:
             self.slideshow_menu_btn.set_visible(False)
-        self.slideshow_switch = self.builder.get_object(
-            'slideshow_switch'
-        )
         self.slideshow_switch.set_state(
             self.confman.conf['Daemon']['wallpaper_rotation_enabled']
-        )
-        self.slideshow_switch.connect(
-            'state-set', self.on_slideshow_mode_changed
-        )
-        self.slideshow_time_spinbutton = self.builder.get_object(
-            'slideshow_time_spinbutton'
         )
         self.slideshow_time_spinbutton.set_increments(1, 10)
         self.slideshow_time_spinbutton.set_range(0, 300000)
         self.slideshow_time_spinbutton.set_value(
             self.confman.conf['Daemon']['wallpaper_rotation_sleep_time']
         )
-        self.slideshow_time_spinbutton.connect(
-            'value-changed', self.on_slideshow_time_spinbutton_changed
-        )
-        self.slideshow_listbox = self.builder.get_object('slideshow_listbox')
         self.slideshow_listbox.populate = self.populate_slideshow_listbox
         self.on_slideshow_mode_changed()
         self.populate_slideshow_listbox()
-
-        left_widgets = [self.wallpapers_folders_button]
-        right_widgets = [
-            self.menu_button,
-            self.apply_button,
-            self.add_to_slideshow_btn,
-            self.slideshow_menu_btn
-        ]
-        for w in left_widgets:
-            self.pack_start(w)
-        for w in right_widgets:
-            self.pack_end(w)
 
     def signal_daemon(self):
         if not DAEMON_BUILD_ENABLED:
@@ -111,12 +71,14 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
         except dbus.exceptions.DBusException:
             print('Failed to communicate with HydraPaper daemon')
 
+    @Gtk.Template.Callback()
     def on_slideshow_time_spinbutton_changed(self, *args):
         self.confman.conf['Daemon']['wallpaper_rotation_sleep_time'] = \
             self.slideshow_time_spinbutton.get_value()
         self.confman.save_conf()
         self.signal_daemon()
 
+    @Gtk.Template.Callback()
     def on_add_to_slideshow(self, *args):
         monitors = self.get_root().monitors_flowbox.get_monitors()
         pics = [{
@@ -142,6 +104,7 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
             )
         self.signal_daemon()
 
+    @Gtk.Template.Callback()
     def on_slideshow_mode_changed(self, *args):
         n_state = self.slideshow_switch.get_active()
         if not DAEMON_BUILD_ENABLED:
@@ -154,13 +117,14 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
         if n_state:
             sc.add_class('slideshow-btn-active')
             self.add_to_slideshow_btn.set_visible(True)
-            self.apply_button.set_visible(False)
+            self.apply_btn.set_visible(False)
         else:
             sc.add_class('slideshow-btn-inactive')
             self.add_to_slideshow_btn.set_visible(False)
-            self.apply_button.set_visible(True)
+            self.apply_btn.set_visible(True)
         self.signal_daemon()
 
+    @Gtk.Template.Callback()
     def on_squeeze(self, *args):
         self.bottom_bar.set_reveal(
             self.squeezer.get_visible_child() == self.nobox
@@ -171,5 +135,12 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
         self.confman.save_conf()
         self.signal_daemon()
 
-    def on_applyButton_clicked(self, btn):
-        self.apply_handler(self.apply_button)
+    @Gtk.Template.Callback()
+    def on_apply_btn_clicked(self, btn):
+        self.apply_handler(self.apply_btn)
+
+    @Gtk.Template.Callback()
+    def on_wallpaper_folders_btn_clicked(self, *args):
+        self.folders_flap.set_reveal_flap(
+            self.wallpaper_folders_btn.get_active()
+        )

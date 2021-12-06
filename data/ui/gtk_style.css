@@ -11,3 +11,8 @@
     margin-top: 0;
     margin-bottom: 0;
 }
+
+.bigger_bold {
+    font-size: 1.2rem;
+    font-weight: bold;
+}

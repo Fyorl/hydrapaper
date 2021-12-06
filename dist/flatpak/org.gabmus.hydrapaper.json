@@ -2,7 +2,7 @@
     "app-id": "org.gabmus.hydrapaper",
     "command": "hydrapaper",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "41",
+    "runtime-version": "master",
     "sdk": "org.gnome.Sdk",
     "finish-args": [
         "--share=ipc",
@@ -26,66 +26,6 @@
         "--own-name=org.gabmus.hydrapaper.Daemon"
     ],
     "modules": [
-        {
-            "name": "libadwaita",
-            "buildsystem": "meson",
-            "config-opts": [
-                "-Dexamples=false",
-                "-Dtests=false"
-            ],
-            "sources": [
-                {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GNOME/libadwaita.git",
-                    "//tag": "1.0.0.alpha.4",
-                    "branch": "main"
-                }
-            ],
-            "modules": [
-                {
-                    "name": "sassc",
-                    "cleanup": [
-                        "*"
-                    ],
-                    "sources": [
-                        {
-                            "type": "git",
-                            "url": "https://github.com/sass/sassc.git",
-                            "tag": "3.6.1"
-                        },
-                        {
-                            "type": "script",
-                            "dest-filename": "autogen.sh",
-                            "commands": [
-                                "autoreconf -si"
-                            ]
-                        }
-                    ],
-                    "modules": [
-                        {
-                            "name": "libsass",
-                            "cleanup": [
-                                "*"
-                            ],
-                            "sources": [
-                                {
-                                    "type": "git",
-                                    "url": "https://github.com/sass/libsass.git",
-                                    "tag": "3.6.4"
-                                },
-                                {
-                                    "type": "script",
-                                    "dest-filename": "autogen.sh",
-                                    "commands": [
-                                        "autoreconf -si"
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                }
-            ]
-        },
         {
             "name": "blueprint-compiler",
             "buildsystem": "meson",

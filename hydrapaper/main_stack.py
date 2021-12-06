@@ -3,7 +3,7 @@ from gi.repository import Adw
 from .wallpapers_flowbox import HydraPaperWallpapersFlowbox
 
 
-class HydraPaparMainStack(Adw.Bin):
+class HydraPaperMainStack(Adw.Bin):
     def __init__(self):
         super().__init__(vexpand=True, hexpand=True)
         self.stack = Adw.ViewStack(vexpand=True, hexpand=True)
