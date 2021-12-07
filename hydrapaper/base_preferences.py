@@ -262,7 +262,7 @@ class PreferencesToggleRow(MActionRow):
         self.signal = signal
 
         self.toggle = Gtk.Switch(valign=Gtk.Align.CENTER)
-        self.toggle.set_active(self.confman.conf[self.conf_key])
+        self.toggle.set_active(self.confman.conf.get(self.conf_key, False))
         self.toggle.connect('state-set', self.on_toggle_state_set)
         self.add_suffix(self.toggle)
         self.set_activatable_widget(self.toggle)
