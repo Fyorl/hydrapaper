@@ -25,7 +25,7 @@ Click the following button install HydraPaper from the Flathub store.
 
 [![Get it on Flathub](https://raw.githubusercontent.com/flatpak-design-team/flathub-mockups/master/assets/download-button/download.svg?sanitize=true)](https://flathub.org/apps/details/org.gabmus.hydrapaper)
 
-### Installing on Arch Linux/Antergos/Manjaro
+### Installing on Arch Linux and Arch based distros
 
 You can find HydraPaper on AUR, as `hydrapaper-git` ([AUR page](https://aur.archlinux.org/packages/hydrapaper-git)).
 
@@ -70,5 +70,5 @@ HydraPaper is developed and officially distributed using Flatpak. To hack on Hyd
 You might want to check your code with [flake8](https://github.com/pycqa/flake8) before opening a merge request.
 
 ```bash
-flake8 gfeeds
+flake8 hydrapaper
 ```
