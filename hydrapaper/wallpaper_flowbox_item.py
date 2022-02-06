@@ -43,15 +43,18 @@ class WallpaperItemPopover(Gtk.Popover):
         self.popdown()
 
 
+@Gtk.Template(
+    resource_path='/org/gabmus/hydrapaper/ui/wallpaper_flowbox_item.ui'
+)
 class WallpaperBox(Gtk.FlowBoxChild):
+    __gtype_name__ = 'WallpaperBox'
+    wp_image = Gtk.Template.Child()
+    heart_icon = Gtk.Template.Child()
+    container_box = Gtk.Template.Child()
 
     def __init__(self, wp_path, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
-
-        self.set_halign(Gtk.Align.FILL)
-        self.set_valign(Gtk.Align.FILL)
-        self.set_size_request(250, 250)
 
         self.wallpaper_path = wp_path
         self.popover = WallpaperItemPopover(self.wallpaper_path, self)
@@ -63,28 +66,8 @@ class WallpaperBox(Gtk.FlowBoxChild):
             ).hexdigest()
         )
         self.is_fav = False
-        self.container_box = Gtk.Overlay()
-        self.container_box.set_halign(Gtk.Align.CENTER)
-        self.container_box.set_valign(Gtk.Align.CENTER)
-        self.container_box.set_size_request(250, 250)
-        self.wp_image = Gtk.Picture()
-        self.wp_image.set_size_request(250, -1)
-        self.wp_image.set_can_shrink(False)
-        self.heart_icon = Gtk.Image.new_from_resource(
-            '/org/gabmus/hydrapaper/icons/favorite-badge.svg'
-        )
-        self.heart_icon.set_icon_size(Gtk.IconSize.LARGE)
-        self.heart_icon.hide()
-        self.heart_icon.set_halign(Gtk.Align.START)
-        self.heart_icon.set_valign(Gtk.Align.CENTER)
-        self.heart_icon.set_margin_start(12)
-        self.container_box.add_overlay(self.wp_image)
         self.container_box.wallpaper_path = wp_path
 
-        self.container_box.add_overlay(self.heart_icon)
-        self.heart_icon.hide()
-
-        self.set_child(self.container_box)
         self.set_wallpaper_thumb()
         self.set_fav(self.wallpaper_path in self.confman.conf['favorites'])
 
@@ -131,11 +114,11 @@ class WallpaperBox(Gtk.FlowBoxChild):
     def set_fav(self, fav: bool):
         self.is_fav = fav
         if self.is_fav:
-            self.heart_icon.show()
+            self.heart_icon.set_visible(True)
             if self.wallpaper_path not in self.confman.conf['favorites']:
                 self.confman.conf['favorites'].append(self.wallpaper_path)
         else:
-            self.heart_icon.hide()
+            self.heart_icon.set_visible(False)
             if self.wallpaper_path in self.confman.conf['favorites']:
                 self.confman.conf['favorites'].pop(
                     self.confman.conf['favorites'].index(self.wallpaper_path)

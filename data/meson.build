@@ -90,6 +90,7 @@ blueprints = custom_target('blueprints',
         'ui/wallpapers_flowbox.blp',
         'ui/wp_mode_popover_menu.blp',
         'ui/wallpapers_folders_view.blp',
+        'ui/wallpaper_flowbox_item.blp',
     ),
     output: '.',
     command: [find_program('blueprint-compiler'), 'batch-compile', '@OUTPUT@', '@CURRENT_SOURCE_DIR@', '@INPUT@']
