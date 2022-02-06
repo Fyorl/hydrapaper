@@ -28,12 +28,11 @@ class HydraPaperWallpapersFlowbox(Gtk.ScrolledWindow):
     def flowbox_filter_func(self, fb_item, data, notify_destroy):
         if self.is_favorites:
             return True
-        for p in self.confman.conf['wallpapers_paths']:
-            if fb_item.pathlib_path.parent == pathlib.Path(p['path']):
-                return (p['active'])
-        print(
-            f'ERROR: wallpaper `{fb_item.wallpaper_path}` is not in any path'
-        )
+        return len([
+            p for p in self.confman.conf['wallpapers_paths']
+            if fb_item.pathlib_path.parent == pathlib.Path(p['path']) and
+            p['active']
+        ]) > 0
 
     def populate(self, *args):
         # empty before filling
