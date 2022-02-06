@@ -98,6 +98,14 @@ class WallpaperBox(Gtk.FlowBoxChild):
         )
         self.popover.popup()
 
+    def set_size_tooltip(self):
+        with Image.open(self.wallpaper_path) as img:
+            GLib.idle_add(
+                lambda: self.wp_image.set_tooltip_text('x'.join([
+                    str(dim) for dim in img.size
+                ]))
+            )
+
     def set_wallpaper_thumb(self):
 
         def af():
@@ -110,8 +118,9 @@ class WallpaperBox(Gtk.FlowBoxChild):
 
         if os.path.isfile(self.cache_path):
             cb()
+            Thread(target=self.set_size_tooltip(), daemon=True).start()
         else:
-            Thread(target=af).start()
+            Thread(target=af, daemon=True).start()
 
     def set_fav(self, fav: bool):
         self.is_fav = fav
@@ -130,8 +139,12 @@ class WallpaperBox(Gtk.FlowBoxChild):
     def make_wallpaper_thumb(self, wp_path):
         try:
             thumb = Image.open(self.wallpaper_path)
+            GLib.idle_add(
+                lambda: self.wp_image.set_tooltip_text('x'.join(thumb.size))
+            )
             thumb.thumbnail((250, 250), Image.ANTIALIAS)
             thumb.save(self.cache_path, 'PNG')
+            thumb.close()
         except IOError:
             print(
                 _('ERROR: cannot create thumbnail for file'),
