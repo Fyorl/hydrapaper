@@ -51,6 +51,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
     wp_image = Gtk.Template.Child()
     heart_icon = Gtk.Template.Child()
     container_box = Gtk.Template.Child()
+    label = Gtk.Template.Child()
 
     def __init__(self, wp_path, **kwargs):
         super().__init__(**kwargs)
@@ -87,6 +88,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
             self.on_rightclick
         )
         self.add_controller(self.longpress)
+        self.label.set_text(self.pathlib_path.stem)
 
     def on_rightclick(self, *args):
         self.get_parent().select_child(self)
