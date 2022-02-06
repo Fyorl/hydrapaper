@@ -5,6 +5,7 @@ from .monitors_flowbox import HydraPaperMonitorsFlowbox
 from .apply_wallpapers import apply_wallpapers
 from .headerbar import HydraPaperHeaderbar
 from .base_app import BaseWindow, AppShortcut
+from .search_bar import HpSearchBar
 
 
 class HydraPaperAppWindow(BaseWindow):
@@ -22,8 +23,6 @@ class HydraPaperAppWindow(BaseWindow):
             orientation=Gtk.Orientation.VERTICAL, hexpand=True, vexpand=True
         )
 
-        self.main_stack = HydraPaperMainStack()
-
         self.folders_flap = Adw.Flap(
             flap_position=Gtk.PackType.START,
             fold_policy=Adw.FlapFoldPolicy.ALWAYS,
@@ -37,15 +36,18 @@ class HydraPaperAppWindow(BaseWindow):
         self.headerbar = HydraPaperHeaderbar(
             self, self.apply_handler, self.folders_flap
         )
+
+        self.searchbar = HpSearchBar(self.headerbar.search_toggle)
+        self.main_stack = HydraPaperMainStack(self.searchbar)
+
         self.stack_switcher = self.headerbar.stack_switcher
         self.folders_view = self.headerbar.folders_view
         self.stack_switcher.set_stack(self.main_stack.stack)
         self.bottom_bar.set_stack(self.main_stack.stack)
         self.monitors_flowbox = HydraPaperMonitorsFlowbox()
 
-        self.window_handle = Gtk.WindowHandle(vexpand=False)
-        self.window_handle.set_child(self.headerbar)
-        self.append(self.window_handle)
+        self.append(self.headerbar)
+        self.append(self.searchbar)
         self.content_box.append(self.monitors_flowbox)
         self.content_box.append(self.main_stack)
         self.content_box.append(self.bottom_bar)

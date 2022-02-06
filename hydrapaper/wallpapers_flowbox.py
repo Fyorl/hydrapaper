@@ -1,6 +1,7 @@
 from gi.repository import Gtk
 from .confManager import ConfManager
 from .wallpaper_flowbox_item import WallpaperBox
+from .search_bar import HpSearchBar
 import pathlib
 
 
@@ -9,9 +10,10 @@ class HydraPaperWallpapersFlowbox(Gtk.ScrolledWindow):
     __gtype_name__ = 'WallpapersFlowbox'
     flowbox = Gtk.Template.Child()
 
-    def __init__(self, is_favorites=False, **kwargs):
+    def __init__(self, searchbar: HpSearchBar, is_favorites=False, **kwargs):
         super().__init__(**kwargs)
         self.confman = ConfManager()
+        self.searchbar = searchbar
         self.is_favorites = is_favorites
 
         self.confman.connect(
@@ -24,14 +26,26 @@ class HydraPaperWallpapersFlowbox(Gtk.ScrolledWindow):
         )
         self.populate()
         self.flowbox.set_filter_func(self.flowbox_filter_func, None, False)
+        self.searchbar.entry.connect('search-changed', self.on_search_changed)
+
+    def on_search_changed(self, *args):
+        self.flowbox.invalidate_filter()
 
     def flowbox_filter_func(self, fb_item, data, notify_destroy):
+        search_term = self.searchbar.get_text().strip().lower()
         if self.is_favorites:
-            return True
+            return not search_term or (
+                search_term in fb_item.pathlib_path.name.lower() or
+                search_term in fb_item.pathlib_path.parent.name.lower()
+            )
         return len([
             p for p in self.confman.conf['wallpapers_paths']
             if fb_item.pathlib_path.parent == pathlib.Path(p['path']) and
-            p['active']
+            p['active'] and (
+                not search_term or
+                search_term in fb_item.pathlib_path.name.lower() or
+                search_term in fb_item.pathlib_path.parent.name.lower()
+            )
         ]) > 0
 
     def populate(self, *args):

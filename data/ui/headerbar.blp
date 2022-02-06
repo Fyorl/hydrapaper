@@ -29,6 +29,10 @@ template GHeaderbar : WindowHandle {
             icon-name: 'folder-symbolic';
             toggled => on_wallpaper_folders_btn_clicked();
         }
+        ToggleButton search_toggle {
+            tooltip-text: _('Search');
+            icon-name: 'system-search-symbolic';
+        }
         [end] MenuButton menu_btn {
             tooltip-text: _('Menu');
             icon-name: _('open-menu-symbolic');

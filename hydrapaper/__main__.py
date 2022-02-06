@@ -49,10 +49,20 @@ class HydraPaperApplication(BaseApp):
                     name='quit',
                     func=self.on_destroy_window,
                     accel='<Primary>q'
+                ),
+                AppAction(
+                    name='search',
+                    func=self.toggle_search,
+                    accel='<Primary>f'
                 )
             ],
             flags=Gio.ApplicationFlags.HANDLES_COMMAND_LINE,
             css_resource='/org/gabmus/hydrapaper/ui/gtk_style.css'
+        )
+
+    def toggle_search(self, *args):
+        self.window.headerbar.search_toggle.set_active(
+            not self.window.headerbar.search_toggle.get_active()
         )
 
     def show_about_dialog(self, *args):

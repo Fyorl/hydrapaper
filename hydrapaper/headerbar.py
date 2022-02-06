@@ -21,6 +21,7 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
     slideshow_switch = Gtk.Template.Child()
     slideshow_time_spinbutton = Gtk.Template.Child()
     slideshow_listbox = Gtk.Template.Child()
+    search_toggle = Gtk.Template.Child()
 
     def __init__(self, window, apply_handler, folders_flap):
         super().__init__()
