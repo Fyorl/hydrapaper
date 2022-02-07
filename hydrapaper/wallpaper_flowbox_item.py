@@ -68,6 +68,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
         )
         self.is_fav = False
         self.container_box.wallpaper_path = wp_path
+        self.resolution = ''
 
         self.set_wallpaper_thumb()
         self.set_fav(self.wallpaper_path in self.confman.conf['favorites'])
@@ -100,10 +101,11 @@ class WallpaperBox(Gtk.FlowBoxChild):
 
     def set_size_tooltip(self):
         with Image.open(self.wallpaper_path) as img:
+            self.resolution = 'x'.join([
+                str(dim) for dim in img.size
+            ])
             GLib.idle_add(
-                lambda: self.wp_image.set_tooltip_text('x'.join([
-                    str(dim) for dim in img.size
-                ]))
+                lambda: self.wp_image.set_tooltip_text(self.resolution)
             )
 
     def set_wallpaper_thumb(self):
@@ -139,8 +141,11 @@ class WallpaperBox(Gtk.FlowBoxChild):
     def make_wallpaper_thumb(self, wp_path):
         try:
             thumb = Image.open(self.wallpaper_path)
+            self.resolution = 'x'.join([
+                str(dim) for dim in thumb.size
+            ])
             GLib.idle_add(
-                lambda: self.wp_image.set_tooltip_text('x'.join(thumb.size))
+                lambda: self.wp_image.set_tooltip_text(self.resolution)
             )
             thumb.thumbnail((250, 250), Image.ANTIALIAS)
             thumb.save(self.cache_path, 'PNG')

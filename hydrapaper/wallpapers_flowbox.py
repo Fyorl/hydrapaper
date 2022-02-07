@@ -36,7 +36,8 @@ class HydraPaperWallpapersFlowbox(Gtk.ScrolledWindow):
         if self.is_favorites:
             return not search_term or (
                 search_term in fb_item.pathlib_path.name.lower() or
-                search_term in fb_item.pathlib_path.parent.name.lower()
+                search_term in fb_item.pathlib_path.parent.name.lower() or
+                search_term in fb_item.resolution
             )
         return len([
             p for p in self.confman.conf['wallpapers_paths']
@@ -44,7 +45,8 @@ class HydraPaperWallpapersFlowbox(Gtk.ScrolledWindow):
             p['active'] and (
                 not search_term or
                 search_term in fb_item.pathlib_path.name.lower() or
-                search_term in fb_item.pathlib_path.parent.name.lower()
+                search_term in fb_item.pathlib_path.parent.name.lower() or
+                search_term in fb_item.resolution
             )
         ]) > 0
 
