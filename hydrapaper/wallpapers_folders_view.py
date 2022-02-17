@@ -60,7 +60,6 @@ class HydraPaperWallpapersFoldersView(Gtk.Box):
         )
 
         def on_response(dialog, res):
-            dialog.close()
             if res == Gtk.ResponseType.ACCEPT:
                 for fpath in dialog.get_files():
                     fpath = fpath.get_path()

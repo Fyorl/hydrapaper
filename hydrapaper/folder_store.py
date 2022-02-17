@@ -52,12 +52,15 @@ class FolderStore(Gtk.SortListModel):
     def add_folder(self, folder: FolderObj):
         self.list_store.append(folder)
 
-    def remove_folder_by_path(self, target: Path):
+    def remove_folder_by_path(self, target: Union[Path, str]):
+        if isinstance(target, str):
+            target = Path(target)
         for i, folder in enumerate(self.list_store):
             if not folder:
                 continue
             if folder.path == target:
                 self.list_store.remove(i)
+                return
 
     def remove_folder(self, folder: FolderObj):
         self.remove_folder_by_path(folder.path)
