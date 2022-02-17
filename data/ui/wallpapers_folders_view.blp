@@ -18,13 +18,13 @@ template WallpapersFoldersView : Box {
             margin-top: 12; margin-bottom: 12;
             homogeneous: true;
             Button add_btn {
-                tooltip-text: _('Add folder');
+                tooltip-text: _('Add Folder');
                 icon-name: 'list-add-symbolic';
                 clicked => on_add_btn_clicked();
             }
             Button del_btn {
                 sensitive: false;
-                tooltip-text: _('Add folder');
+                tooltip-text: _('Remove Folder');
                 icon-name: 'user-trash-symbolic';
                 clicked => on_del_btn_clicked();
             }
