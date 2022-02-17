@@ -1,21 +1,15 @@
 from gi.repository import Gtk, GObject
+from .folder_store import FolderObj
 from .confManager import ConfManager
 
 
 class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
-    __gsignals__ = {
-        'row_switch_state_set': (
-            GObject.SIGNAL_RUN_FIRST,
-            None,
-            (bool, str)
-        )
-    }
-
-    def __init__(self, folder_path, folder_active):
+    def __init__(self, folderobj: FolderObj):
         super().__init__()
 
         self.confman = ConfManager()
-        self.folder_path = folder_path
+        self.folderobj = folderobj
+        self.folder_path = self.folderobj.path
 
         self.box = Gtk.Box(orientation=Gtk.Orientation.HORIZONTAL)
         self.label = Gtk.Label()
@@ -26,7 +20,7 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
         self.label.set_margin_end(6)
         self.label.set_halign(Gtk.Align.START)
 
-        self.switch.set_active(folder_active)
+        self.switch.set_active(self.folderobj.folder_active)
         self.switch.set_margin_start(6)
         self.switch.set_margin_end(12)
 
@@ -36,21 +30,32 @@ class WallpapersFolderListBoxRow(Gtk.ListBoxRow):
         self.box.set_margin_top(6)
         self.box.set_margin_bottom(6)
 
-        self.value = folder_path
+        self.value = self.folder_path
 
         self.set_child(self.box)
-        self.switch.connect('toggled', self.on_switch_state_set)
+        self.switch_toggled_handler_id = self.switch.connect(
+            'toggled', self.on_switch_state_set
+        )
+        self.folderobj_notify_active_id = self.folderobj.connect(
+            'notify::folder-active', self.on_folder_notify_active
+        )
         self.confman.connect(
             'hydrapaper_set_folders_popover_labels',
             self.set_label_text
         )
 
-    def on_switch_state_set(self, switch):
-        state = self.switch.get_active()
-        self.emit('row_switch_state_set', state, self.value)
+    def on_folder_notify_active(self, *_):
+        with self.switch.handler_block(self.switch_toggled_handler_id):
+            self.switch.set_active(self.folderobj.folder_active)
 
-    def set_label_text(self, *args):
-        text = self.folder_path
-        if not self.confman.conf['folders_popover_full_path']:
-            text = text.split('/')[-1]
-        self.label.set_text(text)
+    def on_switch_state_set(self, switch):
+        with self.folderobj.handler_block(self.folderobj_notify_active_id):
+            state = self.switch.get_active()
+            self.folderobj.folder_active = state
+
+    def set_label_text(self, *_):
+        self.label.set_text(
+            str(self.folderobj.path)
+            if self.confman.conf['folders_popover_full_path']
+            else str(self.folderobj.path.name)
+        )
