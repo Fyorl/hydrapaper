@@ -93,7 +93,7 @@ class HydraPaperApplication(BaseApp):
         preferences_win = PreferencesWindow(self.window)
         preferences_win.present()
 
-    def apply_random(self):
+    def apply_random(self, set_dark=False):
         from random import randint
         monitors = build_monitors_autodetect()
         all_wallpapers = self.confman.wallpapers
@@ -102,9 +102,9 @@ class HydraPaperApplication(BaseApp):
                 randint(0, len(all_wallpapers)-1)
             ] for i in range(len(monitors))
         ]
-        self.apply_from_cli(wallpapers)
+        self.apply_from_cli(wallpapers, set_dark=set_dark)
 
-    def apply_from_cli(self, wlist_cli, modes=None):
+    def apply_from_cli(self, wlist_cli, modes=None, set_dark=False):
         # check all the passed wallpapers to be correct
         monitors = build_monitors_autodetect()
         if len(wlist_cli) < len(monitors):
@@ -146,25 +146,27 @@ class HydraPaperApplication(BaseApp):
             n_monitors[m.name] = m.wallpaper
         self.confman.conf['monitors'] = n_monitors
         self.confman.save_conf()
-        apply_wallpapers(monitors)
+        apply_wallpapers(monitors, set_dark=set_dark)
 
     def do_activate(self):
         super().do_activate()
         self.window = HydraPaperAppWindow()
         self.window.connect('close-request', self.on_destroy_window)
         self.add_window(self.window)
+        set_dark = not not self.args.set_dark
         if self.args:
             if self.args.wallpaper_path:
                 self.apply_from_cli(
                     self.args.wallpaper_path[0],
                     self.args.wallpaper_modes[0]
                     if self.args.wallpaper_modes
-                    else None
+                    else None,
+                    set_dark=set_dark
                 )
                 self.quit()
                 exit(0)
             if self.args.set_random:
-                self.apply_random()
+                self.apply_random(set_dark=set_dark)
                 self.quit()
                 exit(0)
         self.window.present()
@@ -199,6 +201,12 @@ class HydraPaperApplication(BaseApp):
             nargs='+', action='append',
             help=_('specify the modes for the wallpapers (zoom, center_black, '
                    'center_blur, fit_black, fit_blur)')
+        )
+        parser.add_argument(
+            '-d', '--darkmode',
+            dest='set_dark',
+            action='store_true',
+            help=_('set the dark mode wallpapers (specific to GNOME 42+)')
         )
         parser.add_argument(
             '-r', '--random',
