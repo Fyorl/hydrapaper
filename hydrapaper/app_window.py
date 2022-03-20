@@ -73,13 +73,14 @@ class HydraPaperAppWindow(BaseWindow):
         super().show(**kwargs)
         self.main_stack.main_flowbox.show_hide_wallpapers()
 
-    def apply_handler(self, btn):
+    def apply_handler(self, btn, set_dark=False):
         apply_wallpapers(
             monitors=self.monitors_flowbox.get_monitors(),
             widgets_to_freeze=[
                 btn,
                 self.folders_view
-            ]
+            ],
+            set_dark=set_dark
         )
         self.monitors_flowbox.dump_to_config()
 

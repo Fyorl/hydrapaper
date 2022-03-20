@@ -38,11 +38,20 @@ template GHeaderbar : WindowHandle {
             icon-name: 'open-menu-symbolic';
             menu-model: generalMenu;
         }
-        [end] Button apply_btn {
-            styles ['suggested-action']
-            tooltip-text: _('Apply');
-            icon-name: 'object-select-symbolic';
-            clicked => on_apply_btn_clicked();
+        [end] Box {
+            styles ['linked']
+            orientation: horizontal;
+            valign: center;
+            Button apply_dark_btn {
+                tooltip-text: _('Apply for Dark Mode');
+                icon-name: 'apply-dark-symbolic';
+                clicked => on_apply_dark_btn_clicked();
+            }
+            Button apply_btn {
+                tooltip-text: _('Apply');
+                icon-name: 'object-select-symbolic';
+                clicked => on_apply_btn_clicked();
+            }
         }
         [end] Button add_to_slideshow_btn {
             styles ['suggested-action']

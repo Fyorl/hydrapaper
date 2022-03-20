@@ -19,12 +19,15 @@ def widgets_set_sensitive(widgets, state: bool):
         w.set_sensitive(state)
 
 
-def _apply_wallpapers_worker(monitors, widgets_to_freeze=[],
-                             force_random_name=False):
+def _apply_wallpapers_worker(
+    monitors, widgets_to_freeze=[],
+    force_random_name=False,
+    set_dark=False
+):
     confman = ConfManager()
     random_name = confman.conf['random_wallpapers_names'] or force_random_name
     desktop_environment = get_desktop_environment()
-    set_wallpaper = set_wallpaper_gnome
+    set_wallpaper = lambda *args: set_wallpaper_gnome(*args, set_dark=set_dark)
     if desktop_environment == 'mate':
         set_wallpaper = set_wallpaper_mate
     elif desktop_environment == 'cinnamon':
@@ -46,8 +49,10 @@ def _apply_wallpapers_worker(monitors, widgets_to_freeze=[],
     GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
 
 
-def apply_wallpapers(monitors, widgets_to_freeze=[],
-                     force_random_name=False, skip_save=False):
+def apply_wallpapers(
+        monitors, widgets_to_freeze=[], force_random_name=False,
+        skip_save=False, set_dark=False
+):
     for m in monitors:
         if m.wallpaper is None:
             return
@@ -55,7 +60,7 @@ def apply_wallpapers(monitors, widgets_to_freeze=[],
         group=None,
         target=_apply_wallpapers_worker,
         name=None,
-        args=(monitors, widgets_to_freeze, force_random_name)
+        args=(monitors, widgets_to_freeze, force_random_name, set_dark)
     )
     widgets_set_sensitive(widgets_to_freeze, False)
     t.start()

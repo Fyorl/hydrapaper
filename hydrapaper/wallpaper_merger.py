@@ -124,12 +124,12 @@ def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
     # gsettings.set_string(mode_key, wp_mode)
 
 
-def set_wallpaper_gnome(path, wp_mode='spanned'):
+def set_wallpaper_gnome(path, wp_mode='spanned', set_dark=False):
     __set_wallpaper_gsettings(
         gsettings_path=(
             'org.gnome.desktop.background'
         ),
-        wp_key='picture-uri',
+        wp_key='picture-uri-dark' if set_dark else 'picture-uri',
         mode_key='picture-options',
         path='file://{}'.format(path),
         wp_mode=wp_mode

@@ -1,4 +1,5 @@
 from gi.repository import Gtk
+from .get_desktop_environment import get_desktop_environment
 from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
 from .confManager import ConfManager
 from .slideshow_listbox_row import SlideshowListboxRow
@@ -22,6 +23,7 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
     slideshow_time_spinbutton = Gtk.Template.Child()
     slideshow_listbox = Gtk.Template.Child()
     search_toggle = Gtk.Template.Child()
+    apply_dark_btn = Gtk.Template.Child()
 
     def __init__(self, window, apply_handler, folders_flap):
         super().__init__()
@@ -55,6 +57,10 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
         self.slideshow_listbox.populate = self.populate_slideshow_listbox
         self.on_slideshow_mode_changed()
         self.populate_slideshow_listbox()
+
+        self.apply_dark_btn.set_visible(
+            'gnome' in get_desktop_environment()
+        )
 
     def signal_daemon(self):
         if not DAEMON_BUILD_ENABLED:
@@ -138,7 +144,11 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
 
     @Gtk.Template.Callback()
     def on_apply_btn_clicked(self, btn):
-        self.apply_handler(self.apply_btn)
+        self.apply_handler(self.apply_dark_btn)
+
+    @Gtk.Template.Callback()
+    def on_apply_dark_btn_clicked(self, btn):
+        self.apply_handler(self.apply_btn, set_dark=True)
 
     @Gtk.Template.Callback()
     def on_wallpaper_folders_btn_clicked(self, *args):
