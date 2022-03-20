@@ -37,7 +37,7 @@ def _apply_wallpapers_worker(
         GLib.idle_add(widgets_set_sensitive, widgets_to_freeze, True)
         return
     # add other DE cases as `elif` here
-    wp_fname = 'merged_wallpaper'
+    wp_fname = 'merged_wallpaper' + ('_dark' if set_dark else '')
     if random_name:
         wp_fname = sha256(
             '_'.join([m.__repr__() for m in monitors]).encode()
