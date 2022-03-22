@@ -1,4 +1,4 @@
-from gi.repository import Gtk, GObject
+from gi.repository import Gtk
 from .folder_store import FolderObj
 from .confManager import ConfManager
 
