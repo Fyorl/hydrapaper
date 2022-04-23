@@ -42,6 +42,16 @@
     <url type="donation">https://liberapay.com/gabmus/donate</url>
     <update_contact>gabmus@disroot.org</update_contact>
     <releases>
+        <release version="3.3.0" timestamp="1650700311">
+            <description>
+                <ul>
+                    <li>Added separate apply button for dark mode</li>
+                    <li>Show wallpaper names</li>
+                    <li>Added search for file name and resolution</li>
+                </ul>
+            </description>
+        </release>
+
         <release version="3.2.0" timestamp="1636995847">
             <description>
                 <ul>

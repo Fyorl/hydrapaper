@@ -2,7 +2,7 @@
     "app-id": "org.gabmus.hydrapaper",
     "command": "hydrapaper",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "master",
+    "runtime-version": "42",
     "sdk": "org.gnome.Sdk",
     "finish-args": [
         "--share=ipc",
@@ -77,7 +77,7 @@
                 {
                     "type": "git",
                     "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
-                    "tag": "3.2.0"
+                    "tag": "3.3.0"
                 }
             ]
         }
