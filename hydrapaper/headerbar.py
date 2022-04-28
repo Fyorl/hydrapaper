@@ -59,7 +59,8 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
         self.populate_slideshow_listbox()
 
         self.apply_dark_btn.set_visible(
-            'gnome' in get_desktop_environment()
+            'gnome' in get_desktop_environment() or
+            'ubuntu' in get_desktop_environment()
         )
 
     def signal_daemon(self):
