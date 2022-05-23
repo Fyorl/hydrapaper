@@ -2,9 +2,9 @@ data/org.gabmus.hydrapaper.appdata.xml.in
 data/org.gabmus.hydrapaper.Daemon.desktop.in
 data/org.gabmus.hydrapaper.desktop.in
 data/ui/headerbar.blp
+data/ui/shortcutsWindow.blp
 data/ui/monitors_flowbox_item.blp
 data/ui/shortcutsWindow.blp
-data/ui/headerbar.blp
 data/ui/wallpaper_flowbox_item_popover.blp
 data/ui/wallpapers_folders_view.blp
 data/ui/wp_mode_popover_menu.blp
