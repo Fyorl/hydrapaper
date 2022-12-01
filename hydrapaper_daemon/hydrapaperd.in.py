@@ -95,7 +95,7 @@ class HydrapaperDaemon(dbus.service.Object):
                 fwp = list(last_wps['wps'].values())[0]
                 virt_monitor.wallpaper = fwp['wp']
                 virt_monitor.mode = fwp.get('mode', 'zoom')
-                apply_wallpapers([virt_monitor])
+                apply_wallpapers([virt_monitor], set_dark=self.config['dark_mode'])
                 return
             for m in self.monitors:
                 cm = last_wps['wps'].get(
@@ -103,7 +103,7 @@ class HydrapaperDaemon(dbus.service.Object):
                 )
                 m.wallpaper = cm['wp']
                 m.mode = cm['mode']
-        apply_wallpapers(self.monitors, skip_save=True)
+        apply_wallpapers(self.monitors, skip_save=True, set_dark=self.config['dark_mode'])
 
     @dbus.service.method(
             dbus_interface=PACKAGE,
@@ -188,8 +188,9 @@ class HydrapaperDaemon(dbus.service.Object):
                 virt_monitor.wallpaper = wp_paths[0]
                 apply_wallpapers(
                     [virt_monitor],
-                    lockscreen=False, force_random_name=True,
-                    skip_save=True
+                    force_random_name=True,
+                    skip_save=True,
+                    set_dark=self.config['dark_mode']
                 )
                 return
             cycle_wps = cycle(wp_paths)
@@ -207,8 +208,9 @@ class HydrapaperDaemon(dbus.service.Object):
         elif None in [m.wallpaper for m in self.monitors]:
             return
         apply_wallpapers(
-            self.monitors, lockscreen=False, force_random_name=True,
-            skip_save=True
+            self.monitors, force_random_name=True,
+            skip_save=True,
+            set_dark=self.config['dark_mode']
         )
 
 
