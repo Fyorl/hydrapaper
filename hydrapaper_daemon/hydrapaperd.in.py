@@ -10,6 +10,7 @@ from dbus.mainloop.glib import DBusGMainLoop
 from os.path import isfile
 from os import environ as Env
 import json
+import os
 from hydrapaper.monitor_parser import (
     build_monitors_autodetect,
     build_combined_spanned_monitor
@@ -26,8 +27,7 @@ is_flatpak = (
     isfile(f'{Env["XDG_RUNTIME_DIR"]}/flatpak-info')
 )
 CONFIG_PATH = '{0}/org.gabmus.hydrapaper.json'.format(
-    Env.get('XDG_CONFIG_HOME') if is_flatpak
-    else Env.get('HOME') + '/.config'
+    os.getenv('XDG_CONFIG_HOME', f'{Env.get("HOME")}/.config')
 )
 
 PACKAGE = 'org.gabmus.hydrapaper.Daemon'
