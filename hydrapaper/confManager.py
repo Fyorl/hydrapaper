@@ -6,6 +6,7 @@ from .is_image import is_image
 from os import makedirs, listdir, system
 from os import environ as Env
 import json
+import os
 from threading import Thread
 
 pictures_dir = GLib.get_user_special_dir(GLib.UserDirectory.DIRECTORY_PICTURES)
@@ -107,12 +108,8 @@ class ConfManager(metaclass=Singleton):
             ) or 'WAYLAND_DISPLAY' in Env.keys()
         )
 
-        if self.is_flatpak:
-            self.config_home = Env.get('XDG_CONFIG_HOME')
-            self.cache_home = Env.get('XDG_CACHE_HOME')
-        else:
-            self.config_home = f'{Env.get("HOME")}/.config'
-            self.cache_home = f'{Env.get("HOME")}/.cache'
+        self.config_home = os.getenv('XDG_CONFIG_HOME', f'{Env.get("HOME")}/.config')
+        self.cache_home = os.getenv('XDG_CACHE_HOME', f'{Env.get("HOME")}/.cache')
         self.path = Path(
             f'{self.config_home}/org.gabmus.hydrapaper.json'
         )
