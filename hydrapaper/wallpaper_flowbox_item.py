@@ -26,7 +26,7 @@ class WallpaperItemPopover(Gtk.Popover):
     def popup(self, *args):
         if (
                 self.parent_w.get_parent().get_parent().get_parent(
-                    ).get_parent().is_favorites or
+                    ).is_favorites or
                 self.parent_w.is_fav
         ):
             self.favorite_btn.set_label(_('Remove favorite'))
