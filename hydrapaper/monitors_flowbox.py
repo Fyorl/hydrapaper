@@ -1,10 +1,10 @@
 from gi.repository import Gtk, GdkPixbuf
-from .confManager import ConfManager
-from .monitor_parser import (
+from hydrapaper.confManager import ConfManager
+from hydrapaper.monitor_parser import (
     build_monitors_autodetect,
     build_combined_spanned_monitor
 )
-from .is_image import is_image
+from hydrapaper.is_image import is_image
 from hashlib import sha256
 from os.path import isfile
 

@@ -66,9 +66,5 @@ if __name__ == '__main__':
     resource = Gio.Resource.load(os.path.join(pkgdatadir, '@appid@.gresource'))
     resource._register()
 
-    from hydrapaper import daemon_helper
-    daemon_helper.APPLICATIONS_DIR = '@applications_dir@'
-    daemon_helper.DAEMON_BUILD_ENABLED = @enable_daemon@
-
     from @projectname@ import __main__
     __main__.main()

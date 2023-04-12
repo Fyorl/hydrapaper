@@ -2,11 +2,11 @@ from gettext import gettext as _
 from gi.repository import Gdk
 from subprocess import run, PIPE
 import json
-from .get_desktop_environment import get_desktop_environment
-from .confManager import ConfManager
-from .wallpaper_merger import get_combined_resolution
-import dbus
+from hydrapaper.get_desktop_environment import get_desktop_environment
+from hydrapaper.confManager import ConfManager
+from hydrapaper.wallpaper_merger import get_combined_resolution
 from os import environ as Env
+import dbus
 
 
 confman = ConfManager()

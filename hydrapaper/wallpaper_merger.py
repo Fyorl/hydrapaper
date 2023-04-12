@@ -4,7 +4,7 @@ from PIL.ImageFilter import GaussianBlur
 from os import environ as Env
 from subprocess import run
 import re
-from .confManager import ConfManager
+from hydrapaper.confManager import ConfManager
 # from .set_wallpaper_portal import set_wallpaper
 
 SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'

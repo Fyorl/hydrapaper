@@ -1,5 +1,0 @@
-option (
-    'enabledaemon',
-    type: 'boolean',
-    value: true
-)

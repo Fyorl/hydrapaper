@@ -1,7 +1,7 @@
 from gi.repository import Gtk
-from .confManager import ConfManager
-from .wallpaper_flowbox_item import WallpaperBox
-from .search_bar import HpSearchBar
+from hydrapaper.confManager import ConfManager
+from hydrapaper.wallpaper_flowbox_item import WallpaperBox
+from hydrapaper.search_bar import HpSearchBar
 import pathlib
 
 

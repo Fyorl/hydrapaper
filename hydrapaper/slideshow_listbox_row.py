@@ -1,7 +1,7 @@
 from gettext import gettext as _
 from gi.repository import Gtk
 from os.path import isfile
-from .confManager import ConfManager
+from hydrapaper.confManager import ConfManager
 
 
 class SlideshowListboxRow(Gtk.ListBoxRow):

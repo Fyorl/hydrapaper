@@ -1,6 +1,6 @@
 from gettext import gettext as _
-from .confManager import ConfManager
 from gi.repository import Gtk, Adw, Gio, GObject
+from hydrapaper.confManager import ConfManager
 from typing import Optional, Union, List, Callable
 
 

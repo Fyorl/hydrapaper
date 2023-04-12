@@ -4,72 +4,11 @@ from os.path import isfile, abspath, join
 from os import remove, listdir
 from os import environ as Env
 from subprocess import run
-from .daemon_helper import APPLICATIONS_DIR, DAEMON_BUILD_ENABLED
-from .base_preferences import (
+from hydrapaper.base_preferences import (
     MPreferencesPage, MPreferencesGroup,
     PreferencesButtonRow, PreferencesToggleRow
 )
 from typing import Optional
-
-
-class AutostartToggleRow(PreferencesToggleRow):
-    def __init__(self):
-        super().__init__(
-            title=_('Start daemon on login'),
-            subtitle=_('React to monitor changes and start slideshow mode'),
-            conf_key=None
-        )
-        self.source_file = \
-            f'{APPLICATIONS_DIR}/org.gabmus.hydrapaper.Daemon.desktop'
-        self.autostart_dir = \
-            f'{Env.get("HOME")}/.config/autostart'
-        self.target_file = \
-            f'{self.autostart_dir}/org.gabmus.hydrapaper.Daemon.desktop'
-        self.toggle.set_active(self.target_exists())
-
-    def target_exists(self):
-        if isfile(self.target_file):
-            with open(self.target_file, 'r') as fd:
-                if fd.read().strip() != self.get_daemon_desktop_file().strip():
-                    self.create_autostart()
-                return True
-        return False
-
-    def get_daemon_desktop_file(self):
-        res = ''
-        with open(self.source_file, 'r') as fd:
-            res = fd.read()
-        if self.confman.is_flatpak:
-            res = res.replace(
-                '/app/libexec/hydrapaperd',
-                '/usr/bin/flatpak run --command=/app/libexec/hydrapaperd '
-                'org.gabmus.hydrapaper'
-            )
-        return res
-
-    def create_autostart(self):
-        self.delete_autostart()
-        cmds = [
-            f'mkdir -p {self.autostart_dir}',
-            (
-                f"cat <<'EOF' >> {self.target_file}\n"
-                f"{self.get_daemon_desktop_file()}\nEOF"
-            )
-        ]
-        for cmd in cmds:
-            if self.confman.is_flatpak:
-                cmd = 'flatpak-spawn --host ' + cmd
-            run(cmd, shell=True)
-
-    def delete_autostart(self):
-        if isfile(self.target_file):
-            remove(self.target_file)
-
-    def on_toggle_state_set(self, toggle, state):
-        if state:
-            self.create_autostart()
-        else:
-            self.delete_autostart()
 
 
 class GeneralPreferencesPage(MPreferencesPage):
@@ -85,18 +24,6 @@ class GeneralPreferencesPage(MPreferencesPage):
                 conf_key='random_wallpapers_names'
             )
         ]
-        if DAEMON_BUILD_ENABLED:
-            general_rows.append(
-                PreferencesToggleRow(
-                    title=_('Enable daemon'),
-                    subtitle=_(
-                        'Needed for slideshow mode and to detect display '
-                        'changes'
-                    ),
-                    conf_key='enable_daemon'
-                )
-            )
-            general_rows.append(AutostartToggleRow())
         super().__init__(
             title=_('General'), icon_name='preferences-other-symbolic',
             pref_groups=[

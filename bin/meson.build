@@ -9,12 +9,6 @@ conf.set('projectname', meson.project_name())
 conf.set('authorfullname', authorfullname)
 conf.set('authoremail', authoremail)
 conf.set('appid', '.'.join([domain, author, meson.project_name()]))
-conf.set('applications_dir', join_paths(prefix, datadir, 'applications'))
-if enable_daemon == true
-    conf.set('enable_daemon', 'True')
-else
-    conf.set('enable_daemon', 'False')
-endif
 
 configure_file(
   input: meson.project_name() + '.in',

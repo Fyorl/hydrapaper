@@ -1,10 +1,10 @@
 from gettext import gettext as _
 from pathlib import Path
 from gi.repository import Gtk
-from .folder_store import FolderObj
-from .folder_store import FolderStore
-from .confManager import ConfManager
-from .wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
+from hydrapaper.folder_store import FolderObj
+from hydrapaper.folder_store import FolderStore
+from hydrapaper.confManager import ConfManager
+from hydrapaper.wallpapers_folder_listbox_row import WallpapersFolderListBoxRow
 from os.path import isdir
 
 

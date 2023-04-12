@@ -2,13 +2,13 @@ from gettext import gettext as _
 import sys
 import argparse
 from gi.repository import Gtk, Gio, GLib
-from .confManager import ConfManager
-from .app_window import HydraPaperAppWindow
-from .preferences_window import PreferencesWindow
-from .is_image import is_image
-from .monitor_parser import build_monitors_autodetect
-from .apply_wallpapers import apply_wallpapers
-from .base_app import BaseApp, AppAction
+from hydrapaper.confManager import ConfManager
+from hydrapaper.app_window import HydraPaperAppWindow
+from hydrapaper.preferences_window import PreferencesWindow
+from hydrapaper.is_image import is_image
+from hydrapaper.monitor_parser import build_monitors_autodetect
+from hydrapaper.apply_wallpapers import apply_wallpapers
+from hydrapaper.base_app import BaseApp, AppAction
 
 
 class HydraPaperApplication(BaseApp):

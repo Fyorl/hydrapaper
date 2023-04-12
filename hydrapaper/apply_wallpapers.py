@@ -2,7 +2,7 @@ from threading import Thread
 from gi.repository import GLib
 from hashlib import sha256
 from os.path import isfile
-from .wallpaper_merger import (
+from hydrapaper.wallpaper_merger import (
     set_wallpaper_gnome,
     set_wallpaper_cinnamon,
     set_wallpaper_mate,
@@ -10,8 +10,8 @@ from .wallpaper_merger import (
     multi_setup_pillow,
     # cut_image
 )
-from .confManager import ConfManager
-from .get_desktop_environment import get_desktop_environment
+from hydrapaper.confManager import ConfManager
+from hydrapaper.get_desktop_environment import get_desktop_environment
 
 
 def widgets_set_sensitive(widgets, state: bool):

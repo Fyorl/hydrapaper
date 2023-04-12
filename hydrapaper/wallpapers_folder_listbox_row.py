@@ -1,6 +1,6 @@
 from gi.repository import Gtk
-from .folder_store import FolderObj
-from .confManager import ConfManager
+from hydrapaper.folder_store import FolderObj
+from hydrapaper.confManager import ConfManager
 
 
 class WallpapersFolderListBoxRow(Gtk.ListBoxRow):

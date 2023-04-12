@@ -76,13 +76,7 @@ app_id_aspath = '/'.join([
     meson.project_name()
 ])
 
-enable_daemon = get_option('enabledaemon')
-message(f'Daemon Enabled: @enable_daemon@')
-
 install_subdir(meson.project_name(), install_dir: pythondir)
-if enable_daemon == true
-    subdir('hydrapaper_daemon')
-endif
 subdir('data')
 subdir('bin')
 subdir('po')

@@ -1,11 +1,11 @@
 from gi.repository import Gtk, Adw
-from .confManager import ConfManager
-from .main_stack import HydraPaperMainStack
-from .monitors_flowbox import HydraPaperMonitorsFlowbox
-from .apply_wallpapers import apply_wallpapers
-from .headerbar import HydraPaperHeaderbar
-from .base_app import BaseWindow, AppShortcut
-from .search_bar import HpSearchBar
+from hydrapaper.confManager import ConfManager
+from hydrapaper.main_stack import HydraPaperMainStack
+from hydrapaper.monitors_flowbox import HydraPaperMonitorsFlowbox
+from hydrapaper.apply_wallpapers import apply_wallpapers
+from hydrapaper.headerbar import HydraPaperHeaderbar
+from hydrapaper.base_app import BaseWindow, AppShortcut
+from hydrapaper.search_bar import HpSearchBar
 
 
 class HydraPaperAppWindow(BaseWindow):

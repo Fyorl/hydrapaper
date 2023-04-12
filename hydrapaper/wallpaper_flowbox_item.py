@@ -3,7 +3,7 @@ from gi.repository import Gtk, GLib
 import os
 from PIL import Image
 from hashlib import sha256
-from .confManager import ConfManager
+from hydrapaper.confManager import ConfManager
 from pathlib import Path
 from threading import Thread
 

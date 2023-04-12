@@ -79,7 +79,7 @@ class ConfManager(metaclass=Singleton):
             'width': 600,
             'height': 400
         },
-        'enable_daemon': True,
+        'enable_daemon': False,
         'last_wps': {
             'spanned': False,
             'wps': {}

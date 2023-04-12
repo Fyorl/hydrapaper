@@ -1,10 +1,8 @@
 from gi.repository import Gtk
-from .get_desktop_environment import get_desktop_environment
-from .wallpapers_folders_view import HydraPaperWallpapersFoldersView
-from .confManager import ConfManager
-from .slideshow_listbox_row import SlideshowListboxRow
-from .daemon_helper import DAEMON_BUILD_ENABLED
-import dbus
+from hydrapaper.get_desktop_environment import get_desktop_environment
+from hydrapaper.wallpapers_folders_view import HydraPaperWallpapersFoldersView
+from hydrapaper.confManager import ConfManager
+from hydrapaper.slideshow_listbox_row import SlideshowListboxRow
 
 
 @Gtk.Template(resource_path='/org/gabmus/hydrapaper/ui/headerbar.ui')
@@ -44,7 +42,7 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
                 )
         )
 
-        if not DAEMON_BUILD_ENABLED:
+        if True:  # TODO: rework background worker
             self.slideshow_menu_btn.set_visible(False)
         self.slideshow_switch.set_state(
             self.confman.conf['Daemon']['wallpaper_rotation_enabled']
@@ -64,20 +62,8 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
         )
 
     def signal_daemon(self):
-        if not DAEMON_BUILD_ENABLED:
+        if True:  # TODO: rework background worker
             return
-        try:
-            bus = dbus.SessionBus()
-            d = bus.get_object(
-                'org.gabmus.hydrapaper.Daemon',
-                '/org/gabmus/hydrapaper/Daemon'
-            )
-            iface = dbus.Interface(
-                d, dbus_interface='org.gabmus.hydrapaper.Daemon'
-            )
-            iface.update_config()
-        except dbus.exceptions.DBusException:
-            print('Failed to communicate with HydraPaper daemon')
 
     @Gtk.Template.Callback()
     def on_slideshow_time_spinbutton_changed(self, *args):
@@ -115,7 +101,7 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
     @Gtk.Template.Callback()
     def on_slideshow_mode_changed(self, *args):
         n_state = self.slideshow_switch.get_active()
-        if not DAEMON_BUILD_ENABLED:
+        if True:  # TODO: rework background worker
             n_state = False
         self.confman.conf['Daemon']['wallpaper_rotation_enabled'] = n_state
         self.confman.save_conf_async()

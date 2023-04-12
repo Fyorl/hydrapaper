@@ -1,7 +1,7 @@
 from gettext import gettext as _
 from gi.repository import Adw
-from .wallpapers_flowbox import HydraPaperWallpapersFlowbox
-from .search_bar import HpSearchBar
+from hydrapaper.wallpapers_flowbox import HydraPaperWallpapersFlowbox
+from hydrapaper.search_bar import HpSearchBar
 
 
 class HydraPaperMainStack(Adw.Bin):

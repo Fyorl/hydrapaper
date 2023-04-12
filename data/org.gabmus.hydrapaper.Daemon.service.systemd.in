@@ -1,7 +1,0 @@
-[Unit]
-Description=HydraPaper Daemon
-
-[Service]
-Type=dbus
-BusName=@appid@.Daemon
-ExecStart=@libexecdir@/@projectname@d

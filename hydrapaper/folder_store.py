@@ -1,7 +1,7 @@
 from pathlib import Path
 from typing import List, Union
 from gi.repository import Gtk, Gio, GObject
-from .confManager import ConfManager
+from hydrapaper.confManager import ConfManager
 
 
 class FolderObj(GObject.Object):
