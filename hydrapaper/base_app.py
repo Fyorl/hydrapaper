@@ -74,10 +74,12 @@ class BaseApp(Gtk.Application):
             return
         provider = Gtk.CssProvider()
         provider.load_from_resource(self.css_resource)
-        Gtk.StyleContext.add_provider_for_display(
-            Gdk.Display.get_default(), provider,
-            Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
-        )
+        display = Gdk.Display.get_default()
+        if display is not None:
+            Gtk.StyleContext.add_provider_for_display(
+                display, provider,
+                Gtk.STYLE_PROVIDER_PRIORITY_APPLICATION
+            )
 
     def do_activate(self):
         self.load_css()
