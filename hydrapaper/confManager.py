@@ -1,3 +1,4 @@
+from hydrapaper.is_flatpak import is_flatpak
 from .singleton import Singleton
 from gi.repository import GObject, GLib
 from pathlib import Path
@@ -95,18 +96,6 @@ class ConfManager(metaclass=Singleton):
         self.signaler = ConfManagerSignaler()
         self.emit = self.signaler.emit
         self.connect = self.signaler.connect
-
-        # check if inside flatpak sandbox
-        self.is_flatpak = (
-            'XDG_RUNTIME_DIR' in Env.keys() and
-            isfile(f'{Env["XDG_RUNTIME_DIR"]}/flatpak-info')
-        )
-        self.is_wayland = (
-            (
-                'XDG_SESSION_TYPE' in Env.keys() and
-                Env['XDG_SESSION_TYPE'].lower() == 'wayland'
-            ) or 'WAYLAND_DISPLAY' in Env.keys()
-        )
 
         self.config_home = os.getenv('XDG_CONFIG_HOME', f'{Env.get("HOME")}/.config')
         self.cache_home = os.getenv('XDG_CACHE_HOME', f'{Env.get("HOME")}/.cache')

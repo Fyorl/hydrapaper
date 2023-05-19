@@ -51,7 +51,7 @@ def _apply_wallpapers_worker(
 
 def apply_wallpapers(
         monitors, widgets_to_freeze=[], force_random_name=False,
-        skip_save=False, set_dark=False
+        skip_save=False, set_dark=None
 ):
     for m in monitors:
         if m.wallpaper is None:

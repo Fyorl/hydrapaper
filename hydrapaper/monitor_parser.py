@@ -4,6 +4,7 @@ from subprocess import run, PIPE
 import json
 from hydrapaper.get_desktop_environment import get_desktop_environment
 from hydrapaper.confManager import ConfManager
+from hydrapaper.is_flatpak import is_flatpak
 from hydrapaper.wallpaper_merger import get_combined_resolution
 from os import environ as Env
 import dbus
@@ -58,7 +59,7 @@ class Monitor:
 
 def build_monitors_from_swaymsg():
     cmd = 'swaymsg -rt get_outputs'
-    if confman.is_flatpak:
+    if is_flatpak():
         cmd = 'flatpak-spawn --host ' + cmd
     res = run(cmd.split(' '), stdout=PIPE)
     outputs = json.loads(res.stdout.decode())

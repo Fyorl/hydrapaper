@@ -1,3 +1,4 @@
+from typing import Optional
 from PIL import Image
 from PIL.ImageOps import fit
 from PIL.ImageFilter import GaussianBlur
@@ -5,6 +6,8 @@ from os import environ as Env
 from subprocess import run
 import re
 from hydrapaper.confManager import ConfManager
+from hydrapaper.get_gnome_dark_mode import get_gnome_dark_mode
+from hydrapaper.is_flatpak import is_flatpak
 # from .set_wallpaper_portal import set_wallpaper
 
 SWAY_CONF_PATH = f'{Env.get("HOME")}/.config/sway/config'
@@ -109,7 +112,7 @@ def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
     # set_wallpaper(path)
     # return
     cmd = 'gsettings set'
-    if confman.is_flatpak:
+    if is_flatpak():
         cmd = 'flatpak-spawn --host ' + cmd
     for t in [(wp_key, path), (mode_key, wp_mode)]:
         run(
@@ -124,7 +127,12 @@ def __set_wallpaper_gsettings(gsettings_path, wp_key, mode_key, path, wp_mode):
     # gsettings.set_string(mode_key, wp_mode)
 
 
-def set_wallpaper_gnome(path, wp_mode='spanned', set_dark=False):
+def set_wallpaper_gnome(
+        path, wp_mode='spanned', set_dark: Optional[bool] = None
+):
+    if set_dark is None:
+        set_dark = get_gnome_dark_mode()
+    print(set_dark)
     __set_wallpaper_gsettings(
         gsettings_path=(
             'org.gnome.desktop.background'
