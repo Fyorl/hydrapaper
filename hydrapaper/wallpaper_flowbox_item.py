@@ -147,7 +147,7 @@ class WallpaperBox(Gtk.FlowBoxChild):
             GLib.idle_add(
                 lambda: self.wp_image.set_tooltip_text(self.resolution)
             )
-            thumb.thumbnail((250, 250), Image.ANTIALIAS)
+            thumb.thumbnail((250, 250))
             thumb.save(self.cache_path, 'PNG')
             thumb.close()
         except IOError:

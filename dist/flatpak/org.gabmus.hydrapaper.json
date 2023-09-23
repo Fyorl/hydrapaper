@@ -2,7 +2,7 @@
     "app-id": "org.gabmus.hydrapaper",
     "command": "hydrapaper",
     "runtime": "org.gnome.Platform",
-    "runtime-version": "44",
+    "runtime-version": "45",
     "sdk": "org.gnome.Sdk",
     "finish-args": [
         "--share=ipc",
@@ -33,8 +33,8 @@
             "sources": [
                 {
                     "type": "archive",
-                    "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler/-/archive/v0.6.0/blueprint-compiler-v0.6.0.tar.gz",
-                    "sha256": "c9e3652b66803c1de6a24b71f4fa4638b32260b4b04b93c2f3d958e1ce2a175e"
+                    "url": "https://gitlab.gnome.org/jwestman/blueprint-compiler/-/archive/v0.10.0/blueprint-compiler-v0.10.0.tar.gz",
+                    "sha256": "2bc729b36897d0959a9890fb0997c9847aa9d2fc9356520bd8a46ed0b51ff4c0"
                 }
             ]
         },
