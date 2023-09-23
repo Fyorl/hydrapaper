@@ -95,14 +95,10 @@ class HydraPaperApplication(BaseApp):
         preferences_win.present()
 
     def apply_random(self):
-        from random import randint
+        from random import sample
         monitors = build_monitors_autodetect()
         all_wallpapers = self.confman.wallpapers
-        wallpapers = [
-            all_wallpapers[
-                randint(0, len(all_wallpapers)-1)
-            ] for i in range(len(monitors))
-        ]
+        wallpapers = sample(all_wallpapers, len(monitors))
         self.apply_from_cli(wallpapers)
 
     def apply_from_cli(self, wlist_cli, modes=None):
