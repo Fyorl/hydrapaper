@@ -1,0 +1,54 @@
+{
+    "app-id": "org.gabmus.hydrapaper",
+    "command": "hydrapaper",
+    "runtime": "org.gnome.Platform",
+    "runtime-version": "50",
+    "sdk": "org.gnome.Sdk",
+    "finish-args": [
+        "--share=ipc",
+        "--socket=fallback-x11",
+        "--socket=wayland",
+        "--device=dri",
+        "--talk-name=org.gnome.SettingsDaemon",
+        "--talk-name=org.freedesktop.Flatpak",
+        "--talk-name=org.gnome.Mutter.DisplayConfig",
+        "--filesystem=home:ro",
+        "--filesystem=~/.config/dconf:ro",
+        "--filesystem=~/.config/sway/config:rw",
+        "--filesystem=~/.swaylock/config:rw",
+        "--metadata=X-DConf=migrate-path=/org/gabmus/hydrapaper/"
+    ],
+    "modules": [
+        "python-deps.json",
+        {
+            "name": "dbus-python",
+            "buildsystem": "meson",
+            "sources": [
+                {
+                    "type": "archive",
+                    "url": "https://files.pythonhosted.org/packages/ff/24/63118050c7dd7be04b1ccd60eab53fef00abe844442e1b6dec92dae505d6/dbus-python-1.4.0.tar.gz",
+                    "sha256": "991666e498f60dbf3e49b8b7678f5559b8a65034fdf61aae62cdecdb7d89c770"
+                }
+            ]
+        },
+        {
+            "name": "hydrapaper",
+            "buildsystem": "meson",
+            "builddir": true,
+            "config-opts": [
+                "--buildtype=release"
+            ],
+            "sources": [
+                {
+                    "type": "git",
+                    "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
+                    "tag": "3.3.2"
+                },
+                {
+                    "type": "patch",
+                    "path": "appstream.patch"
+                }
+            ]
+        }
+    ]
+}

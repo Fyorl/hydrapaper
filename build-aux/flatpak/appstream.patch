@@ -1,0 +1,12 @@
+diff --git a/data/org.gabmus.hydrapaper.appdata.xml.in b/data/org.gabmus.hydrapaper.appdata.xml.in
+index 5b52765..e0f0443 100644
+--- a/data/org.gabmus.hydrapaper.appdata.xml.in
++++ b/data/org.gabmus.hydrapaper.appdata.xml.in
+@@ -443,7 +443,6 @@
+     <content_attribute id="money-gambling">none</content_attribute>
+   </content_rating>
+   <custom>
+-    <value key="Purism::form_factor">workstation</value>
+     <value key="Purism::form_factor">mobile</value>
+   </custom>
+ 
