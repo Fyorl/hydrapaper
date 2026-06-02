@@ -62,11 +62,9 @@ template GHeaderbar : WindowHandle {
         }
         [end] MenuButton slideshow_menu_btn {
             icon-name: "slideshowmode-symbolic";
-            popover: slideshow_popover;
             tooltip-text: _("Manage Slideshow Mode");
-        }
 
-        Popover slideshow_popover {
+            popover: Popover slideshow_popover {
             height-request: 350;
             width-request: 250;
             Box slideshow_popover_inner_box {
@@ -110,6 +108,7 @@ template GHeaderbar : WindowHandle {
                     }
                 }
             }
+            };
         }
     }
 }

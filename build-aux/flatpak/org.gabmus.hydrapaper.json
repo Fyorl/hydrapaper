@@ -40,9 +40,8 @@
             ],
             "sources": [
                 {
-                    "type": "git",
-                    "url": "https://gitlab.gnome.org/GabMus/HydraPaper",
-                    "tag": "3.3.2"
+                    "type": "dir",
+                    "path": "../.."
                 },
                 {
                     "type": "patch",
