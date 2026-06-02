@@ -10,8 +10,6 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
     __gtype_name__ = 'GHeaderbar'
     headerbar = Gtk.Template.Child()
     stack_switcher = Gtk.Template.Child()
-    squeezer = Gtk.Template.Child()
-    nobox = Gtk.Template.Child()
     apply_btn = Gtk.Template.Child()
     menu_btn = Gtk.Template.Child()
     wallpaper_folders_btn = Gtk.Template.Child()
@@ -31,7 +29,6 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
         self.set_title_widget = self.headerbar.set_title_widget
         self.apply_handler_func = apply_handler
         self.folders_flap = folders_flap
-        self.bottom_bar = window.bottom_bar
 
         self.folders_view = HydraPaperWallpapersFoldersView(window)
         self.folders_flap.set_flap(self.folders_view)
@@ -117,12 +114,6 @@ class HydraPaperHeaderbar(Gtk.WindowHandle):
             self.add_to_slideshow_btn.set_visible(False)
             self.apply_btn.set_visible(True)
         self.signal_daemon()
-
-    @Gtk.Template.Callback()
-    def on_squeeze(self, *args):
-        self.bottom_bar.set_reveal(
-            self.squeezer.get_visible_child() == self.nobox
-        )
 
     def apply_handler(self, *args, **kwargs):
         self.apply_handler_func(*args, **kwargs)

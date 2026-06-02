@@ -1,6 +1,6 @@
 using Gtk 4.0;
 
-template WallpapersFlowbox : ScrolledWindow {
+template $WallpapersFlowbox : ScrolledWindow {
     styles ["view"]
     hscrollbar_policy: never;
     Viewport {
@@ -8,7 +8,7 @@ template WallpapersFlowbox : ScrolledWindow {
             styles ["view", "wallpapers-flowbox"]
             valign: start; hexpand: true;
             activate-on-single-click: true;
-            child-activated => on_flowbox_child_activated();
+            child-activated => $on_flowbox_child_activated();
         }
     }
 }

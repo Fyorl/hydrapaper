@@ -1,6 +1,6 @@
 using Gtk 4.0;
 
-template WallpaperFlowboxItemPopover : Popover {
+template $WallpaperFlowboxItemPopover : Popover {
     autohide: true;
     Box flowbox_item_popover_content {
         orientation: vertical;
@@ -17,7 +17,7 @@ template WallpaperFlowboxItemPopover : Popover {
         Button favorite_btn {
             label: _("Add Favorite");
             halign: center;
-            clicked => on_favorite_btn_clicked();
+            clicked => $on_favorite_btn_clicked();
         }
         Box {
             orientation: horizontal;

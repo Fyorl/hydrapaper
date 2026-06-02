@@ -38,11 +38,6 @@ class HydraPaperApplication(BaseApp):
                     accel='<Primary>comma'
                 ),
                 AppAction(
-                    name='shortcuts',
-                    func=self.show_shortcuts_window,
-                    accel='<Primary>question'
-                ),
-                AppAction(
                     name='about',
                     func=self.show_about_dialog
                 ),
@@ -78,17 +73,6 @@ class HydraPaperApplication(BaseApp):
     def on_destroy_window(self, *args):
         self.window.on_destroy()
         self.quit()
-
-    def show_shortcuts_window(self, *args):
-        shortcuts_win = Gtk.Builder.new_from_resource(
-            '/org/gabmus/hydrapaper/ui/shortcutsWindow.ui'
-        ).get_object('shortcuts-hydrapaper')
-        shortcuts_win.props.section_name = 'shortcuts'
-        shortcuts_win.set_transient_for(self.window)
-        # shortcuts_win.set_attached_to(self.window)
-        shortcuts_win.set_modal(True)
-        shortcuts_win.present()
-        shortcuts_win.show()
 
     def show_preferences_window(self, *args):
         preferences_win = PreferencesWindow(self.window)

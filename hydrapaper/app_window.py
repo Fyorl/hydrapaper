@@ -53,6 +53,15 @@ class HydraPaperAppWindow(BaseWindow):
         self.content_box.append(self.bottom_bar)
         self.append(self.folders_flap)
 
+        # below this width the in-header view switcher is hidden and the bottom
+        # ViewSwitcherBar is revealed instead (replaces the deprecated AdwSqueezer)
+        switcher_breakpoint = Adw.Breakpoint.new(
+            Adw.BreakpointCondition.parse('max-width: 550sp')
+        )
+        switcher_breakpoint.add_setter(self.stack_switcher, 'visible', False)
+        switcher_breakpoint.add_setter(self.bottom_bar, 'reveal', True)
+        self.add_breakpoint(switcher_breakpoint)
+
         self.confman.connect(
             'dark_mode_changed',
             lambda *args: self.set_dark_mode(self.confman.conf['dark_mode'])

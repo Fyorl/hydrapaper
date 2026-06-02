@@ -19,5 +19,5 @@ if pandoc_exe.found()
         install_man('hydrapaper.1')
     endif
 else
-    warning('Pandoc not found, skipping man page compilation')
+    message('Pandoc not found, skipping man page compilation')
 endif

@@ -8,26 +8,21 @@ menu generalMenu {
     }
     section {
         item (_("Preferences"), "app.settings")
-        item (_("Keyboard Shortcuts"), "app.shortcuts")
         item (_("About HydraPaper"), "app.about")
     }
 }
 
-template GHeaderbar : WindowHandle {
+template $GHeaderbar : WindowHandle {
     HeaderBar headerbar {
         show-title-buttons: true;
-        
-        [title] Adw.Squeezer squeezer {
-            notify::visible-child => on_squeeze();
-            Adw.ViewSwitcher stack_switcher {
-                policy: wide;
-            }
-            Label nobox {}
+
+        [title] Adw.ViewSwitcher stack_switcher {
+            policy: wide;
         }
         ToggleButton wallpaper_folders_btn {
             tooltip-text: _("Wallpaper Folders");
             icon-name: "folder-symbolic";
-            toggled => on_wallpaper_folders_btn_clicked();
+            toggled => $on_wallpaper_folders_btn_clicked();
         }
         ToggleButton search_toggle {
             tooltip-text: _("Search");
@@ -45,12 +40,12 @@ template GHeaderbar : WindowHandle {
             Button apply_dark_btn {
                 tooltip-text: _("Apply for Dark Mode");
                 icon-name: "apply-dark-symbolic";
-                clicked => on_apply_dark_btn_clicked();
+                clicked => $on_apply_dark_btn_clicked();
             }
             Button apply_btn {
                 tooltip-text: _("Apply");
                 icon-name: "object-select-symbolic";
-                clicked => on_apply_btn_clicked();
+                clicked => $on_apply_btn_clicked();
             }
         }
         [end] Button add_to_slideshow_btn {
@@ -58,7 +53,7 @@ template GHeaderbar : WindowHandle {
             visible: false;
             icon-name: "list-add-symbolic";
             tooltip-text: _("Add to Slideshow");
-            clicked => on_add_to_slideshow();
+            clicked => $on_add_to_slideshow();
         }
         [end] MenuButton slideshow_menu_btn {
             icon-name: "slideshowmode-symbolic";
@@ -93,7 +88,7 @@ template GHeaderbar : WindowHandle {
                     Switch slideshow_switch {
                         layout { row: 0; column: 1; }
                         halign: center;
-                        state-set => on_slideshow_mode_changed();
+                        state-set => $on_slideshow_mode_changed();
                     }
                     Label {
                         layout { row: 1; column: 0; }
@@ -104,7 +99,7 @@ template GHeaderbar : WindowHandle {
                     SpinButton slideshow_time_spinbutton {
                         layout { row: 1; column: 1; }
                         numeric: true;
-                        value-changed => on_slideshow_time_spinbutton_changed();
+                        value-changed => $on_slideshow_time_spinbutton_changed();
                     }
                 }
             }

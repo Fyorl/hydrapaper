@@ -51,7 +51,6 @@ blueprints = custom_target('blueprints',
     input: files(
         'ui/headerbar.blp',
         'ui/monitors_flowbox_item.blp',
-        'ui/shortcutsWindow.blp',
         'ui/wallpaper_flowbox_item_popover.blp',
         'ui/wallpapers_flowbox.blp',
         'ui/wp_mode_popover_menu.blp',
